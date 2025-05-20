@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProfesiModel extends Model
 {
@@ -19,5 +20,10 @@ class ProfesiModel extends Model
     public function kategoriProfesi(): BelongsTo
     {
         return $this->belongsTo(KategoriProfesiModel::class, 'id_kategori_profesi', 'id_kategori_profesi');
+    }
+
+    public function kuisionerlulusan(): HasMany
+    {
+        return $this->hasMany(KuisionerLulusanModel::class, 'id_profesi', 'id_profesi');
     }
 }
