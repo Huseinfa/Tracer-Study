@@ -54,9 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
-	Route::get('virtual-reality', function () {
-		return view('pages.virtual-reality');
-	})->name('virtual-reality');
 	Route::get('notifications', function () {
 		return view('pages.notifications');
 	})->name('notifications');
