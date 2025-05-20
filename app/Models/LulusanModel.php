@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LulusanModel extends Model
 {
@@ -27,5 +28,20 @@ class LulusanModel extends Model
     public function prodi(): BelongsTo
     {
         return $this->belongsTo(ProdiModel::class, 'id_prodi', 'id_prodi');
+    }
+
+    public function kuisionerlulusan(): HasOne
+    {
+        return $this->hasOne(KuisionerLulusanModel::class, 'id_lulusan', 'id_lulusan');
+    }
+    
+    public function kuisionerstakeholder(): HasOne
+    {
+        return $this->hasOne(KuisionerStakeholderModel::class, 'id_lulusan', 'id_lulusan');
+    }
+
+    public function kodeakses(): HasOne
+    {
+        return $this->hasOne(KodeAksesModel::class, 'id_lulusan', 'id_lulusan');
     }
 }
