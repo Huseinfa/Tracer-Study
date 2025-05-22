@@ -26,8 +26,10 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\KuisionerLulusanController;
             
-Route::get('/kuisioner-lulusan', [KuisionerLulusanController::class, 'index'])->name('kuisionerlulusan.index');
-            
+Route::group(['prefix' => 'tracer-study'], function () {
+	Route::get('/', [KuisionerLulusanController::class, 'index']);
+	Route::post('/search', [KuisionerLulusanController::class, 'search']);
+});
 
 // Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
