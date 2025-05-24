@@ -105,5 +105,16 @@
                 <button type="submit" class="btn bg-gradient-dark">Submit</button>
             </form>
         </div>
+        {{-- modal --}}
+        @include('kuisionerlulusan.search_ajax')
+        {{-- end modal --}}
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#searchModal').modal('show');
+        })
+    </script>
+@endpush
