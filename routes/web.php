@@ -2,17 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\KuisionerLulusanController;
+use App\Http\Controllers\DataStakeholderController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,16 +16,19 @@ Route::get('/', function () {
 
 Route::get('/', [WelcomeController::class, 'index']);
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\SessionsController;
-use App\Http\Controllers\KuisionerLulusanController;
-	use App\Http\Controllers\DataStakeholderController;
+Route::prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+});
+Route::resource('admin', AdminController::class);
             
 Route::group(['prefix' => 'tracer-study'], function () {
-	Route::get('/', [KuisionerLulusanController::class, 'index']);
-	Route::post('/search', [KuisionerLulusanController::class, 'search']);
+	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('kuisioner-lulusan.index');
+	Route::post('/search', [KuisionerLulusanController::class, 'search'])->name('kuisioner-lulusan.search');
 });
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');

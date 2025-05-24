@@ -12,17 +12,18 @@ class UserModel extends Authenticatable
 
     protected $table = 't_user';
     protected $primaryKey = 'id_user';
-    protected $fillable = ['username', 'nama_user', 'password'];
-    protected $hidden = ['password'];
-    protected $casts = ['password' => 'hashed'];
 
-    public function username()
-    {
-        return 'username';
-    }
+    protected $fillable = [
+        'username',
+        'nama_user',
+        'password',
+    ];
 
-    public function getAuthIdentifier()
-    {
-        return $this->id_user;
-    }
+    protected $hidden = [
+        'password',
+    ];
+
+    protected $casts = [
+        'password' => 'hashed', // Laravel >=10 otomatis bcrypt
+    ];
 }
