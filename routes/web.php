@@ -25,6 +25,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\KuisionerLulusanController;
+	use App\Http\Controllers\DataStakeholderController;
             
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index']);
@@ -74,4 +75,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
+
+
+
+//Route::get('/stakeholder', [DataStakeholderController::class, 'index'])->name('stakeholder');
+//Route::post('/stakeholder/create', [DataStakeholderController::class, 'create'])->name('stakeholder.create');
+
+
+Route::resource('stakeholder', DataStakeholderController::class);
 });
