@@ -29,7 +29,7 @@ use App\Http\Controllers\KuisionerLulusanController;
 Route::get('/kuisioner-lulusan', [KuisionerLulusanController::class, 'index'])->name('kuisionerlulusan.index');
             
 
-// Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
+Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');

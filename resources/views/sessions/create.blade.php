@@ -1,81 +1,73 @@
-<x-layout bodyClass="bg-gray-200">
+<x-layout bodyClass="bg-gradient-blue">
 
-    <div class="container position-sticky z-index-sticky top-0">
-        <div class="row">
-            <div class="col-12">
-
-            </div>
-        </div>
-    </div>
-    <main class="main-content  mt-0">
-        <div class="page-header align-items-start min-vh-100"
-            style="background-image: url('{{ asset('assets') }}/img/curved-images/curved0.jpg')">
-            <span class="mask bg-gradient-dark opacity-6"></span>
-            <div class="container mt-5">
-                <div class="row signin-margin">
-                    <div class="col-lg-4 col-md-8 col-12 mx-auto">
-                        <div class="card z-index-0 fadeIn3 fadeInBottom">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                <div class="bg-gradient-info shadow-dark border-radius-lg py-3 pe-1">
-                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
-                                    <div class="row mt-3">
-                                    </div>
-                                </div>
+    <main class="main-content min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 d-flex justify-content-center">
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="img-fluid" style="max-width: 312px;">
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="glass-card">
+                        <h4 class="text-white text-center mb-4">Login</h4>
+                        <form role="form" method="POST" action="{{ route('login') }}" class="text-start">
+                            @csrf
+                            @if (Session::has('status'))
+                            <div class="alert alert-success alert-dismissible text-dark" role="alert">
+                                <span class="text-sm">{{ Session::get('status') }}</span>
+                                <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                    data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
                             </div>
-                            <div class="card-body">
-                                <form role="form" method="POST" action="{{ route('login') }}" class="text-start">
-                                    @csrf
-                                    @if (Session::has('status'))
-                                    <div class="alert alert-success alert-dismissible text-white" role="alert">
-                                        <span class="text-sm">{{ Session::get('status') }}</span>
-                                        <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                            data-bs-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    @endif
-                                    <div class="input-group input-group-outline mt-3">
-                                        <label class="form-label">Username</label>
-                                        <input type="text" class="form-control" name="username" value="{{ 'admin1' }}" autocomplete="username">
-                                    </div>
-                                    @error('username')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                    <div class="input-group input-group-outline mt-3">
-                                        <label class="form-label">Password</label>
-                                        <input type="password" class="form-control" name="password" value='{{ "12345" }}'>
-                                    </div>
-                                    @error('password')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                    <div class="form-check form-switch d-flex align-items-center my-3">
-                                        <input class="form-check-input" type="checkbox" id="rememberMe">
-                                        <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember
-                                            me</label>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Sign
-                                            in</button>
-                                    </div>
-                                </form>
+                            @endif
+                            <div class="mb-4 d-flex align-items-center">
+                                <input type="text" class="form-control flex-grow-1" name="username" value="{{ old('username') }}" autocomplete="username" placeholder="Username">
+                                <i class="fas fa-envelope text-white ms-2" style="font-size: 20px;"></i>
                             </div>
-                        </div>
+                            @error('username')
+                            <p class="text-danger inputerror text-center">{{ $message }}</p>
+                            @enderror
+                            <div class="mb-4 d-flex align-items-center">
+                                <input type="password" class="form-control flex-grow-1" name="password" value="{{ old('password') }}" placeholder="Password">
+                                <i class="fas fa-lock text-white ms-2" style="font-size: 20px;"></i>
+                            </div>
+                            @error('password')
+                            <p class="text-danger inputerror text-center">{{ $message }}</p>
+                            @enderror
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn-login">LOGIN</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <x-footers.guest></x-footers.guest>
         </div>
     </main>
+
     @push('js')
     <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
     <script>
-        $(function() {
-            var text_val = $(".input-group input").val();
-            if (text_val === "") {
-                $(".input-group").removeClass('is-filled');
-            } else {
-                $(".input-group").addClass('is-filled');
-            }
+        $(document).ready(function() {
+            // Placeholder behavior
+            $('input').each(function() {
+                const $input = $(this);
+                const placeholder = $input.attr('placeholder');
+                if ($input.val() === '') {
+                    $input.attr('placeholder', placeholder);
+                }
+
+                $input.on('focus', function() {
+                    if ($input.val() === '') {
+                        $input.attr('placeholder', '');
+                    }
+                });
+
+                $input.on('blur', function() {
+                    if ($input.val() === '') {
+                        $input.attr('placeholder', placeholder);
+                    }
+                });
+            });
         });
     </script>
     @endpush

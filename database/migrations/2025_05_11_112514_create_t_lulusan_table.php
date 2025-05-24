@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('email', 25)->nullable(false);
             $table->string('nomor_hp', 20)->nullable(false);
             $table->date('tanggal_lulus')->nullable(false);
-            $table->string('foto_profil', 255)->nullable(false);
             $table->timestamps();
             $table->foreign('id_program_studi')->references('id_program_studi')->on('t_program_studi')->onDelete('restrict')->onUpdate('restrict');
         });
