@@ -1,40 +1,58 @@
-<footer class="footer py-4  ">
-    <div class="container-fluid">
-        <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-                <div class="copyright text-center text-sm text-muted text-lg-start">
-                    © <script>
-                        document.write(new Date().getFullYear())
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<footer class="footer py-4">
+    <style>
+        .footer {
+            background: transparent;
+            border-top: 1px solid #ddd;
+            font-size: 0.85rem;
+        }
 
-                    </script>,
-                    made with <i class="fa fa-heart"></i> by
-                    <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a> &
-                    <a href="https://www.updivision.com" class="font-weight-bold" target="_blank"> UPDIVISION</a>
-                    for a better web.
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                    <li class="nav-item">
-                        <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative
-                            Tim</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://www.updivision.com" class="nav-link text-muted" target="_blank">UPDIVISION</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted"
-                            target="_blank">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
-                            target="_blank">License</a>
-                    </li>
-                </ul>
-            </div>
+        .footer i.fas.fa-heart {
+            color: red;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .footer a {
+            color: #6c757d;
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+
+        .footer .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer .footer-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+
+    <div class="container footer-container">
+        <div class="text-muted mb-2 mb-md-0">
+            © 2025, made with <i class="fas fa-heart"></i>
+            by <strong class="text-dark">TRACER STUDY POLINEMA & TIM</strong>
+        </div>
+        <div class="links mt-2 mt-md-0">
+            <a href="#">About Us</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
         </div>
     </div>
 </footer>
