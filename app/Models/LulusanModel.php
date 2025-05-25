@@ -22,12 +22,11 @@ class LulusanModel extends Model
         'email',
         'nomor_hp',
         'tanggal_lulus',
-        'foto_profil',
     ];
 
     public function prodi(): BelongsTo
     {
-        return $this->belongsTo(ProdiModel::class, 'id_prodi', 'id_prodi');
+        return $this->belongsTo(ProdiModel::class, 'id_program_studi', 'id_program_studi');
     }
 
     public function kuisionerlulusan(): HasOne

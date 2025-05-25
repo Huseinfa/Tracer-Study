@@ -5,19 +5,19 @@
         <div class="card-header p-2">
             <h4>Tracer Study</h4>
         </div>
-        <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <form action="{{ url('tracer-study/cari') }}" method="post" id="searchForm">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title font-weight-normal" id="searchModalLabel">Cari Data Anda</h5>
+                            <h5 class="modal-title font-weight-normal" id="searchModalLabel">Verifikasi Partisipan</h5>
                         </div>
                         <div class="modal-body">
                             <div class="input-group input-group-static">
-                                <label class="form-label">Masukkan NIM atau Nama</label>
-                                <input type="text" name="teks" class="form-control" required>
-                                @error('teks')
+                                <label class="form-label">Masukkan Kode OTP</label>
+                                <input type="text" name="otp" class="form-control" required>
+                                @error('otp')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
@@ -29,7 +29,7 @@
                             @endif
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-info">Cari</button>
+                            <button type="submit" class="btn bg-gradient-info">Cek Kode OTP</button>
                         </div>
                     </form>
                 </div>
@@ -40,7 +40,7 @@
 @push('js')
     <script>        
         $(document).ready(function() {
-            $('#searchModal').modal('show');
+            $('#otpModal').modal('show');
         });
     </script>
 @endpush
