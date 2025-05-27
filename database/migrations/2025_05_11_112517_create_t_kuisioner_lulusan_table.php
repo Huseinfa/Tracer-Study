@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('nama_atasan', 100)->nullable(false);
             $table->string('jabatan_atasan', 30)->nullable(false);
             $table->string('email_atasan', 100)->nullable(false);
+            $table->boolean('bersedia_mengisi')->nullable(false);
             $table->timestamps();
             $table->foreign('id_lulusan')->references('id_lulusan')->on('t_lulusan')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_kategori_profesi')->references('id_kategori_profesi')->on('t_kategori_profesi')->onDelete('restrict')->onUpdate('restrict');
