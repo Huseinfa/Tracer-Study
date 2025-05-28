@@ -62,9 +62,12 @@
                     <span class="nav-link-text ms-1">Data User</span>
                 </a>
             </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Lulusan Pages</h6>
+            </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'data-lulusan' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('user-management') }}">
+                <a class="nav-link text-white {{ $activePage == 'lulusan' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('lulusan.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i style="font-size: 1rem;" class="fas fa-file ps-2 pe-2 text-center"></i>
                     </div>
@@ -72,20 +75,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'stakeholder' ? ' active bg-gradient-primary' : '' }} "
-                href="{{ route('stakeholder.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem;" class="fas fa-file ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Data Stakeholder</span>
-                </a>
-        </li>
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Lulusan Pages</h6>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'form-lulusan' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('kuisioner-lulusan.index') }}">
+                    href="{{ route('lulusan.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">assignment</i>
                     </div>
@@ -96,8 +87,17 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Stakeholder Pages</h6>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'stakeholder' ? ' active bg-gradient-primary' : '' }} "
+                href="{{ route('stakeholder.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1rem;" class="fas fa-file ps-2 pe-2 text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Data Stakeholder</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'form-stakeholder' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('user-management') }}">
+                    href="{{ route('stakeholder.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">assignment</i>
                     </div>

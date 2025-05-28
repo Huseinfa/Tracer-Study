@@ -7,8 +7,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\KuisionerLulusanController;
-use App\Http\Controllers\DataStakeholderController;
+use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LulusanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,8 +24,18 @@ Route::prefix('admin')->group(function () {
     Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
     Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+	Route::resource('admin', AdminController::class);
 });
-Route::resource('admin', AdminController::class);
+
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+	Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
+    Route::get('/create', [LulusanController::class, 'create'])->name('lulusan.create');
+    Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
+    Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
+    Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
+    Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
+    Route::resource('lulusan', LulusanController::class);
+});
             
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index']);
@@ -87,5 +98,5 @@ Route::group(['middleware' => 'auth'], function () {
 //Route::post('/stakeholder/create', [DataStakeholderController::class, 'create'])->name('stakeholder.create');
 
 
-Route::resource('stakeholder', DataStakeholderController::class);
+Route::resource('stakeholder', StakeholderController::class);
 });

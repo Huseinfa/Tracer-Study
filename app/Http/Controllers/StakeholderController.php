@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\StakeholderModel;
 use Illuminate\Http\Request;
 
-class DataStakeholderController extends Controller
+class StakeholderController extends Controller
 {
     public function index()
     {
