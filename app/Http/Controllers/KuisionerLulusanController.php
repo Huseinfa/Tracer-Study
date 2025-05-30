@@ -45,7 +45,7 @@ class KuisionerLulusanController extends Controller
     }
     public function konfirmasi($id)
     {
-        $lulusan = LulusanModel::select('id_program_studi', 'nim', 'nama_lulusan', 'email', 'nomor_hp', 'tanggal_lulus')
+        $lulusan = LulusanModel::select('id_program_studi', 'id_lulusan', 'nim', 'nama_lulusan', 'email', 'nomor_hp', 'tanggal_lulus')
         ->with('prodi')
         ->find($id);
         return view('kuisionerlulusan.show', ['lulusan' => $lulusan]);
@@ -62,36 +62,54 @@ class KuisionerLulusanController extends Controller
     }
     public function terkonfirmasi($id)
     {
-        $lulusan = LulusanModel::find($id);
-        $kodeverifikasi = $this->buatKodeUnik();
+        $lulusan = LulusanModel::findOrFail($id);
+        $kodeVerifikasi = $this->buatKodeUnik();
 
-        KodeLulusanModel::create([
-            'email' => $lulusan->email,
-            'kode_lulusan' => $kodeverifikasi,
-        ]);
+        $existingKode = KodeLulusanModel::where('email', $lulusan->email)->first();
 
-        return redirect()->route('tracer-study.otp', ['id' => $id])->with('success', 'Kode verifikasi telah dibuat. Silakan cek email Anda untuk melanjutkan.');
+        if ($existingKode) {
+            $existingKode->update([
+                'kode_lulusan' => $kodeVerifikasi,
+            ]);
+        } else {
+            KodeLulusanModel::create([
+                'email' => $lulusan->email,
+                'kode_lulusan' => $kodeVerifikasi,
+            ]);
+        }
+
+        return redirect()->route('tracer-study.otp', ['id' => $id])
+            ->with('success', 'Kode verifikasi telah dibuat atau diperbarui.');
     }
-    public function otp()
+    public function otp($id)
     {
-        return view('kuisionerlulusan.otp');
+        $lulusan = LulusanModel::find($id);
+        return view('kuisionerlulusan.otp', ['lulusan' => $lulusan]);
     }
     public function verifikasi(Request $request, $id)
     {
-        $lulusan = LulusanModel::find($id);
-        $kode = KodeLulusanModel::get();
+        $request->validate([
+            'otp' => 'required|string|size:6',
+        ]);
 
-        if ($kode->email === $lulusan->email) {
-            if ($kode->kode_lulusan === $request->input('otp')) {
-                return redirect()->route('tracer-study.kuisioner', ['id' => $id])->with('success', 'Verifikasi berhasil. Silakan isi kuisioner.');
-            }
+        $lulusan = LulusanModel::findOrFail($id);
+
+        $kode = KodeLulusanModel::where('email', $lulusan->email)
+            ->where('kode_lulusan', $request->input('otp'))
+            ->first();
+
+        if ($kode) {
+            return redirect()->route('tracer-study.kuisioner', ['id' => $id])
+                ->with('success', 'Verifikasi berhasil. Silakan isi kuesioner.');
         } else {
-            return redirect()->back()->with('error', 'Kode verifikasi tidak valid.');
+            return redirect()->back()
+                ->with('error', 'Kode verifikasi tidak valid.')
+                ->withInput();
         }
     }
     public function kuisioner($id)
     {
-        $lulusan = LulusanModel::select('id_program_studi', 'nim', 'nama_lulusan', 'email', 'nomor_hp', 'tanggal_lulus')
+        $lulusan = LulusanModel::select('id_program_studi', 'id_lulusan', 'nim', 'nama_lulusan', 'email', 'nomor_hp', 'tanggal_lulus')
         ->with('prodi')
         ->find($id);
 
@@ -156,11 +174,11 @@ class KuisionerLulusanController extends Controller
 
         StakeholderModel::create([
             'nama_atasan' => $request->input('nama_atasan'),
-            'nama_instansi' => $request->input('nama_instansi'),
-            'jabatan_atasan' => $request->input('jabatan_atasan'),
-            'email_atasan' => $request->input('email_atasan'),
+            'instansi' => $request->input('nama_instansi'),
+            'jabatan' => $request->input('jabatan_atasan'),
+            'email' => $request->input('email_atasan'),
         ]);
 
-        return redirect('/')->with('success', 'Kuisioner lulusan berhasil disimpan. Terima kasih telah berpartisipasi dalam tracer study kami.');
+        return redirect()->route('tracer-study.index')->with('success', 'Kuisioner lulusan berhasil disimpan. Terima kasih telah berpartisipasi dalam tracer study kami.');
     }
 }

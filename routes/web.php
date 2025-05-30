@@ -27,11 +27,11 @@ Route::prefix('admin')->group(function () {
 Route::resource('admin', AdminController::class);
             
 Route::group(['prefix' => 'tracer-study'], function () {
-	Route::get('/', [KuisionerLulusanController::class, 'index']);
+	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
 	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
 	Route::get('/konfirmasi/{id}', [KuisionerLulusanController::class, 'konfirmasi'])->name('tracer-study.konfirmasi');
 	Route::post('/terkonfirmasi/{id}', [KuisionerLulusanController::class, 'terkonfirmasi']);
-	Route::get('/otp', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
+	Route::get('/otp/{id}', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
 	Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
 	Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
 	Route::post('/simpan/{id}', [KuisionerLulusanController::class, 'simpan']);

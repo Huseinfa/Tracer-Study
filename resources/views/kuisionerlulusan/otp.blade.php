@@ -8,7 +8,7 @@
         <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="{{ url('tracer-study/cari') }}" method="post" id="searchForm">
+                    <form action="{{ url('tracer-study/verifikasi/' . $lulusan->id_lulusan) }}" method="post" id="searchForm">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title font-weight-normal" id="searchModalLabel">Verifikasi Partisipan</h5>

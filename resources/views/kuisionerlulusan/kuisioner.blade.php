@@ -6,7 +6,7 @@
             <h4>Kuisioner Tracer Study</h4>
         </div>
         <div class="card-body p-3">
-            <form method='POST' action='{{ url('/tracer-study/simpan') }}'>
+            <form method='POST' action='{{ url('/tracer-study/simpan/' . $lulusan->id_lulusan) }}'>
                 @csrf
                 <div class="row">
                     <div class="row">
@@ -79,8 +79,8 @@
                 <div class="row">
                     <div class="row">
                         <div class="col-12 col-md-6 px-6 py-3">
-                            <div class="input-group input-group-dynamic">
-                                <label class="form-label">Tanggal Pertama Kerja</label>
+                            <div class="input-group input-group-static input-group-sm">
+                                <label>Tanggal Pertama Kerja</label>
                                 <input type="date" name="tanggal_pertama_berkerja" class="form-control">
                                 @error('tanggal_pertama_berkerja')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
@@ -89,8 +89,8 @@
                         </div>
                         
                         <div class="col-12 col-md-6 px-6 py-3">
-                            <div class="input-group input-group-dynamic">
-                                <label class="form-label">Tanggal Mulai Kerja pada Instansi Saat Ini</label>
+                            <div class="input-group input-group-static input-group-sm">
+                                <label>Tanggal Mulai Kerja pada Instansi Saat Ini</label>
                                 <input type="date" name="tanggal_berkerja_instansi_sekarang" class="form-control">
                                 @error('tanggal_berkerja_instansi_sekarang')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
@@ -123,8 +123,8 @@
                     
                     <div class="row">
                         <div class="col-12 col-md-6 px-6 py-3">
-                            <div class="input-group input-group-dynamic">
-                                <label class="form-label">Skala Instansi</label>
+                            <div class="input-group input-group-static input-group-sm">
+                                <label>Skala Instansi</label>
                                 <select name="skala_instansi" id="skala_instansi" class="form-control" required>
                                     <option value="">--- Pilih Skala Instansi ---</option>
                                     <option value="Nasional">Nasional</option>
@@ -150,12 +150,12 @@
                     
                     <div class="row">
                         <div class="col-12 col-md-6 px-6 py-3">
-                            <div class="input-group input-group-dynamic">
-                                <label class="form-label">Kategori Profesi</label>
+                            <div class="input-group input-group-static input-group-sm">
+                                <label>Kategori Profesi</label>
                                 <select name="id_kategori_profesi" id="id_kategori_profesi" class="form-control" required>
                                     <option value="">--- Pilih Kategori ---</option>
                                     @foreach ($kategori as $k)
-                                    <option value="{{ $k->id_kategori_profesi }}">{{ $p->nama_kategori }}</option>
+                                    <option value="{{ $k->id_kategori_profesi }}">{{ $k->nama_kategori }}</option>
                                     @endforeach
                                 </select>
                                 @error('id_kategori_profesi')
@@ -165,8 +165,8 @@
                         </div>
                         
                         <div class="col-12 col-md-6 px-6 py-3">
-                            <div class="input-group input-group-dynamic">
-                                <label class="form-label">Profesi</label>
+                            <div class="input-group input-group-static input-group-sm">
+                                <label>Profesi</label>
                                 <select name="id_profesi" id="id_profesi" class="form-control" required>
                                     <option value="">--- Pilih Kategori ---</option>
                                     @foreach ($profesi as $p)
