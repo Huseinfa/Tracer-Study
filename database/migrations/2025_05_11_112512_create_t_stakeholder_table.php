@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('instansi', 100)->nullable(false);
             $table->string('jabatan', 25)->nullable(false);
             $table->string('email', 50)->nullable(false);
+            $table->boolean('sudah_mengisi')->nullable(false);
             $table->timestamps();
         });
     }
