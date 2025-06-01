@@ -21,7 +21,7 @@ class LulusanModel extends Model
         'nama_lulusan',
         'email',
         'nomor_hp',
-        'tahun_lulus',
+        'tanggal_lulus',
         'foto_profil',
     ];
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('nama_lulusan', 100)->nullable(false);
             $table->string('email', 25)->nullable(false);
             $table->string('nomor_hp', 20)->nullable(false);
-            $table->date('tahun_lulus')->nullable(false);
+            $table->date('tanggal_lulus')->nullable(false);
             $table->boolean('sudah_mengisi')->nullable(false);
             $table->timestamps();
             $table->foreign('id_program_studi')->references('id_program_studi')->on('t_program_studi')->onDelete('restrict')->onUpdate('restrict');
