@@ -35,7 +35,7 @@
                                         </tr>
                                         <tr>
                                             <th>Tanggal Lulus</th>
-                                            <td>{{ $lulusan->tanggal_lulus }}</td>
+                                            <td>{{ $lulusan->tahun_lulus }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
