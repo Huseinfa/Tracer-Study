@@ -26,8 +26,11 @@ class KuisionerLulusanModel extends Model
         'lokasi_instansi',
         'nama_atasan',
         'jabatan_atasan',
-        'email_atasan'
+        'email_atasan',
+        'bersedia_mengisi'
     ];
+
+    protected $casts = ['bersedia_mengisi' => 'boolean'];
 
     public function lulusan(): BelongsTo
     {

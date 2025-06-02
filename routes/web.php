@@ -9,7 +9,9 @@ use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\KuisionerLulusanController;
 use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
+use App\Models\KuisionerStakeholderModel;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,7 +47,15 @@ Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/otp/{id}', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
 	Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
 	Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
+	Route::get('/getProfesi/{id_kategori}', [KuisionerLulusanController::class, 'getProfesi'])->name('tracer-study.getProfesi');
 	Route::post('/simpan/{id}', [KuisionerLulusanController::class, 'simpan']);
+	Route::get('/terimakasih', [KuisionerLulusanController::class, 'terimakasih'])->name('tracer-study.thanks');
+});
+
+Route::group(['prefix' => 'survey-kepuasan'], function () {
+	Route::get('/{kode}', [KuisionerStakeholderController::class, 'index'])->name('survey-kepuasan.index');
+	Route::post('/simpan/{id}', [KuisionerStakeholderController::class, 'simpan']);
+	Route::get('/terimakasih', [KuisionerStakeholderController::class, 'terimakasih'])->name('survey-kepuasan.thanks');
 });
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');

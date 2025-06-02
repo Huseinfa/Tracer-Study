@@ -14,26 +14,24 @@ class LulusanSeeder extends Seeder
             [
                 'id_lulusan' => 1,
                 'id_program_studi' => 1,
-                'nim' => '1541720001', //20 -> Tahun Angkatan; 41 -> Jurusan; 760 -> SIB; 720 -> TI; 770 -> PPLS; 001 -> urutan      
-                'nama_lulusan' => 'Budi Santoso',
-                'email' => 'budi@gmail.com',
-                'nomor_hp' => '08123456789',
+                'nim' => '2341760091', //20 -> Tahun Angkatan; 41 -> Jurusan; 760 -> SIB; 720 -> TI; 770 -> PPLS; 001 -> urutan      
+                'nama_lulusan' => 'Aldo Khrisna Wijaya',
+                'email_lulusan' => 'khrisnaw03@gmail.com',
+                'no_hp_lulusan' => '08123456789',
                 'tanggal_lulus' => '2015-01-01',
                 'sudah_mengisi' => false,
-                // 'foto_profil' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id_lulusan' => 2,
                 'id_program_studi' => 2,
-                'nim' => '1641760002', //20 -> Tahun Angkatan; 41 -> Jurusan; 760 -> SIB; 720 -> TI; 770 -> PPLS; 001 -> urutan          
-                'nama_lulusan' => 'Siti Aminah',
-                'email' => 'siti@gmail.com',
-                'nomor_hp' => '08234567890',
+                'nim' => '2341760134', //20 -> Tahun Angkatan; 41 -> Jurusan; 760 -> SIB; 720 -> TI; 770 -> PPLS; 001 -> urutan          
+                'nama_lulusan' => 'Husein Fadhlullah',
+                'email_lulusan' => 'husenfadhullah@gmail.com',
+                'no_hp_lulusan' => '08234567890',
                 'tanggal_lulus' => '2016-01-01',
                 'sudah_mengisi' => false,
-                // 'foto_profil' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -42,11 +40,10 @@ class LulusanSeeder extends Seeder
                 'id_program_studi' => 3,
                 'nim' => '1741770003', //20 -> Tahun Angkatan; 41 -> Jurusan; 760 -> SIB; 720 -> TI; 770 -> PPLS; 001 -> urutan  
                 'nama_lulusan' => 'Agus Pratama',
-                'email' => 'agus@gmail.com',
-                'nomor_hp' => '08345678901',
+                'email_lulusan' => 'agus@gmail.com',
+                'no_hp_lulusan' => '08345678901',
                 'tanggal_lulus' => '2017-01-01',
                 'sudah_mengisi' => false,
-                // 'foto_profil' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
