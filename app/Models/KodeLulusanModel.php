@@ -13,5 +13,5 @@ class KodeLulusanModel extends Model
 
     protected $primaryKey = 'id_kode_lulusan';
 
-    protected $fillable = ['email_lulusan', 'kode_lulusan', 'status'];
+    protected $fillable = ['email', 'kode_lulusan'];
 }

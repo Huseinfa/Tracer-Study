@@ -10,12 +10,15 @@ return new class extends Migration
     {
         Schema::create('t_stakeholder', function (Blueprint $table) {
             $table->id('id_stakeholder');
+            $table->unsignedBigInteger('id_lulusan')->nullable(false);
             $table->string('nama_atasan', 100)->nullable(false);
-            $table->string('instansi', 100)->nullable(false);
-            $table->string('jabatan', 25)->nullable(false);
-            $table->string('email', 50)->nullable(false);
+            $table->string('jabatan_atasan', 25)->nullable(false);
+            $table->string('email_atasan', 50)->nullable(false);
+            $table->string('kode_atasan', 6)->nullable();
             $table->boolean('sudah_mengisi')->nullable(false);
             $table->timestamps();
+
+            $table->foreign('id_lulusan')->references('id_lulusan')->on('t_lulusan')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 

@@ -8,7 +8,7 @@
         <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="{{ url('tracer-study/cari') }}" method="post" id="searchForm">
+                    <form action="{{ url('tracer-study/verifikasi/' . $lulusan->id_lulusan) }}" method="post" id="otpForm">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title font-weight-normal" id="searchModalLabel">Verifikasi Partisipan</h5>
@@ -41,6 +41,44 @@
     <script>        
         $(document).ready(function() {
             $('#otpModal').modal('show');
+
+            $('#otpForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    window.location.href = response.redirect_url;
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi kesalahan!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            });
+                        }
+                    }
+                })
+            })
         });
     </script>
 @endpush

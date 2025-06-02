@@ -12,8 +12,7 @@ return new class extends Migration
             $table->id('id_kode_lulusan');
             $table->string('email', 60)->nullable(false);
             $table->string('kode_lulusan', 6)->nullable(false);
-            $table->boolean('is_used')->default(false);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

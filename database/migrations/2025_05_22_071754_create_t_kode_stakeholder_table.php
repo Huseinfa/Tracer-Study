@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('t_kode_stakeholder', function (Blueprint $table) {
             $table->id('id_kode_stakeholder');
             $table->string('email', 60)->nullable(false);
-            $table->string('kode_stakeholder', 6)->nullable(false);
-            $table->boolean('is_used')->default(false);
-            $table->timestamp('created_at')->useCurrent();
+            $table->string('kode_atasan', 6)->nullable(false);
+            $table->timestamps();
         });
     }
 

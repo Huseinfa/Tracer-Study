@@ -41,7 +41,7 @@
                                                 <td>{{ $item->prodi->nama_prodi ?? '-' }}</td>
                                                 <td>{{ $item->email }}</td>
                                                 <td>{{ $item->nomor_hp }}</td>
-                                                <td>{{ $item->tahun_lulus }}</td>
+                                                <td>{{ $item->tanggal_lulus }}</td>
                                                 <td class="align-middle text-center">
                                                 <a class="btn btn-info btn-link" href="{{ route('lulusan.show', $item->id_lulusan) }}" title="Lihat Detail">
                                                     <i class="material-icons">visibility</i>
