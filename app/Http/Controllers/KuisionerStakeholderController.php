@@ -12,13 +12,13 @@ class KuisionerStakeholderController extends Controller
 {
     public function index($kode)
     {
-        $validasi =  StakeholderModel::select('id_stakeholder', 'stakeholder_sudah_mengisi')->where('kode_atasan', $kode) ->first();
+        $validasi =  StakeholderModel::where('kode_atasan', $kode)->first();
 
-        if ($validasi->stakeholder_sudah_mengisi === true) { // jika stakeholder sudah pernah mengisi kuisioner
+        if ($validasi->sudah_mengisi != 0) { // jika stakeholder sudah pernah mengisi kuisioner
             return redirect()->route('survey-kepuasan.thanks')->with('info', 'Anda sudah pernah mengisi kuesioner.');
         }
 
-        $stakeholder =  StakeholderModel::select('id_stakeholder', 'id_lulusan', 'nama_atasan', 'jabatan_atasan', 'email_atasan', 'kode_atasan', 'stakeholder_sudah_mengisi')
+        $stakeholder =  StakeholderModel::select('id_stakeholder', 'id_lulusan', 'nama_atasan', 'jabatan_atasan', 'email_atasan', 'kode_atasan', 'sudah_mengisi')
         ->with('lulusan')
         ->find($validasi->id_stakeholder);
 
@@ -51,8 +51,8 @@ class KuisionerStakeholderController extends Controller
             $stakeholder = StakeholderModel::find($id);
 
             KuisionerStakeholderModel::create([
-                'id_stakeholder' => $stakeholder->input('id_stakeholder'),
-                'id_lulusan' => $stakeholder->input('id_lulusan'),
+                'id_stakeholder' => $stakeholder->id_stakeholder,
+                'id_lulusan' => $stakeholder->id_lulusan,
                 'kerjasama_tim' => $request->input('kerjasama_tim'),
                 'keahlian_it' => $request->input('keahlian_it'),
                 'kemampuan_bahasa_asing' => $request->input('kemampuan_bahasa_asing'),
@@ -67,7 +67,7 @@ class KuisionerStakeholderController extends Controller
             $stakeholder->update([
                 'nama_atasan' => $request->input('nama_atasan'),
                 'jabatan_atasan' => $request->input('jabatan_atasan'),
-                'stakeholder_sudah_mengisi' => true,
+                'sudah_mengisi' => true,
             ]);
 
             return response()->json([
