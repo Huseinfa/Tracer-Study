@@ -27,9 +27,7 @@ class DatabaseSeeder extends Seeder
         ProgramStudiSeeder::class,
         ProfesiSeeder::class,
         LulusanSeeder::class,
-        StakeholderSeeder::class,
-        KuisionerStakeholderSeeder::class,
-        KuisionerLulusanSeeder::class,
+        JenisInstansiSeeder::class
     ]);
     }
 }

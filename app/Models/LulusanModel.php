@@ -19,11 +19,13 @@ class LulusanModel extends Model
         'id_program_studi',
         'nim',
         'nama_lulusan',
-        'email',
-        'nomor_hp',
-        'tanggal_lulus',
-        'foto_profil',
+        'email_lulusan',
+        'no_hp_lulusan',
+        'tahun_lulus',
+        'sudah_mengisi',
     ];
+
+    protected $casts = ['sudah_mengisi' => 'boolean'];
 
     public function prodi(): BelongsTo
     {
@@ -40,8 +42,8 @@ class LulusanModel extends Model
         return $this->hasOne(KuisionerStakeholderModel::class, 'id_lulusan', 'id_lulusan');
     }
 
-    public function kodeakses(): HasOne
+    public function stakeholder(): HasOne
     {
-        return $this->hasOne(KodeAksesModel::class, 'id_lulusan', 'id_lulusan');
+        return $this->hasOne(StakeholderModel::class, 'id_lulusan', 'id_lulusan');
     }
 }

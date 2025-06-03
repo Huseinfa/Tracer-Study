@@ -3,12 +3,12 @@
 @section('content')
     <div class="card card-body mx-3 mx-md-4 mt-n6">
         <div class="card-header p-2">
-            <h4>Kuisioner Tracer Study</h4>
+            <h4>Tracer Study</h4>
         </div>
         <div class="modal fade" id="konfirmasiModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="{{ url('tracer-study/terkonfirmasi/' . $lulusan->id_lulusan) }}" method="post" id="searchForm">
+                    <form action="{{ url('tracer-study/terkonfirmasi/' . $lulusan->id_lulusan) }}" method="post" id="konfirmasiForm">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title font-weight-normal" id="searchModalLabel">Konfirmasi Data Anda</h5>
@@ -31,7 +31,7 @@
                                         </tr>
                                         <tr>
                                             <th>Email</th>
-                                            <td>{{ $lulusan->email }}</td>
+                                            <td>{{ $lulusan->email_lulusan }}</td>
                                         </tr>
                                         <tr>
                                             <th>Tanggal Lulus</th>
@@ -55,6 +55,48 @@
     <script>        
         $(document).ready(function() {
             $('#konfirmasiModal').modal('show');
+
+            $('#konfirmasiForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    window.location.href = response.redirect_url;
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi kesalahan!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    window.location.href = response.redirect_url;
+                                }
+                            });
+                        }
+                    }
+                })
+            })
         });
     </script>
 @endpush

@@ -17,16 +17,7 @@
                             <div class="input-group input-group-static">
                                 <label class="form-label">Masukkan NIM atau Nama</label>
                                 <input type="text" name="teks" class="form-control" required>
-                                @error('teks')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
                             </div>
-                            @if (session('error'))
-                                <div class="alert alert-danger mt-3">
-                                    <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn bg-gradient-info">Cari</button>
@@ -41,6 +32,44 @@
     <script>        
         $(document).ready(function() {
             $('#searchModal').modal('show');
+
+            $('#searchForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    window.location.href = response.redirect_url;
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi kesalahan!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            });
+                        }
+                    }
+                })
+            })
         });
     </script>
 @endpush

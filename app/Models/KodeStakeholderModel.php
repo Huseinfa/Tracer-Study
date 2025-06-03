@@ -13,5 +13,5 @@ class KodeStakeholderModel extends Model
 
     protected $primaryKey = 'id_kode_stakeholder';
     
-    protected $fillable = ['email_atasan', 'kode_stakeholder', 'status'];
+    protected $fillable = ['email', 'kode_atasan'];
 }
