@@ -168,7 +168,7 @@
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Lulusan</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Prodi</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Lulus</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Lulus</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                         </tr>
                                     </thead>
@@ -186,7 +186,7 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{ $lulusan->prodi->nama_prodi }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <span class="text-xs font-weight-bold">{{ $lulusan->tahun_lulus }}</span>
+                                                <span class="text-xs font-weight-bold">{{ $lulusan->tanggal_lulus }}</span>
                                             </td>
                                             <td class="align-middle">
                                                 <div class="progress-wrapper w-75 mx-auto">
