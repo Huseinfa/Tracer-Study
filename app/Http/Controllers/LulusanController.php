@@ -31,7 +31,7 @@ class LulusanController extends Controller
             'nama_lulusan' => 'required|string|max:255',
             'email' => 'required|email|unique:t_lulusan,email',
             'nomor_hp' => 'required|string|max:20',
-            'tanggal_lulus' => 'required|date',
+            'tahun_lulus' => 'required|date',
             'foto_profil' => 'nullable|image|max:2048',
         ]);
 
@@ -64,7 +64,7 @@ class LulusanController extends Controller
             'nama_lulusan' => 'required|string|max:255',
             'email' => 'required|email|unique:t_lulusan,email,' . $id . ',id_lulusan',
             'nomor_hp' => 'required|string|max:20',
-            'tanggal_lulus' => 'required|date',
+            'tahun_lulus' => 'required|date',
             'foto_profil' => 'nullable|image|max:2048',
         ]);
 

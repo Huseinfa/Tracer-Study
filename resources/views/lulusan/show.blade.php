@@ -19,7 +19,7 @@
                                     <p><strong>Nama Lulusan:</strong> {{ $lulusan->nama_lulusan }}</p>
                                     <p><strong>Email:</strong> {{ $lulusan->email }}</p>
                                     <p><strong>Nomor HP:</strong> {{ $lulusan->nomor_hp }}</p>
-                                    <p><strong>Tahun Lulus:</strong> {{ $lulusan->tanggal_lulus }}</p>
+                                    <p><strong>Tahun Lulus:</strong> {{ $lulusan->tahun_lulus }}</p>
                                 </div>
                             </div>
                             <a href="{{ route('lulusan.index') }}" class="btn btn-default">Back to List</a>
