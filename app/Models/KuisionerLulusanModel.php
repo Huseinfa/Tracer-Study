@@ -11,9 +11,7 @@ class KuisionerLulusanModel extends Model
     use HasFactory;
 
     protected $table = 't_kuisioner_lulusan';
-
     protected $primaryKey = 'id_kuisioner_lulusan';
-
     protected $fillable = [
         'id_lulusan',
         'id_kategori_profesi',
@@ -28,6 +26,7 @@ class KuisionerLulusanModel extends Model
         'jabatan_atasan',
         'email_atasan'
     ];
+    protected $dates = ['tanggal_pertama_berkerja', 'tanggal_berkerja_instansi_sekarang']; // Added for Carbon date handling
 
     public function lulusan(): BelongsTo
     {

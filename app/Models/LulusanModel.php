@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Carbon\Carbon;
 
 class LulusanModel extends Model
 {
     use HasFactory;
 
     protected $table = 't_lulusan';
-
     protected $primaryKey = 'id_lulusan';
-
     protected $fillable = [
         'id_program_studi',
         'nim',
@@ -24,10 +23,11 @@ class LulusanModel extends Model
         'tanggal_lulus',
         'foto_profil',
     ];
+    protected $dates = ['tanggal_lulus']; // Added for Carbon date handling
 
     public function prodi(): BelongsTo
     {
-    return $this->belongsTo(ProdiModel::class, 'id_program_studi', 'id_program_studi');
+        return $this->belongsTo(ProdiModel::class, 'id_program_studi', 'id_program_studi');
     }
 
     public function kuisionerlulusan(): HasOne
@@ -43,5 +43,16 @@ class LulusanModel extends Model
     public function kodeakses(): HasOne
     {
         return $this->hasOne(KodeAksesModel::class, 'id_lulusan', 'id_lulusan');
+    }
+
+    public function getMasaTungguAttribute()
+    {
+        if ($this->kuisionerlulusan && $this->kuisionerlulusan->tanggal_pertama_berkerja) {
+            $tanggalLulus = Carbon::parse($this->tanggal_lulus);
+            $tanggalKerja = Carbon::parse($this->kuisionerlulusan->tanggal_pertama_berkerja);
+            $waitingTime = $tanggalLulus->diffInMonths($tanggalKerja);
+            return $waitingTime . ' bulan';
+        }
+        return '-';
     }
 }

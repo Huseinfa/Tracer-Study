@@ -62,6 +62,15 @@
                     <span class="nav-link-text ms-1">Data User</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'masa-tunggu' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('masa-tunggu') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1rem;" class="fas fa-clock ps-2 pe-2 text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Masa Tunggu</span>
+                </a>
+            </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Lulusan Pages</h6>
             </li>
