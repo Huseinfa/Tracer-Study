@@ -9,8 +9,10 @@ use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\KuisionerLulusanController;
 use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
+use App\Models\KuisionerStakeholderModel;
 
 Route::get('/', function () {
     return redirect('sign-in');
@@ -45,11 +47,25 @@ Route::group(['prefix' => 'tracer-study'], function () {
     Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
     Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
     Route::post('/simpan/{id}', [KuisionerLulusanController::class, 'simpan']);
+	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
+	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
+	Route::get('/konfirmasi/{id}', [KuisionerLulusanController::class, 'konfirmasi'])->name('tracer-study.konfirmasi');
+	Route::post('/terkonfirmasi/{id}', [KuisionerLulusanController::class, 'terkonfirmasi']);
+	Route::get('/otp/{id}', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
+	Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
+	Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
+	Route::get('/getProfesi/{id_kategori}', [KuisionerLulusanController::class, 'getProfesi'])->name('tracer-study.getProfesi');
+	Route::post('/simpan/{id}', [KuisionerLulusanController::class, 'simpan']);
+	Route::get('/terimakasih', [KuisionerLulusanController::class, 'terimakasih'])->name('tracer-study.thanks');
+});
+
+Route::group(['prefix' => 'survey-kepuasan'], function () {
+	Route::get('/terimakasih', [KuisionerStakeholderController::class, 'terimakasih'])->name('survey-kepuasan.thanks');
+	Route::get('/{kode}', [KuisionerStakeholderController::class, 'index'])->name('survey-kepuasan.index');
+	Route::post('/simpan/{id}', [KuisionerStakeholderController::class, 'simpan']);
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
 Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
 Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
@@ -64,6 +80,32 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
+=======
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('billing', function () {
+		return view('pages.billing');
+	})->name('billing');
+	Route::get('tables', function () {
+		return view('pages.tables');
+	})->name('tables');
+	Route::get('rtl', function () {
+		return view('pages.rtl');
+	})->name('rtl');
+	Route::get('notifications', function () {
+		return view('pages.notifications');
+	})->name('notifications');
+	Route::get('static-sign-in', function () {
+		return view('pages.static-sign-in');
+	})->name('static-sign-in');
+	Route::get('static-sign-up', function () {
+		return view('pages.static-sign-up');
+	})->name('static-sign-up');
+	Route::get('user-management', function () {
+		return view('pages.laravel-examples.user-management');
+	})->name('user-management');
+	Route::get('user-profile', function () {
+		return view('pages.laravel-examples.user-profile');
+	})->name('user-profile');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('billing', function () {
