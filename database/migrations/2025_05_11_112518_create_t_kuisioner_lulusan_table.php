@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_jenis_instansi');
             $table->date('tanggal_pertama_berkerja')->nullable(false);
             $table->date('tanggal_berkerja_instansi_sekarang')->nullable(false);
-            $table->string('jenis_instansi', 25)->nullable(false);
             $table->string('skala_instansi', 15)->nullable(false);
             $table->string('nama_instansi', 30)->nullable(false);
             $table->string('lokasi_instansi', 255)->nullable(false);

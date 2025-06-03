@@ -21,7 +21,6 @@ class KuisionerLulusanModel extends Model
         'id_jenis_instansi',
         'tanggal_pertama_berkerja',
         'tanggal_berkerja_instansi_sekarang',
-        'jenis_instansi',
         'skala_instansi',
         'nama_instansi',
         'lokasi_instansi',
