@@ -13,6 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_lulusan');
             $table->unsignedBigInteger('id_kategori_profesi');
             $table->unsignedBigInteger('id_profesi');
+            $table->unsignedBigInteger('id_jenis_instansi');
             $table->date('tanggal_pertama_berkerja')->nullable(false);
             $table->date('tanggal_berkerja_instansi_sekarang')->nullable(false);
             $table->string('jenis_instansi', 25)->nullable(false);
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->foreign('id_lulusan')->references('id_lulusan')->on('t_lulusan')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_kategori_profesi')->references('id_kategori_profesi')->on('t_kategori_profesi')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_profesi')->references('id_profesi')->on('t_profesi')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_jenis_instansi')->references('id_jenis_instansi')->on('t_jenis_instansi')->onDelete('restrict')->onUpdate('restrict');
         });
     }
 

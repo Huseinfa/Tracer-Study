@@ -18,6 +18,7 @@ class KuisionerLulusanModel extends Model
         'id_lulusan',
         'id_kategori_profesi',
         'id_profesi',
+        'id_jenis_instansi',
         'tanggal_pertama_berkerja',
         'tanggal_berkerja_instansi_sekarang',
         'jenis_instansi',
@@ -45,5 +46,10 @@ class KuisionerLulusanModel extends Model
     public function profesi(): BelongsTo
     {
         return $this->belongsTo(ProfesiModel::class, 'id_profesi', 'id_profesi');
+    }
+
+    public function jenisInstansi(): BelongsTo
+    {
+        return $this->belongsTo(JenisInstansiModel::class, 'id_jenis_instansi', 'id_jenis_instansi');
     }
 }
