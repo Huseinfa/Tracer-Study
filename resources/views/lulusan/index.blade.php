@@ -29,14 +29,14 @@
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NIM</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program Studi</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor HP</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Lulus</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">ID</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">NIM</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Nama</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Program Studi</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Email</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Nomor HP</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Tanggal Lulus</th>
+                                            <th class="text-center text-uppercase text-secondary text-sm fw-semibold">Aksi</th></tr>
                                         </tr>
                                     </thead>
                                     <tbody>
