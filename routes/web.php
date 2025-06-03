@@ -32,6 +32,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
     Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+	Route::get('/export', [AdminController::class, 'export'])->name('admin.export');
 	Route::resource('admin', AdminController::class);
 });
 
