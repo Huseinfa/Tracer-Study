@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_kode_stakeholder', function (Blueprint $table) {
-            $table->id('id_kode_stakeholder');
-            $table->string('email', 60)->nullable(false);
-            $table->string('kode_atasan', 6)->nullable(false);
+        Schema::create('t_jenis_instansi', function (Blueprint $table) {
+            $table->id('id_jenis_instansi');
+            $table->string('nama_jenis_instansi', 50)->nullable(false);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_kode_stakeholder');
+        Schema::dropIfExists('t_jenis_instansi');
     }
 };
