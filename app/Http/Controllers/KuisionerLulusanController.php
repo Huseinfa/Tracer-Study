@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendLinkMail;
 use App\Mail\SendOtpMail;
+use App\Models\JenisInstansiModel;
 use App\Models\KategoriProfesiModel;
 use App\Models\KodeLulusanModel;
 use App\Models\KuisionerLulusanModel;
@@ -175,7 +176,9 @@ class KuisionerLulusanController extends Controller
 
         $kategori = KategoriProfesiModel::select('id_kategori_profesi', 'nama_kategori')->get();
 
-        return view('kuisionerlulusan.kuisioner', ['lulusan' => $lulusan, 'kategori' => $kategori]);
+        $instansi = JenisInstansiModel::select('id_jenis_instansi', 'nama_jenis_instansi')->get();
+
+        return view('kuisionerlulusan.kuisioner', ['lulusan' => $lulusan, 'kategori' => $kategori, 'instansi' => $instansi]);
     }
     public function getProfesi($id_kategori)
     {
@@ -190,9 +193,9 @@ class KuisionerLulusanController extends Controller
         $rules = [
             'id_kategori_profesi' => 'required|exists:t_kategori_profesi,id_kategori_profesi',
             'id_profesi' => 'required|exists:t_profesi,id_profesi',
+            'id_jenis_instansi' => 'required|exists:t_jenis_instansi,id_jenis_instansi',
             'tanggal_pertama_berkerja' => 'required|date',
             'tanggal_berkerja_instansi_sekarang' => 'required|date',
-            'jenis_instansi' => 'required|string|max:255',
             'nama_instansi' => 'required|string|max:255',
             'skala_instansi' => 'required|in:Nasional,Multinasional/Internasional,Wirausaha',
             'lokasi_instansi' => 'required|string|max:255',
@@ -220,9 +223,9 @@ class KuisionerLulusanController extends Controller
                 'id_lulusan' => $id,
                 'id_kategori_profesi' => $request->input('id_kategori_profesi'),
                 'id_profesi' => $request->input('id_profesi'),
+                'id_jenis_instansi' => $request->input('id_jenis_instansi'),
                 'tanggal_pertama_berkerja' => $request->input('tanggal_pertama_berkerja'),
                 'tanggal_berkerja_instansi_sekarang' => $request->input('tanggal_berkerja_instansi_sekarang'),
-                'jenis_instansi' => $request->input('jenis_instansi'),
                 'nama_instansi' => $request->input('nama_instansi'),
                 'skala_instansi' => $request->input('skala_instansi'),
                 'lokasi_instansi' => $request->input('lokasi_instansi'),
