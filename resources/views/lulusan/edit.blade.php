@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="tanggal_lulus" class="col-1 control-label col-form-label">Tahun Lulus</label>
+                                    <label for="tanggal_lulus" class="col-1 control-label col-form-label">Tanggal Lulus</label>
                                     <div class="col-11">
                                         <input type="text" class="form-control" id="tanggal_lulus" name="tanggal_lulus" value="{{ old('tanggal_lulus', $lulusan->tanggal_lulus) }}" required>
                                         @error('tanggal_lulus')

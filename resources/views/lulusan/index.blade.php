@@ -28,7 +28,7 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program Studi</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor HP</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Lulus</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Lulus</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
