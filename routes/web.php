@@ -51,7 +51,14 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('lulusan', LulusanController::class);
 });
-            
+
+Route::prefix('admin')->group(function () {
+    Route::get('/{id}', [StakeholderController::class, 'index'])->name('stakeholder.index');
+	Route::get('/', [StakeholderController::class, 'show'])->name('stakeholder.show');
+	Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
+	Route::resource('stakeholder', StakeholderController::class);
+});
+
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
 	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
@@ -113,9 +120,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-//Route::get('/stakeholder', [DataStakeholderController::class, 'index'])->name('stakeholder');
-//Route::post('/stakeholder/create', [DataStakeholderController::class, 'create'])->name('stakeholder.create');
-
-
-Route::resource('stakeholder', StakeholderController::class);
 });
