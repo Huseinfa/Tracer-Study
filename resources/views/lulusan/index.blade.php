@@ -28,7 +28,7 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program Studi</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor HP</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Lulus</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Lulus</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
@@ -41,7 +41,7 @@
                                                 <td>{{ $item->prodi->nama_prodi ?? '-' }}</td>
                                                 <td>{{ $item->email }}</td>
                                                 <td>{{ $item->nomor_hp }}</td>
-                                                <td>{{ $item->tahun_lulus }}</td>
+                                                <td>{{ $item->tanggal_lulus }}</td>
                                                 <td class="align-middle text-center">
                                                 <a class="btn btn-info btn-link" href="{{ route('lulusan.show', $item->id_lulusan) }}" title="Lihat Detail">
                                                     <i class="material-icons">visibility</i>
