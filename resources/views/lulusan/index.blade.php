@@ -22,6 +22,7 @@
                             <a class="btn bg-gradient-primary mb-0" href="{{ route('lulusan.import.form') }}">
                                 <i class="material-icons text-sm">file_upload</i> Import
                             </a>
+
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">

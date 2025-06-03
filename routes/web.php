@@ -12,6 +12,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Models\KuisionerStakeholderModel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,6 +42,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
     Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
     Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
+	Route::get('lulusan/export', [LulusanController::class, 'export'])->name('lulusan.export.form');
+	Route::get('lulusan/import', function () {
+    return view('lulusan.import');
+})->name('lulusan.import.form');
+
+
     Route::resource('lulusan', LulusanController::class);
 });
             
