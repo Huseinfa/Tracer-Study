@@ -11,6 +11,7 @@ use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
+use App\Http\Controllers\MasaTungguController;
 use App\Models\KuisionerStakeholderModel;
 
 Route::get('/', function () {
@@ -29,7 +30,7 @@ Route::prefix('admin')->group(function () {
 	Route::resource('admin', AdminController::class);
 });
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('lulusan')->middleware(['auth'])->group(function () {
 	Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
     Route::get('/create', [LulusanController::class, 'create'])->name('lulusan.create');
     Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
@@ -38,6 +39,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
     Route::resource('lulusan', LulusanController::class);
 });
+
+Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
+Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
             
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
