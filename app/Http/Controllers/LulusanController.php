@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\LulusanModel;
 use App\Models\ProdiModel;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 class LulusanController extends Controller
 {
@@ -29,8 +35,8 @@ class LulusanController extends Controller
             'id_program_studi' => 'required|exists:t_program_studi,id_program_studi',
             'nim' => 'required|unique:t_lulusan,nim',
             'nama_lulusan' => 'required|string|max:255',
-            'email' => 'required|email|unique:t_lulusan,email',
-            'nomor_hp' => 'required|string|max:20',
+            'email_lulusan' => 'required|email_lulusan|unique:t_lulusan,email_lulusan',
+            'no_hp_lulusan' => 'required|string|max:20',
             'tanggal_lulus' => 'required|date',
             'foto_profil' => 'nullable|image|max:2048',
         ]);
@@ -62,8 +68,8 @@ class LulusanController extends Controller
             'id_program_studi' => 'required|exists:t_program_studi,id_program_studi',
             'nim' => 'required|unique:t_lulusan,nim,' . $id . ',id_lulusan',
             'nama_lulusan' => 'required|string|max:255',
-            'email' => 'required|email|unique:t_lulusan,email,' . $id . ',id_lulusan',
-            'nomor_hp' => 'required|string|max:20',
+            'email_lulusan' => 'required|email_lulusan|unique:t_lulusan,email_lulusan,' . $id . ',id_lulusan',
+            'no_hp_lulusan' => 'required|string|max:20',
             'tanggal_lulus' => 'required|date',
             'foto_profil' => 'nullable|image|max:2048',
         ]);
@@ -91,4 +97,84 @@ class LulusanController extends Controller
 
         return redirect()->route('lulusan.index')->with('success', 'Data lulusan berhasil dihapus.');
     }
+
+    // Form import lulusan
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        $path = $request->file('file')->store('temp');
+        $filePath = storage_path('app/' . $path);
+        $spreadsheet = IOFactory::load($filePath);
+        $sheet = $spreadsheet->getActiveSheet();
+        $rows = $sheet->toArray();
+
+        unset($rows[0]); // hilangkan header
+
+        foreach ($rows as $row) {
+            $validator = Validator::make([
+                'nim' => $row[1],
+                'email_lulusan' => $row[4],
+            ], [
+                'nim' => 'required|unique:t_lulusan,nim',
+                'email_lulusan' => 'required|email_lulusan|unique:t_lulusan,email_lulusan',
+            ]);
+
+            if ($validator->fails()) {
+                continue; // lewati data duplikat / error
+            }
+
+            LulusanModel::create([
+                'id_program_studi' => 1, // Sesuaikan jika tidak hardcoded
+                'nim' => $row[1],
+                'nama_lulusan' => $row[2],
+                'email_lulusan' => $row[4],
+                'no_hp_lulusan' => $row[5],
+                'tanggal_lulus' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[6])->format('Y-m-d'),
+            ]);
+        }
+
+        return redirect()->route('lulusan.index')->with('success', 'Data berhasil diimport.');
+    }
+
+    // Form export lulusan
+    public function export(Request $request)
+    {
+        $format = $request->input('format', 'xlsx');
+        $lulusan = LulusanModel::with('prodi')->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $sheet->fromArray([
+            'ID', 'NIM', 'Nama', 'Program Studi', 'email_lulusan', 'Nomor HP', 'Tanggal Lulus'
+        ], NULL, 'A1');
+
+        // Data
+        $row = 2;
+        foreach ($lulusan as $data) {
+            $sheet->fromArray([
+                $data->id_lulusan,
+                $data->nim,
+                $data->nama_lulusan,
+                $data->prodi->nama_prodi ?? '',
+                $data->email_lulusan,
+                $data->no_hp_lulusan,
+                $data->tanggal_lulus
+            ], NULL, 'A' . $row++);
+        }
+
+        // Output
+        $writerType = $format === 'csv' ? 'Csv' : 'Xlsx';
+        $writer = IOFactory::createWriter($spreadsheet, $writerType);
+
+        $filename = 'data_lulusan_' . date('Ymd_His') . '.' . $format;
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename);
+    }
+
 }
