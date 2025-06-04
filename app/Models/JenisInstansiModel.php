@@ -14,7 +14,7 @@ class JenisInstansiModel extends Model
 
     protected $primaryKey = 'id_jenis_instansi';
 
-    protected $fillable = 'nama_jenis_instansi';
+    protected $fillable = ['nama_jenis_instansi'];
 
     public function kuisionerlulusan(): HasMany
     {

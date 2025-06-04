@@ -79,7 +79,12 @@
                         <div class="col-12 col-md-6 px-6 py-3">
                             <div class="input-group input-group-static input-group-sm">
                                 <label>Jenis Instansi</label>
-                                <input type="text" name="jenis_instansi" class="form-control" required>
+                                <select name="id_jenis_instansi" id="id_jenis_instansi" class="form-control" required>
+                                    <option value="">--- Pilih Jenis Instansi ---</option>
+                                    @foreach ($instansi as $jK)
+                                        <option value="{{ $jK->id_jenis_instansi }}">{{ $jK->nama_jenis_instansi }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 

@@ -17,8 +17,8 @@
                                     <p><strong>ID Program Studi:</strong> {{ $lulusan->id_program_studi }}</p>
                                     <p><strong>NIM:</strong> {{ $lulusan->nim }}</p>
                                     <p><strong>Nama Lulusan:</strong> {{ $lulusan->nama_lulusan }}</p>
-                                    <p><strong>Email:</strong> {{ $lulusan->email }}</p>
-                                    <p><strong>Nomor HP:</strong> {{ $lulusan->nomor_hp }}</p>
+                                    <p><strong>Email:</strong> {{ $lulusan->email_lulusan }}</p>
+                                    <p><strong>Nomor HP:</strong> {{ $lulusan->no_hp_lulusan }}</p>
                                     <p><strong>Tahun Lulus:</strong> {{ $lulusan->tanggal_lulus }}</p>
                                 </div>
                             </div>

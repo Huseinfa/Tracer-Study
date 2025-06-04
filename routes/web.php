@@ -13,6 +13,12 @@ use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
 use App\Models\KuisionerStakeholderModel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +33,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
     Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+	Route::get('/export', [AdminController::class, 'export'])->name('admin.export');
 	Route::resource('admin', AdminController::class);
 });
 
@@ -37,12 +44,25 @@ Route::prefix('lulusan')->middleware(['auth'])->group(function () {
     Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
     Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
     Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
+	Route::get('lulusan/export', [LulusanController::class, 'export'])->name('lulusan.export.form');
+	Route::get('lulusan/import', function () {
+    return view('lulusan.import');
+})->name('lulusan.import.form');
+
+
     Route::resource('lulusan', LulusanController::class);
 });
 
 Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
 Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
             
+Route::prefix('admin')->group(function () {
+    Route::get('/{id}', [StakeholderController::class, 'index'])->name('stakeholder.index');
+	Route::get('/', [StakeholderController::class, 'show'])->name('stakeholder.show');
+	Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
+	Route::resource('stakeholder', StakeholderController::class);
+});
+
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
 	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
@@ -104,9 +124,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-//Route::get('/stakeholder', [DataStakeholderController::class, 'index'])->name('stakeholder');
-//Route::post('/stakeholder/create', [DataStakeholderController::class, 'create'])->name('stakeholder.create');
-
-
-Route::resource('stakeholder', StakeholderController::class);
 });

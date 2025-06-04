@@ -42,25 +42,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="email" class="col-1 control-label col-form-label">Email</label>
+                                    <label for="email_lulusan" class="col-1 control-label col-form-label">email_lulusan</label>
                                     <div class="col-11">
-                                        <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
-                                        @error('email')
+                                        <input type="text" class="form-control" id="email_lulusan" name="email_lulusan" value="{{ old('email_lulusan') }}" required>
+                                        @error('email_lulusan')
                                             <small class="form-text text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="nomor_hp" class="col-1 control-label col-form-label">Nomor HP</label>
+                                    <label for="no_hp_lulusan" class="col-1 control-label col-form-label">Nomor HP</label>
                                     <div class="col-11">
-                                        <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" value="{{ old('nomor_hp') }}" required>
-                                        @error('nomor_hp')
+                                        <input type="text" class="form-control" id="nomor_hp_lulusan" name="nomor_hp_lulusan" value="{{ old('nomor_hp_lulusan') }}" required>
+                                        @error('nomor_hp_lulusan')
                                             <small class="form-text text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="tanggal_lulus" class="col-1 control-label col-form-label">Tahun Lulus</label>
+                                    <label for="tanggal_lulus" class="col-1 control-label col-form-label">Tanggal Lulus</label>
                                     <div class="col-11">
                                         <input type="text" class="form-control" id="tanggal_lulus" name="tanggal_lulus" value="{{ old('tanggal_lulus') }}" required>
                                         @error('tanggal_lulus')

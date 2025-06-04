@@ -16,20 +16,27 @@
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('lulusan.create') }}">
                                 <i class="material-icons text-sm">add</i> Add New Lulusan
                             </a>
+                            <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export.form') }}">
+                                <i class="material-icons text-sm">file_download</i> Export
+                            </a>
+                            <a class="btn bg-gradient-primary mb-0" href="{{ route('lulusan.import.form') }}">
+                                <i class="material-icons text-sm">file_upload</i> Import
+                            </a>
+
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NIM</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program Studi</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor HP</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tahun Lulus</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">ID</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">NIM</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Nama</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Program Studi</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Email</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Nomor HP</th>
+                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Tanggal Lulus</th>
+                                            <th class="text-center text-uppercase text-secondary text-sm fw-semibold">Aksi</th></tr>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -39,8 +46,8 @@
                                                 <td>{{ $item->nim }}</td>
                                                 <td>{{ $item->nama_lulusan }}</td>
                                                 <td>{{ $item->prodi->nama_prodi ?? '-' }}</td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>{{ $item->nomor_hp }}</td>
+                                                <td>{{ $item->email_lulusan }}</td>
+                                                <td>{{ $item->no_hp_lulusan }}</td>
                                                 <td>{{ $item->tanggal_lulus }}</td>
                                                 <td class="align-middle text-center">
                                                 <a class="btn btn-info btn-link" href="{{ route('lulusan.show', $item->id_lulusan) }}" title="Lihat Detail">
