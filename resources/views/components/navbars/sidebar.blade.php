@@ -2,7 +2,7 @@
 
 <style>
     /* Increase specificity by targeting the full selector */
-    .sidenav.navbar.navbar-vertical.navbar-expand-xs#sxidenav-main {
+    .sidenav.navbar.navbar-vertical.navbar-expand-xs#sidenav-main {
         border-bottom: 2px solid #ffffff33 !important; /* Light gray border with transparency */
         transition: border-bottom 0.3s ease !important;
     }
