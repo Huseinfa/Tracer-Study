@@ -9,12 +9,25 @@
             <div class="text-center">
                 <h4>Terima kasih telah mengisi survey kami.</h4>
                 <p>Jawaban yang Anda berikan sangat bermanfaat bagi kami.</p>
-                @if(session('info'))
-                    <div class="alert alert-info">
-                        {{ session('info') }}
-                    </div>
-                @endif
             </div>
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Perhatian!',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Tutup',
+                    customClass: {
+                        confirmButton: 'bg-gradient-secondary'
+                    }
+                });
+            @endif
+        });
+    </script>
+@endpush
