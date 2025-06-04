@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card card-body mx-3 mx-md-4 mt-n6">
-        <div class="card-header p-2">
+        <div class="card-header p-2 h-100">
             <h4>Tracer Study</h4>
         </div>
         <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -14,7 +14,7 @@
                             <h5 class="modal-title font-weight-normal" id="searchModalLabel">Cari Data Anda</h5>
                         </div>
                         <div class="modal-body">
-                            <div class="input-group input-group-static">
+                            <div class="input-group input-group-outline">
                                 <label class="form-label">Masukkan NIM atau Nama</label>
                                 <input type="text" name="teks" class="form-control" required>
                             </div>
