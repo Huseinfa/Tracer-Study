@@ -37,6 +37,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets') }}/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <!-- Custom CSS to override template styles -->
+    <link href="{{ asset('assets') }}/css/custom.css" rel="stylesheet" />
 </head>
 <body class="{{ $bodyClass }}">
 
