@@ -8,7 +8,9 @@
         <div class="card-body p-3">
             <form method='POST' action='{{ url('/survey-kepuasan/simpan/' . $stakeholder->id_stakeholder) }}' id="surveyForm">
                 @csrf
+
                 {{-- biodata atasan --}}
+                
                 <div class="row p-3">
                     <h6>Data Diri Anda</h6>
                     <div class="row py-3">
@@ -329,7 +331,7 @@
                 </div>
 
                 <div class="row p-3">
-                    <div class="row">
+                    <div class="row py-3">
                         <div class="col-12">
                             <div class="input-group input-group-static">
                                 <label>Kompetensi yang dibutuhkan tapi belum dapat dipenuhi</label>
@@ -338,7 +340,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row py-3">
                         <div class="col-12">
                             <div class="input-group input-group-static">
                                 <label>Saran untuk kurikulum program studi</label>
@@ -347,8 +349,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-cols-sm-6 d-flex justify-content-center">
-                    <button type="submit" class="btn bg-gradient-info mb-0">Simpan</button>
+                <div class="row-cols-sm-6 d-flex justify-content-center p-3">
+                    <button type="submit" class="btn bg-gradient-info shadow mb-0">Simpan</button>
                 </div>
             </form>
         </div>

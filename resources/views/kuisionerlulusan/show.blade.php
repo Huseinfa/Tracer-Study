@@ -81,8 +81,8 @@
                             });
                         } else {
                             Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi kesalahan!',
+                                icon: 'info',
+                                title: 'Perhatian!',
                                 text: response.message,
                                 confirmButtonText: 'Tutup',
                                 customClass: {

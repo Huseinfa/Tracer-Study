@@ -14,8 +14,8 @@ class KuisionerStakeholderController extends Controller
     {
         $validasi =  StakeholderModel::where('kode_atasan', $kode)->first();
 
-        if ($validasi->sudah_mengisi != 0) { // jika stakeholder sudah pernah mengisi kuisioner
-            return redirect()->route('survey-kepuasan.thanks')->with('info', 'Anda sudah pernah mengisi kuesioner.');
+        if ($validasi->sudah_mengisi === true) { // jika stakeholder sudah pernah mengisi kuisioner
+            return redirect()->route('survey-kepuasan.thanks')->with('error', 'Anda sudah pernah mengisi kuesioner.');
         }
 
         $stakeholder =  StakeholderModel::select('id_stakeholder', 'id_lulusan', 'nama_atasan', 'jabatan_atasan', 'email_atasan', 'kode_atasan', 'sudah_mengisi')
