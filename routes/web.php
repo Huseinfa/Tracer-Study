@@ -53,6 +53,13 @@ Route::prefix('lulusan')->middleware(['auth'])->group(function () {
     Route::resource('lulusan', LulusanController::class);
 });
 
+Route::prefix('stakeholder')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('stakeholder.index');
+    Route::post('/store', [AdminController::class, 'store'])->name('stakeholder.store');
+	Route::get('/export', [AdminController::class, 'export'])->name('stakeholder.export');
+	Route::resource('stakeholder', StakeholderController::class);
+});
+
 Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
 Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
             
@@ -115,11 +122,4 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
 
-
-
-//Route::get('/stakeholder', [DataStakeholderController::class, 'index'])->name('stakeholder');
-//Route::post('/stakeholder/create', [DataStakeholderController::class, 'create'])->name('stakeholder.create');
-
-
-Route::resource('stakeholder', StakeholderController::class);
 });
