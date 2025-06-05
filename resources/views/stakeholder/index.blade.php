@@ -12,8 +12,8 @@
                             </div>
                         </div>
                         <div class="me-3 my-3 text-end">
-                            <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('stakeholder.export') }}">
-                                <i class="material-icons text-sm">file_download</i> Export
+                            <a class="btn bg-gradient-dark mb-0" href="{{ route('stakeholder.create') }}">
+                                <i class="material-icons text-sm">add</i> Add New Stakeholder
                             </a>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -22,14 +22,12 @@
                                     <thead>
                                         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">ID</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Nama Atasan</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Instansi</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Jabatan</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Email</th>
-                                            <th class="text-center text-uppercase text-secondary text-sm fw-semibold">Aksi</th></tr>
-
-
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Atasan</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Instansi</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jabatan</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,6 +59,17 @@
                                                         <i class="material-icons">visibility</i>
                                                         <div class="ripple-container"></div>
                                                     </a>
+                                                    <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('stakeholder.edit', $stakeholder->id_stakeholder) }}" data-original-title="" title="Edit">
+                                                        <i class="material-icons">edit</i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
+                                                    <form action="{{ route('stakeholder.destroy', $stakeholder->id_stakeholder) }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-link" data-original-title="" title="Delete" onclick="return confirm('Are you sure you want to delete this stakeholder?');">
+                                                            <i class="material-icons">delete</i>
+                                                            <div class="ripple-container"></div>
+                                                        </button>
                                                     </form>
                                                 </td>
                                             </tr>

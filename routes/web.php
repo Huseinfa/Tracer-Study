@@ -56,13 +56,6 @@ Route::prefix('lulusan')->middleware(['auth'])->group(function () {
 Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
 Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
             
-Route::prefix('admin')->group(function () {
-    Route::get('/{id}', [StakeholderController::class, 'index'])->name('stakeholder.index');
-	Route::get('/', [StakeholderController::class, 'show'])->name('stakeholder.show');
-	Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
-	Route::resource('stakeholder', StakeholderController::class);
-});
-
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
 	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
@@ -124,4 +117,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+//Route::get('/stakeholder', [DataStakeholderController::class, 'index'])->name('stakeholder');
+//Route::post('/stakeholder/create', [DataStakeholderController::class, 'create'])->name('stakeholder.create');
+
+
+Route::resource('stakeholder', StakeholderController::class);
 });
