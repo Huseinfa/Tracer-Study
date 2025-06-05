@@ -19,8 +19,9 @@
                                 <input type="text" name="otp" class="form-control" required>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-info">Cek Kode OTP</button>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="button" class="btn m-0 p-2" id="kirimUlangOTP">Kirim Ulang Kode OTP?</button>
+                            <button type="submit" class="btn bg-gradient-info m-0">Cek Kode OTP</button>
                         </div>
                     </form>
                 </div>
@@ -60,6 +61,30 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Terjadi kesalahan!',
+                                text: response.message,
+                                confirmButtonText: 'Tutup',
+                                customClass: {
+                                    confirmButton: 'bg-gradient-secondary'
+                                }
+                            });
+                        }
+                    }
+                })
+            })
+
+            $('#kirimUlangOTP').on('click', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ url('tracer-study/kode-OTP-baru/' . $lulusan->id_lulusan) }}',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
                                 text: response.message,
                                 confirmButtonText: 'Tutup',
                                 customClass: {

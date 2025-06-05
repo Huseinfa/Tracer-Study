@@ -69,6 +69,7 @@ Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/konfirmasi/{id}', [KuisionerLulusanController::class, 'konfirmasi'])->name('tracer-study.konfirmasi');
 	Route::post('/terkonfirmasi/{id}', [KuisionerLulusanController::class, 'terkonfirmasi']);
 	Route::get('/otp/{id}', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
+	Route::post('/kode-OTP-baru/{id}', [KuisionerLulusanController::class, 'kirimUlang']);
 	Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
 	Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
 	Route::get('/getProfesi/{id_kategori}', [KuisionerLulusanController::class, 'getProfesi'])->name('tracer-study.getProfesi');

@@ -100,7 +100,7 @@ class KuisionerLulusanController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Kode verifikasi telah dikirim, silahkan cek email anda.',
+                'message' => 'Kode OTP telah dikirim, silahkan cek email anda.',
                 'redirect_url' => route('tracer-study.otp', ['id' => $id])
             ]);
         }
@@ -112,6 +112,24 @@ class KuisionerLulusanController extends Controller
     *
     */
 
+    public function kirimUlang($id) {
+        $lulusan = LulusanModel::find($id);
+
+        $kodeLulusan = $this->kodeUnikLulusan();
+
+        $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
+
+        $updateKode->update([
+            'kode_lulusan' => $kodeLulusan,
+        ]);
+        
+        Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kode OTP yang baru telah dikirim, silahkan cek email anda.',
+        ]);
+    }
     public function otp($id)
     {
         $lulusan = LulusanModel::find($id);
