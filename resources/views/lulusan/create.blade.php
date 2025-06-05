@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="email_lulusan" class="col-1 control-label col-form-label">email_lulusan</label>
+                                    <label for="email_lulusan" class="col-1 control-label col-form-label">Email Lulusan</label>
                                     <div class="col-11">
                                         <input type="text" class="form-control" id="email_lulusan" name="email_lulusan" value="{{ old('email_lulusan') }}" required>
                                         @error('email_lulusan')
