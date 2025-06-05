@@ -95,6 +95,30 @@
                     }
                 })
             })
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Tutup',
+                    customClass: {
+                        confirmButton: 'bg-gradient-secondary'
+                    }
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan!',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Tutup',
+                    customClass: {
+                        confirmButton: 'bg-gradient-secondary'
+                    }
+                });
+            @endif
         });
     </script>
 @endpush

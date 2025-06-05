@@ -12,3 +12,21 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Perhatian!',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Tutup',
+                    customClass: {
+                        confirmButton: 'bg-gradient-secondary'
+                    }
+                });
+            @endif
+        });
+    </script>
+@endpush

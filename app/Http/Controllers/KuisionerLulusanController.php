@@ -35,6 +35,7 @@ class KuisionerLulusanController extends Controller
             ->first();
 
         if ($lulusan && $lulusan->id_lulusan) {
+            session(['id_lulusan' => $lulusan->id_lulusan]);
             return response()->json([
                 'success' => true,
                 'message' => 'Data anda ditemukan.',
@@ -73,37 +74,29 @@ class KuisionerLulusanController extends Controller
     public function terkonfirmasi($id)
     {
         $lulusan = LulusanModel::find($id);
+        
+        $kodeLulusan = $this->kodeUnikLulusan();
 
-        if ($lulusan->sudah_mengisi === true) { // jika lulusan sudah pernah mengisi kuisioner
-            return response()->json([
-                'success' => false,
-                'message' => 'Anda sudah pernah mengisi survey.',
-                'redirect_url' => route('tracer-study.thanks')
+        $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
+
+        if ($updateKode) {
+            $updateKode->update([
+                'kode_lulusan' => $kodeLulusan,
             ]);
-        } else { // jika lulusan belum pernah mengisi kuisioner
-            $kodeLulusan = $this->kodeUnikLulusan();
-
-            $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
-
-            if ($updateKode) {
-                $updateKode->update([
-                    'kode_lulusan' => $kodeLulusan,
-                ]);
-            } else {
-                KodeLulusanModel::create([
-                    'email' => $lulusan->email_lulusan,
-                    'kode_lulusan' => $kodeLulusan,
-                ]);
-            }
-
-            Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Kode OTP telah dikirim, silahkan cek email anda.',
-                'redirect_url' => route('tracer-study.otp', ['id' => $id])
+        } else {
+            KodeLulusanModel::create([
+                'email' => $lulusan->email_lulusan,
+                'kode_lulusan' => $kodeLulusan,
             ]);
         }
+
+        Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kode OTP telah dikirim, silahkan cek email anda.',
+            'redirect_url' => route('tracer-study.otp', ['id' => $id])
+        ]);
     }
 
     /*
@@ -157,6 +150,8 @@ class KuisionerLulusanController extends Controller
                 ->first();
 
             if ($kode) {
+                session(['otp_verified' => true]);
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Verifikasi berhasil. Silakan isi kuesioner.',
@@ -275,6 +270,8 @@ class KuisionerLulusanController extends Controller
                     'sudah_mengisi' => false,
                 ]);
             }
+
+            session()->flush();
 
             return response()->json([
                 'success' => true,
