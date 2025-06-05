@@ -8,6 +8,9 @@
         <div class="card-body p-3">
             <form method='POST' action='{{ url('/tracer-study/simpan/' . $lulusan->id_lulusan) }}' id="kuisionerForm">
                 @csrf
+
+                {{-- biodata lulusan --}}
+
                 <div class="row">
                     <div class="row">
                         <div class="col-12 col-md-6 px-6 py-3">
@@ -57,6 +60,8 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- survey tracer study --}}
 
                 <div class="row">
                     <div class="row">
@@ -183,8 +188,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-cols-sm-6 d-flex justify-content-center">
-                    <button type="submit" class="btn bg-gradient-info mb-0">Simpan</button>
+                <div class="row-cols-sm-6 d-flex justify-content-center pb-3 pt-5">
+                    <button type="submit" class="btn bg-gradient-info shadow mb-0">Simpan</button>
                 </div>
             </form>
         </div>

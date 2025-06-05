@@ -14,19 +14,10 @@
                             <h5 class="modal-title font-weight-normal" id="searchModalLabel">Verifikasi Partisipan</h5>
                         </div>
                         <div class="modal-body">
-                            <div class="input-group input-group-static">
+                            <div class="input-group input-group-outline">
                                 <label class="form-label">Masukkan Kode OTP</label>
                                 <input type="text" name="otp" class="form-control" required>
-                                @error('otp')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
                             </div>
-                            @if (session('error'))
-                                <div class="alert alert-danger mt-3">
-                                    <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn bg-gradient-info">Cek Kode OTP</button>

@@ -1,0 +1,17 @@
+.sidenav.navbar.navbar-vertical.navbar-expand-xs#sidenav-main {
+    border-bottom: 2px solid #ffffff33 !important;
+    transition: border-bottom 0.3s ease !important;
+}
+
+/* Adjust breakpoint to match navbar-expand-xs (576px) */
+@media (min-width: 576px) {
+    .sidenav.navbar.navbar-vertical.navbar-expand-xs#sidenav-main {
+        border-bottom: none !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .sidenav.navbar.navbar-vertical.navbar-expand-xs#sidenav-main {
+        border-bottom: 2px solid #ffffff33 !important;
+    }
+}
