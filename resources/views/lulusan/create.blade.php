@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="email_lulusan" class="col-1 control-label col-form-label">email_lulusan</label>
+                                    <label for="email_lulusan" class="col-1 control-label col-form-label">Email Lulusan</label>
                                     <div class="col-11">
                                         <input type="text" class="form-control" id="email_lulusan" name="email_lulusan" value="{{ old('email_lulusan') }}" required>
                                         @error('email_lulusan')
@@ -53,7 +53,8 @@
                                 <div class="form-group row">
                                     <label for="no_hp_lulusan" class="col-1 control-label col-form-label">Nomor HP</label>
                                     <div class="col-11">
-                                        <input type="text" class="form-control" id="nomor_hp_lulusan" name="nomor_hp_lulusan" value="{{ old('nomor_hp_lulusan') }}" required>
+<input type="text" class="form-control" id="no_hp_lulusan" name="no_hp_lulusan" value="{{ old('no_hp_lulusan') }}" required>
+
                                         @error('nomor_hp_lulusan')
                                             <small class="form-text text-danger">{{ $message }}</small>
                                         @enderror
