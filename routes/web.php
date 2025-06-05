@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
+use App\Http\Controllers\RekapLulusanController;
 use App\Models\KuisionerStakeholderModel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -81,6 +82,8 @@ Route::group(['prefix' => 'survey-kepuasan'], function () {
 	Route::get('/{kode}', [KuisionerStakeholderController::class, 'index'])->name('survey-kepuasan.index');
 	Route::post('/simpan/{id}', [KuisionerStakeholderController::class, 'simpan']);
 });
+
+Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
