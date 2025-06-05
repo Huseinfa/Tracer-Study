@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
+use App\Http\Controllers\RekapLulusanController;
 use App\Models\KuisionerStakeholderModel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -53,16 +54,16 @@ Route::prefix('lulusan')->middleware(['auth'])->group(function () {
     Route::resource('lulusan', LulusanController::class);
 });
 
-Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
-Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
-            
-Route::prefix('admin')->group(function () {
-    Route::get('/{id}', [StakeholderController::class, 'index'])->name('stakeholder.index');
-	Route::get('/', [StakeholderController::class, 'show'])->name('stakeholder.show');
-	Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
+Route::prefix('stakeholder')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('stakeholder.index');
+    Route::post('/store', [AdminController::class, 'store'])->name('stakeholder.store');
+	Route::get('/export', [AdminController::class, 'export'])->name('stakeholder.export');
 	Route::resource('stakeholder', StakeholderController::class);
 });
 
+Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
+Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
+            
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
 	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
@@ -82,6 +83,8 @@ Route::group(['prefix' => 'survey-kepuasan'], function () {
 	Route::get('/{kode}', [KuisionerStakeholderController::class, 'index'])->name('survey-kepuasan.index');
 	Route::post('/simpan/{id}', [KuisionerStakeholderController::class, 'simpan']);
 });
+
+Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -122,7 +125,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-
-
 
 });

@@ -15,9 +15,9 @@
                             <a class="btn bg-gradient-dark mb-0" href="{{ route('admin.create') }}">
                                 <i class="material-icons text-sm">add</i> Add New Administrator
                             </a>
-                            <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('admin.export') }}">
+                            {{-- <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('admin.export') }}">
                                 <i class="material-icons text-sm">file_download</i> Export
-                            </a>
+                            </a> --}}
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
