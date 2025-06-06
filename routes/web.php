@@ -63,25 +63,49 @@ Route::prefix('stakeholder')->group(function () {
 
 Route::get('/masa-tunggu/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
 Route::get('/masa-tunggu/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
-            
+
+// 
+// 
+// kuisioner start
+// 
+// 
+
+// kuisioner lulusan routes start
 Route::group(['prefix' => 'tracer-study'], function () {
 	Route::get('/', [KuisionerLulusanController::class, 'index'])->name('tracer-study.index');
 	Route::post('/cari', [KuisionerLulusanController::class, 'cari']);
 	Route::get('/konfirmasi/{id}', [KuisionerLulusanController::class, 'konfirmasi'])->name('tracer-study.konfirmasi');
-	Route::post('/terkonfirmasi/{id}', [KuisionerLulusanController::class, 'terkonfirmasi']);
-	Route::get('/otp/{id}', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
-	Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
-	Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
-	Route::get('/getProfesi/{id_kategori}', [KuisionerLulusanController::class, 'getProfesi'])->name('tracer-study.getProfesi');
-	Route::post('/simpan/{id}', [KuisionerLulusanController::class, 'simpan']);
+	Route::get('/kembali', [KuisionerLulusanController::class, 'kembali']);
 	Route::get('/terimakasih', [KuisionerLulusanController::class, 'terimakasih'])->name('tracer-study.thanks');
+	
+	Route::middleware('search')->group(function () {
+		Route::post('/terkonfirmasi/{id}', [KuisionerLulusanController::class, 'terkonfirmasi']);
+		Route::get('/otp/{id}', [KuisionerLulusanController::class, 'otp'])->name('tracer-study.otp');
+		Route::post('/kode-OTP-baru/{id}', [KuisionerLulusanController::class, 'kirimUlang']);
+		Route::post('/verifikasi/{id}', [KuisionerLulusanController::class, 'verifikasi']);
+		
+		Route::middleware('otpLulusan')->group(function () {
+			Route::get('/kuisioner/{id}', [KuisionerLulusanController::class, 'kuisioner'])->name('tracer-study.kuisioner');
+			Route::get('/getProfesi/{id_kategori}', [KuisionerLulusanController::class, 'getProfesi'])->name('tracer-study.getProfesi');
+			Route::post('/simpan/{id}', [KuisionerLulusanController::class, 'simpan']);
+		});
+	});
 });
+// kuisioner lulusan routes end
 
+// kuisioner atasan routes start
 Route::group(['prefix' => 'survey-kepuasan'], function () {
 	Route::get('/terimakasih', [KuisionerStakeholderController::class, 'terimakasih'])->name('survey-kepuasan.thanks');
 	Route::get('/{kode}', [KuisionerStakeholderController::class, 'index'])->name('survey-kepuasan.index');
 	Route::post('/simpan/{id}', [KuisionerStakeholderController::class, 'simpan']);
 });
+// kuisioner atasan routes end
+
+// 
+// 
+// kuisioner end
+// 
+// 
 
 Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
 

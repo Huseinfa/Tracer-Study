@@ -32,13 +32,13 @@ class KuisionerLulusanController extends Controller
         $keyword = $request->input('teks');
         $lulusan = LulusanModel::where('nim', $keyword)
             ->orWhere('nama_lulusan', 'like', '%' . $keyword . '%')
-            ->first();
+            ->get();
 
-        if ($lulusan && $lulusan->id_lulusan) {
+        if ($lulusan->count() > 0) {
             return response()->json([
                 'success' => true,
-                'message' => 'Data anda ditemukan.',
-                'redirect_url' => route('tracer-study.konfirmasi', ['id' => $lulusan->id_lulusan]),
+                'data' => $lulusan,
+                'message' => 'Pilih data Anda dari daftar berikut.',
             ]);
         } else {
             return response()->json([
@@ -63,46 +63,66 @@ class KuisionerLulusanController extends Controller
 
         return $kode;
     }
+    public function kembali() {
+        session()->flush();
+        return redirect()->route('tracer-study.index');
+    }
     public function konfirmasi($id)
     {
-        $lulusan = LulusanModel::select('id_program_studi', 'id_lulusan', 'nim', 'nama_lulusan', 'email_lulusan', 'no_hp_lulusan', 'tanggal_lulus')
+        $lulusan = LulusanModel::select('id_program_studi', 'id_lulusan', 'nim', 'nama_lulusan', 'email_lulusan', 'no_hp_lulusan', 'tanggal_lulus', 'sudah_mengisi')
             ->with('prodi')
             ->find($id);
+
+        session(['id_lulusan' => $lulusan->id_lulusan, 'sudah_mengisi' => $lulusan->sudah_mengisi]);
+        
         return view('kuisionerlulusan.show', ['lulusan' => $lulusan]);
     }
-    public function terkonfirmasi($id)
+    public function terkonfirmasi(Request $request, $id)
     {
-        $lulusan = LulusanModel::find($id);
+        $rules = [
+            'email_lulusan' => 'nullable|email|min:12|max:25',
+        ];
 
-        if ($lulusan->sudah_mengisi === true) { // jika lulusan sudah pernah mengisi kuisioner
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Anda sudah pernah mengisi survey.',
-                'redirect_url' => route('tracer-study.thanks')
+                'message' => 'Validasi gagal. Silakan periksa input Anda.',
+                'errors' => $validator->errors(),
             ]);
-        } else { // jika lulusan belum pernah mengisi kuisioner
-            $kodeLulusan = $this->kodeUnikLulusan();
+        } else {
+            $lulusan = LulusanModel::find($id);
 
-            $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
-
-            if ($updateKode) {
-                $updateKode->update([
-                    'kode_lulusan' => $kodeLulusan,
-                ]);
+            if (!$request->filled('email_lulusan')) {
+                    $request->request->remove('email_lulusan');
             } else {
-                KodeLulusanModel::create([
-                    'email' => $lulusan->email_lulusan,
-                    'kode_lulusan' => $kodeLulusan,
+                $lulusan->update([
+                    'email_lulusan' => $request->input('email_lulusan'),
                 ]);
-            }
-
-            Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Kode verifikasi telah dikirim, silahkan cek email anda.',
-                'redirect_url' => route('tracer-study.otp', ['id' => $id])
-            ]);
+                
+                $kodeLulusan = $this->kodeUnikLulusan();
+        
+                $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
+        
+                if ($updateKode) {
+                    $updateKode->update([
+                        'kode_lulusan' => $kodeLulusan,
+                    ]);
+                } else {
+                    KodeLulusanModel::create([
+                        'email' => $lulusan->email_lulusan,
+                        'kode_lulusan' => $kodeLulusan,
+                    ]);
+                }
+        
+                Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
+        
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Kode OTP telah dikirim, silahkan cek email anda (' . $lulusan->email_lulusan . ').',
+                    'redirect_url' => route('tracer-study.otp', ['id' => $id])
+                ]);
+            }   
         }
     }
 
@@ -112,6 +132,24 @@ class KuisionerLulusanController extends Controller
     *
     */
 
+    public function kirimUlang($id) {
+        $lulusan = LulusanModel::find($id);
+
+        $kodeLulusan = $this->kodeUnikLulusan();
+
+        $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
+
+        $updateKode->update([
+            'kode_lulusan' => $kodeLulusan,
+        ]);
+        
+        Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kode OTP yang baru telah dikirim, silahkan cek email anda.',
+        ]);
+    }
     public function otp($id)
     {
         $lulusan = LulusanModel::find($id);
@@ -139,6 +177,8 @@ class KuisionerLulusanController extends Controller
                 ->first();
 
             if ($kode) {
+                session(['otp_verified' => true]);
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Verifikasi berhasil. Silakan isi kuesioner.',
@@ -257,6 +297,8 @@ class KuisionerLulusanController extends Controller
                     'sudah_mengisi' => false,
                 ]);
             }
+
+            session()->flush();
 
             return response()->json([
                 'success' => true,
