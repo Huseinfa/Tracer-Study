@@ -1,118 +1,72 @@
 @props(['activePage'])
 
-<style>
-    /* Increase specificity by targeting the full selector */
-    .sidenav.navbar.navbar-vertical.navbar-expand-xs#sidenav-main {
-        border-bottom: 2px solid #ffffff33 !important;
-        transition: border-bottom 0.3s ease !important;
-    }
-
-    #sidenav-collapse-main {
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    /* Adjust breakpoint to match navbar-expand-xs (576px) */
-    @media (min-width: 576px) {
-        .sidenav.navbar.navbar-vertical.navbar-expand-xs#sxidenav-main {
-            border-bottom: none !important;
-        }
-    }
-
-    /* Show border on smaller screens or when collapsed */
-    @media (max-width: 575px) {
-        .sidenav.navbar.navbar-vertical.navbar-expand-xs#sxidenav-main {
-            border-bottom: 2px solid #ffffff33 !important;
-        }
-    }
-</style>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark shadow" id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0 d-flex align-items-center justify-content-start" href="{{ route('dashboard') }}">
-            <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
-            <img src="{{ asset('assets') }}/img/logotracer-study.png" alt="main_logo" style="height: 90px; width: 70px; margin-right: 10px;">
-            <span class="text-white" style="font-family: 'Quicksand', sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.5px; margin: 0;">
+        <a class="navbar-brand m-0 d-flex text-wrap align-items-center justify-content-center" href=" {{ route('dashboard') }} ">
+            <img src="{{ asset('assets') }}/img/logo.png" class="navbar-brand-img h-100 px-1" alt="main_logo">
+            <span class="text-white px-1" style="font-family: 'Quicksand', sans-serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.5px;">
                 Tracer Study
             </span>
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'dashboard' ? 'active bg-gradient-primary' : '' }}"
-                    href="{{ route('dashboard') }}">
+                <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-info' : '' }}" href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">dashboard</i>
+                        <i class="material-icons opacity-10 bi bi-house-door"></i>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-
             <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Data Pages</h6>
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Data Diri</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'admin' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('admin.index') }}">
+                <a class="nav-link text-white {{ $activePage == 'admin' ? ' active bg-gradient-info' : '' }}" href="{{ route('admin.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem;" class="fas fa-file ps-2 pe-2 text-center"></i>
+                        <i class="material-icons opacity-10 bi bi-person"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Data User</span>
+                    <span class="nav-link-text ms-1">User</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'lulusan' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('lulusan.index') }}">
+                <a class="nav-link text-white {{ $activePage == 'lulusan' ? ' active bg-gradient-info' : '' }}" href="{{ route('lulusan.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem;" class="fas fa-file ps-2 pe-2 text-center"></i>
+                        <i class="material-icons opacity-10 bi bi-mortarboard"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Data Lulusan</span>
+                    <span class="nav-link-text ms-1">Lulusan</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'stakeholder' ? ' active bg-gradient-primary' : '' }} "
-                href="{{ route('stakeholder.index') }}">
+                <a class="nav-link text-white {{ $activePage == 'stakeholder' ? ' active bg-gradient-info' : '' }}" href="{{ route('stakeholder.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem;" class="fas fa-file ps-2 pe-2 text-center"></i>
+                        <i class="material-icons opacity-10 bi bi-buildings"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Data Stakeholder</span>
+                    <span class="nav-link-text ms-1">Atasan</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Hasil Survey</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active bg-gradient-info' : '' }}" href="{{ route('rtl') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10 bi bi-hourglass-split"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Masa Tunggu</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#" data-bs-toggle="collapse" data-bs-target="#masaTungguCollapse" aria-expanded="false">
+                <a class="nav-link text-white {{ $activePage == 'rekap' ? ' active bg-gradient-info' : '' }}" href="{{ route('rekap.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem;" class="fas fa-clock ps-2 pe-2 text-center"></i>
+                        <i class="material-icons opacity-10 bi bi-printer"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Masa Tunggu Kuisioner</span>
-                    <i class="fas fa-chevron-down ms-auto text-xs"></i>
+                    <span class="nav-link-text ms-1">Laporan</span>
                 </a>
-                <div class="collapse" id="masaTungguCollapse">
-                    <ul class="nav flex-column ms-3">
-                        <li class="nav-item">
-                            <a class="nav-link text-white {{ Route::currentRouteName() == 'masa-tunggu.lulusan' ? 'active' : '' }}" href="{{ route('masa-tunggu.lulusan') }}">
-                                <span class="nav-link-text ms-1">Lulusan</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white {{ Route::currentRouteName() == 'masa-tunggu.rata-rata' ? 'active' : '' }}" href="{{ route('masa-tunggu.rata-rata') }}">
-                                <span class="nav-link-text ms-1">Rata-rata Masa Tunggu</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'rekap' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('rekap.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1rem;" class="fas fa-chart-bar ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sebaran Lingkup Lulusan</span></a>
             </li>
         </ul>
     </div>
