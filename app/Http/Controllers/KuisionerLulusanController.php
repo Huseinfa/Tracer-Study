@@ -14,6 +14,7 @@ use App\Models\StakeholderModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class KuisionerLulusanController extends Controller
 {
@@ -30,22 +31,22 @@ class KuisionerLulusanController extends Controller
     public function cari(Request $request)
     {
         $keyword = $request->input('teks');
-        $lulusan = LulusanModel::where('nim', $keyword)
-            ->orWhere('nama_lulusan', 'like', '%' . $keyword . '%')
-            ->get();
 
-        if ($lulusan->count() > 0) {
-            return response()->json([
-                'success' => true,
-                'data' => $lulusan,
-                'message' => 'Pilih data Anda dari daftar berikut.',
-            ]);
+        if ($keyword) {
+            $lulusan = LulusanModel::where('nim', $keyword)
+                ->orWhere('nama_lulusan', 'like', '%' . $keyword . '%')
+                ->get();
         } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Data anda tidak ditemukan.',
-            ]);
+            // Jika tidak ada keyword, kembalikan query kosong untuk menghindari error
+            $lulusan = LulusanModel::whereRaw('1=0');
         }
+
+        return DataTables::of($lulusan)
+            ->addColumn('aksi', function($row) {
+                return '<button class="btn btn-info pilih-lulusan mb-0 py-1 px-4" data-id="'.$row->id_lulusan.'">Pilih</button>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /*
