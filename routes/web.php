@@ -39,17 +39,21 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::prefix('lulusan')->middleware(['auth'])->group(function () {
-	Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
+    Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
     Route::get('/create', [LulusanController::class, 'create'])->name('lulusan.create');
     Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
     Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
     Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
     Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
-	Route::get('lulusan/export', [LulusanController::class, 'export'])->name('lulusan.export.form');
-	Route::get('lulusan/import', function () {
-    return view('lulusan.import');
-})->name('lulusan.import.form');
 
+    // Route Import/Export
+    Route::get('lulusan/export', [LulusanController::class, 'export'])->name('lulusan.export.form');
+    Route::get('lulusan/import', function () {
+        return view('lulusan.import');
+    })->name('lulusan.import.form');
+
+    // Tambahkan untuk proses POST import:
+    Route::post('lulusan/import', [LulusanController::class, 'import'])->name('lulusan.import');
 
     Route::resource('lulusan', LulusanController::class);
 });
