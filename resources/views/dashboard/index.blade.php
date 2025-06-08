@@ -2,193 +2,248 @@
     <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
-        <div class="container-fluid py-4">
-            <!-- Add card animations -->
-            <style>
-                .card {
-                    transition: all 0.3s ease;
-                    transform-origin: center;
-                }
-                
-                .card:hover {
-                    transform: translateY(-7px) scale(1.01);
-                    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 0 8px 16px -8px rgba(0, 0, 0, 0.3);
-                    z-index: 1;
-                }
-                
-                .chart-container {
-                    transition: all 0.3s ease;
-                }
-                
-                .card:hover .chart-container {
-                    transform: scale(1.02);
-                }
-                
-                .card-header .icon {
-                    transition: all 0.4s ease;
-                }
-                
-                .card:hover .card-header .icon {
-                    transform: scale(1.1) rotate(5deg);
-                }
-            </style>
-            
-            <!-- Statistics Cards -->
-            <div class="row mb-4">
-                <!-- Card 1: Filled Out Questionnaire -->
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">assignment_turned_in</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Sudah Mengisi</p>
-                                <h4 class="mb-0">{{ $lulusanFilled }} Lulusan</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{ $lulusanFilledPercentage }}% </span>dari total lulusan</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 2: Not Filled Out Questionnaire -->
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-danger shadow-danger text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">assignment_late</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Belum Mengisi</p>
-                                <h4 class="mb-0">{{ $lulusanNotFilled }} Lulusan</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">{{ 100 - $lulusanFilledPercentage }}% </span>dari total lulusan</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 3: Average Waiting Time -->
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">schedule</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Rata-rata Masa Tunggu</p>
-                                <h4 class="mb-0">{{ $averageWaitingTime }}</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0">Total {{ $averageDays }} hari setelah kelulusan</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 4: Most Common Profession -->
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">work</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Profesi Terpopuler</p>
-                                <h4 class="mb-0">{{ $mostCommonProfesi->profesi ?? 'Belum ada data' }}</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            @if($mostCommonProfesi)
-                                <p class="mb-0">{{ $mostCommonProfesi->count }} lulusan ({{ round(($mostCommonProfesi->count / $total) * 100, 1) }}%)</p>
-                            @else
-                                <p class="mb-0">Belum ada data profesi</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Existing Charts -->
+        <div class="container-fluid py-4">            
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3">Grafik Sebaran Profesi Lulusan (10 profesi dengan persentase tertinggi)</h6>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pb-2">
-                            @if($total > 0)
-                                <div class="chart-container" style="position: relative; height:60vh; width:90%; margin: auto;">
-                                    <canvas id="profesiChart"></canvas>
+                <div class="col-md-12">
+                    <div class="card px-0">
+                        <div class="card-body p-0">
+                            <form action="{{ url('dashboard') }}" method="GET" class="d-flex flex-row justify-content-end">
+                                <div class="input-group input-group-outline m-2" style="width: 150px;">
+                                    <label for="prodi" class="form-label">Program studi</label>
+                                    <select name="prodi" id="prodi" class="form-control p-0">
+                                        <option value="1" {{ (request('prodi') ?? '1') == '1' ? 'selected' : '' }}>D4 TI</option>
+                                        <option value="2" {{ (request('prodi') ?? '1') == '2' ? 'selected' : '' }}>D4 SIB</option>
+                                        <option value="3" {{ (request('prodi') ?? '1') == '3' ? 'selected' : '' }}>D2 PPLS</option>
+                                        <option value="4" {{ (request('prodi') ?? '1') == '4' ? 'selected' : '' }}>S2 MRTI</option>
+                                    </select>
                                 </div>
-                            @else
-                                <div class="text-center p-5">
-                                    <p>Belum ada data profesi lulusan yang tersedia.</p>
+                                <div class="input-group input-group-outline m-2" style="width: 150px">
+                                    <label for="start_year" class="form-label">Tahun Awal</label>
+                                    <input type="number" name="start_year" id="start_year" class="form-control p-0" value="{{ request('start_year', now()->year - 4) }}">
                                 </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3">Grafik Sebaran Jenis Instansi</h6>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pb-2">
-                            @if($totalInstansi > 0)
-                                <div class="chart-container" style="position: relative; height:60vh; width:90%; margin: auto;">
-                                    <canvas id="instansiChart"></canvas>
+                                <div class="input-group input-group-outline m-2" style="width: 150px">
+                                    <label for="end_year" class="form-label">Tahun Akhir</label>
+                                    <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year - 1) }}">
                                 </div>
-                            @else
-                                <div class="text-center p-5">
-                                    <p>Belum ada data jenis instansi yang tersedia.</p>
-                                </div>
-                            @endif
+                                <button type="submit" class="btn btn-info m-2 px-3" style="width: 100px">Filter</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Rest of the content (Stakeholder Evaluation Charts) -->
+            {{-- Statistics Cards Start --}}
             <div class="row mt-4">
-                <div class="col-12">
+                <div class="col-sm-3">
                     <div class="card">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-success shadow-success border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3">Grafik Penilaian Kompetensi Lulusan oleh Stakeholder</h6>
+                        <div class="card-body p-3 position-relative">
+                            <div class="row">
+                                <div class="container-fluid text-center">
+                                    <div class="row justify-content-between px-2">
+                                        <p class="text-sm mb-1 text-capitalize font-weight-bold text-start">Jumlah Lulusan</p>
+                                    </div>
+                                    <div class="row text-end">
+                                        <h5 class="font-weight-bolder mb-0">
+                                            {{ $lulusanCount }}
+                                            <span class="font-weight-normal text-secondary"> lulusan</span>
+                                        </h5>
+                                    </div>
+                                    <div class="row">
+                                        <br>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-body px-0 pb-2">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body p-3 position-relative">
                             <div class="row">
-                                @foreach($evaluationData as $field => $data)
-                                    <div class="col-md-6 col-lg-4 mb-4">
-                                        <div class="card">
-                                            <div class="card-header bg-light">
-                                                <h6 class="mb-0">{{ $data['title'] }}</h6>
-                                            </div>
-                                            <div class="card-body">
-                                                @if($data['total'] > 0)
-                                                    <div class="chart-container" style="position: relative; height:30vh; margin: auto;">
-                                                        <canvas id="{{ $field }}Chart"></canvas>
-                                                    </div>
-                                                @else
-                                                    <div class="text-center p-3">
-                                                        <p>Belum ada data penilaian {{ $data['title'] }} yang tersedia.</p>
-                                                    </div>
-                                                @endif
-                                            </div>
+                                <div class="container text-center">
+                                    <div class="row justify-content-between px-2">
+                                        <p class="text-sm mb-1 text-capitalize font-weight-bold text-start">Sudah Mengisi</p>
+                                    </div>
+                                    <div class="row text-end">
+                                        <h5 class="font-weight-bolder mb-0">
+                                            {{ $lulusanFilled }}
+                                            <span class="font-weight-normal text-secondary"> lulusan</span>
+                                        </h5>
+                                    </div>
+                                    <div class="row text-start">
+                                        <div class="col text-start">
+                                            <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                                {{ $lulusanFilledPercentage }}%
+                                                <span class="font-weight-normal text-secondary">dari total lulusan</span>
+                                            </span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body p-3 position-relative">
+                            <div class="row">
+                                <div class="container text-center">
+                                    <div class="row justify-content-between px-2">
+                                        <p class="text-sm mb-1 text-capitalize font-weight-bold text-start">Belum Mengisi</p>
+                                    </div>
+                                    <div class="row text-end">
+                                        <h5 class="font-weight-bolder mb-0">
+                                            {{ $lulusanNotFilled }}
+                                            <span class="font-weight-normal text-secondary"> lulusan</span>
+                                        </h5>
+                                    </div>
+                                    <div class="row text-start">
+                                        <div class="col text-start">
+                                            <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                                {{ 100 - $lulusanFilledPercentage }}%
+                                                <span class="font-weight-normal text-secondary">dari total lulusan</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body p-3 position-relative">
+                            <div class="row">
+                                <div class="container text-center">
+                                    <div class="row justify-content-between px-2">
+                                        <p class="text-sm mb-1 text-capitalize font-weight-bold text-start">Rata-rata Masa Tunggu</p>
+                                    </div>
+                                    <div class="row text-end">
+                                        <h5 class="font-weight-bolder mb-0">
+                                            {{ $averageWaitingTime }}
+                                        </h5>
+                                    </div>
+                                    <div class="row text-start">
+                                        <div class="col text-start">
+                                            <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                                <span class="font-weight-normal text-secondary">dari </span>
+                                                {{ $lulusanFilled }}
+                                                <span class="font-weight-normal text-secondary"> lulusan</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Statistics Cards End --}}
+                
+            {{-- Pie Charts Start --}}
+
+            {{-- pie chart sebaran profesi --}}
+            <div class="row mt-4">
+                <div class="col-lg-4 col-sm-6">
+                    <div class="card h-100">
+                        <div class="card-header pb-0 p-3">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="mb-0">Sebaran Profesi Lulusan</h6>
+                                </div>
+                                <div class="col-md-4">
+                                    <span>(10 teratas)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3 pb-0">
+                            <div class="row">
+                                @if($total > 0)
+                                    <div class="chart">
+                                        <canvas id="profesiChart" class="chart-canvas" style="height: 250px;"></canvas>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <p class="text-secondary">Tidak ada data profesi yang tersedia.</p>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="row mt-3 justify-content-center">
+                                @foreach($profesilabels as $i => $label)
+                                    <div class="col-auto">
+                                        <span class="badge badge-md badge-dot d-block text-start">
+                                            <i class="bi bi-circle-fill" style="color: {{ ['#3498DB', '#2ECC71', '#F1C40F', '#E67E22', '#E74C3C', '#9B59B6', '#1ABC9C', '#34495E', '#F39C12', '#7F8C8D', '#BDC3C7'][$i] }};"></i>
+                                            <span class="text-dark text-xs">{{ $label }}</span>
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- pie chart jenis instansi --}}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="card h-100">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">Sebaran Jenis Instansi</h6>
+                        </div>
+                        <div class="card-body p-3 pb-0">
+                            <div class="row">
+                                @if($totalInstansi > 0)
+                                    <div class="chart">
+                                        <canvas id="instansiChart" class="chart-canvas" style="height: 250px;"></canvas>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <p class="text-secondary">Tidak ada data jenis instansi yang tersedia.</p>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="row mt-3 justify-content-center">
+                                @foreach($instansiLabels as $i => $label)
+                                    <div class="col-auto">
+                                        <span class="badge badge-md badge-dot d-block text-start">
+                                            <i class="bi bi-circle-fill" style="color: {{ ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'][$i] ?? '#BDC3C7' }};"></i>
+                                            <span class="text-dark text-xs">{{ $label }}</span>
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- pie chart penilaian kepuasan --}}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="card h-100">
+                        <div class="card-header pb-0 p-3">
+                            <div class="row pb-2">
+                                <h6 class="mb-0">Penilaian Kepuasan Pengguna Lulusan</h6>
+                            </div>
+                            <div class="row mx-auto w-50">
+                                <select class="btn btn-outline-info my-2 text-center" id="chartSelector" aria-label="Pilih chart">
+                                    @foreach ($evaluationData as $field => $data)
+                                        <option value="{{ $field }}">{{ $data['title'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body p-3 pt-1 pb-0">
+                            <div class="row">
+                                @foreach ($evaluationData as $field => $data)
+                                    <div class="chart d-none" id="{{ $field }}-container" style="height: 200px;">
+                                        <canvas id="{{ $field }}Chart" class="chart-canvas" height="200"></canvas>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="row mt-3 justify-content-center">
+                                @foreach($evaluationLabels as $i => $label)
+                                    <div class="col-auto">
+                                        <span class="badge badge-md badge-dot d-block text-start">
+                                            <i class="bi bi-circle-fill" style="color: {{ ['#E74C3C', '#F39C12', '#F1C40F', '#2ECC71', '#3498DB'][$i] ?? '#BDC3C7' }};"></i>
+                                            <span class="text-dark text-xs">{{ $label }}</span>
+                                        </span>
                                     </div>
                                 @endforeach
                             </div>
@@ -196,190 +251,560 @@
                     </div>
                 </div>
             </div>
-            
+            {{-- Pie Charts End --}}
+
+            {{-- Tabel Kepuasan Start --}}
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h6>Tabel Penilaian Kepuasan Pengguna Lulusan</h6>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-3">
+                                <table class="table table-bordered align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder" rowspan="2" style="width: 40px;">No</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder" rowspan="2">Jenis Kemampuan</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder" colspan="5">Tingkat Kepuasan Pengguna (%)</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Sangat Baik</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Baik</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Cukup</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Kurang</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Sangat Kurang</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kerjasama tim</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Keahlian di bidang TI</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">3</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kemampuan berbahasa asing (Inggris)</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">4</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kemampuan berkomunikasi</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">5</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Pengembangan diri</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">6</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kepemimpinan</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">7</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Etos Kerja</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">Jumlah</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Tabel kepuasan End --}}
+
+            {{-- Tabel Lingkup Tempat Kerja Start --}}
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h6>Tabel Sebaran Lingkup Tempat Kerja dan Kesesuaian Profesi dengan Infokom</h6>
+                        </div>
+                        <div class="card-body p-0 pb-2">
+                            <div class="table-responsive p-3">
+                                <table class="table table-bordered align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" rowspan="2">Tahun Lulus</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" rowspan="2">Jumlah Lulusan</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" rowspan="2">Lulusan terlacak</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" rowspan="2">Bidang Infokom</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" rowspan="2">Bidang Non Infokom</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" colspan="3">Lingkup Tempat Kerja</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2">Internasional</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2">Nasional</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2">Wirausaha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2021</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2022</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2023</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2024</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">Jumlah</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Tabel Lingkup Tempat Kerja End --}}
             <x-footers.auth></x-footers.auth>
         </div>
     </main>
     
-    <!-- Keep all your existing JavaScript -->
     @push('js')
-    <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
-    
-    @if($total > 0)
-    <script>
-        // Setup the profesi pie chart
-        var ctx = document.getElementById('profesiChart').getContext('2d');
-        var profesiChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: {!! json_encode($labels) !!},
-                datasets: [{
-                    data: {!! json_encode($percentages) !!},
-                    backgroundColor: [
-                        '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
-                        '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'left',
-                        labels: {
-                            generateLabels: function(chart) {
-                                const data = chart.data;
-                                if (data.labels.length && data.datasets.length) {
-                                    return data.labels.map(function(label, i) {
-                                        const meta = chart.getDatasetMeta(0);
-                                        const style = meta.controller.getStyle(i);
-                                        return {
-                                            text: label + ': ' + data.datasets[0].data[i] + '%',
-                                            fillStyle: style.backgroundColor,
-                                            strokeStyle: style.borderColor,
-                                            lineWidth: style.borderWidth,
-                                            hidden: isNaN(data.datasets[0].data[i]) || meta.data[i].hidden,
-                                            index: i
-                                        };
-                                    });
-                                }
-                                return [];
-                            }
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.formattedValue + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-    @endif
-    
-    @if($totalInstansi > 0)
-    <script>
-        // Setup the instansi pie chart
-        var ctxInstansi = document.getElementById('instansiChart').getContext('2d');
-        var instansiChart = new Chart(ctxInstansi, {
-            type: 'pie',
-            data: {
-                labels: {!! json_encode($instansiLabels) !!},
-                datasets: [{
-                    data: {!! json_encode($instansiPercentages) !!},
-                    backgroundColor: [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-                        '#FF9F40', '#8CC152', '#5D9CEC', '#EC87C0', '#AC92EC'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'left',
-                        labels: {
-                            generateLabels: function(chart) {
-                                const data = chart.data;
-                                if (data.labels.length && data.datasets.length) {
-                                    return data.labels.map(function(label, i) {
-                                        const meta = chart.getDatasetMeta(0);
-                                        const style = meta.controller.getStyle(i);
-                                        return {
-                                            text: label + ': ' + data.datasets[0].data[i] + '%',
-                                            fillStyle: style.backgroundColor,
-                                            strokeStyle: style.borderColor,
-                                            lineWidth: style.borderWidth,
-                                            hidden: isNaN(data.datasets[0].data[i]) || meta.data[i].hidden,
-                                            index: i
-                                        };
-                                    });
-                                }
-                                return [];
-                            }
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.formattedValue + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-    @endif
-    
-    <!-- Stakeholder Evaluation Charts -->
-    <script>
-        // Color arrays for the evaluation charts
-        const evaluationColors = ['#E74C3C', '#F39C12', '#F1C40F', '#2ECC71', '#3498DB'];
-        
-        // Setup the evaluation pie charts
-        @foreach($evaluationData as $field => $data)
-            @if($data['total'] > 0)
-            var ctx{{ $field }} = document.getElementById('{{ $field }}Chart').getContext('2d');
-            var {{ $field }}Chart = new Chart(ctx{{ $field }}, {
-                type: 'pie',
-                data: {
-                    labels: {!! json_encode($evaluationLabels) !!},
-                    datasets: [{
-                        data: {!! json_encode($data['percentages']) !!},
-                        backgroundColor: evaluationColors,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                generateLabels: function(chart) {
-                                    const data = chart.data;
-                                    if (data.labels.length && data.datasets.length) {
-                                        return data.labels.map(function(label, i) {
-                                            const meta = chart.getDatasetMeta(0);
-                                            const style = meta.controller.getStyle(i);
-                                            const value = data.datasets[0].data[i];
-                                            // Only show labels for non-zero values
-                                            if (value <= 0) return null;
-                                            return {
-                                                text: label + ': ' + value + '%',
-                                                fillStyle: style.backgroundColor,
-                                                strokeStyle: style.borderColor,
-                                                lineWidth: style.borderWidth,
-                                                hidden: isNaN(value) || meta.data[i].hidden,
-                                                index: i
-                                            };
-                                        }).filter(item => item !== null);
-                                    }
-                                    return [];
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ' + context.formattedValue + '%';
-                                }
-                            }
-                        }
-                    }
+        <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
+        <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
+        <script>
+            $(function() {
+                var text_val = $(".input-group input").val();
+                if (text_val === "") {
+                    $(".input-group").removeClass('is-filled');
+                } else {
+                    $(".input-group").addClass('is-filled');
                 }
             });
-            @endif
-        @endforeach
-    </script>
+        </script>
+
+        {{-- pie chart start --}}
+        <script>
+            document.getElementById('chartSelector').addEventListener('change', function() {
+                const selected = this.value;
+                @foreach($evaluationData as $field => $data)
+                    document.getElementById('{{ $field }}-container').classList.toggle('d-none', '{{ $field }}' !== selected);
+                @endforeach
+            });
+        </script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const containers = document.querySelectorAll('[id$="-container"]'); // ambil semua container chart
+                if (containers.length > 0) containers[0].classList.remove('d-none'); // menghapus kelas d-none dari container pertama
+
+                const selector = document.getElementById('chartSelector'); // Set select ke chart pertama
+                if (selector && selector.options.length > 0) {
+                    selector.value = selector.options[0].value;
+                }
+            });
+        </script>
+
+        @if($total > 0)
+            <script>
+                // Setup the profesi pie chart
+                var ctx = document.getElementById('profesiChart').getContext('2d');
+                new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: {!! json_encode($profesilabels) !!},
+                        datasets: [{
+                            label: "Projects",
+                            weight: 9,
+                            cutout: 0,
+                            tension: 0.9,
+                            pointRadius: 2,
+                            borderWidth: 1,
+                            backgroundColor: ['#3498DB', '#2ECC71', '#F1C40F', '#E67E22', '#E74C3C', '#9B59B6', '#1ABC9C', '#34495E', '#F39C12', '#7F8C8D', '#BDC3C7'],
+                            data: {!! json_encode($profesipercentages) !!},
+                            fill: false
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                display: false,
+                                position: 'bottom',
+                            },
+                            tooltip: {
+                                enabled: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.chart.data.labels[context.dataIndex] || '';
+                                        let value = context.formattedValue || '0';
+                                        return label + ': ' + value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
+        @endif
+        
+        @if($totalInstansi > 0)
+            <script>
+                // Setup the instansi pie chart
+                var ctxInstansi = document.getElementById('instansiChart').getContext('2d');
+                var instansiChart = new Chart(ctxInstansi, {
+                    type: 'pie',
+                    data: {
+                        labels: {!! json_encode($instansiLabels) !!},
+                        datasets: [{
+                            label: "Projects",
+                            weight: 9,
+                            cutout: 0,
+                            tension: 0.9,
+                            pointRadius: 2,
+                            borderWidth: 1,
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                            data: {!! json_encode($instansiPercentages) !!},
+                            fill: false
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                display: false,
+                                position: 'bottom',
+                            },
+                            title: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.formattedValue + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
+        @endif
+        
+        <!-- Stakeholder Evaluation Charts -->
+        <script>
+            // Color arrays for the evaluation charts
+            const evaluationColors = ['#E74C3C', '#F39C12', '#F1C40F', '#2ECC71', '#3498DB'];
+            
+            // Setup the evaluation pie charts
+            @foreach($evaluationData as $field => $data)
+                @if($data['total'] > 0)
+                var ctx{{ $field }} = document.getElementById('{{ $field }}Chart').getContext('2d');
+                new Chart(ctx{{ $field }}, {
+                    type: 'pie',
+                    data: {
+                        labels: {!! json_encode($evaluationLabels) !!},
+                        datasets: [{
+                            label: "Projects",
+                            weight: 9,
+                            cutout: 0,
+                            tension: 0.9,
+                            pointRadius: 2,
+                            borderWidth: 1,
+                            backgroundColor: evaluationColors,
+                            data: {!! json_encode($data['percentages']) !!},
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                display: false,
+                                position: 'bottom',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.formattedValue + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                @endif
+            @endforeach
+        </script>
+        {{-- pie chart end --}}
     @endpush
 </x-layout>
