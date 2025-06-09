@@ -639,7 +639,6 @@
     
     @push('js')
         <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
-        <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
         <script>
             $(function() {
                 var text_val = $(".input-group input").val();

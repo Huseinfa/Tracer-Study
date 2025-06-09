@@ -27,8 +27,9 @@ Route::get('/', function () {
 
 Route::get('/', [WelcomeController::class, 'index']);
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+	Route::post('/list', [LulusanController::class, 'list'])->name('admin.list');
     Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
@@ -40,6 +41,7 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('lulusan')->middleware(['auth'])->group(function () {
     Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
+    Route::post('/list', [LulusanController::class, 'list'])->name('lulusan.list');
     Route::get('/create', [LulusanController::class, 'create'])->name('lulusan.create');
     Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
     Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
