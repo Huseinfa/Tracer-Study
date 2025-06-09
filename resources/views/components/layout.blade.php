@@ -19,12 +19,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="{{ asset('assets') }}/img/favicon.png">
-    <title>
-        Material Dashboard 2 by Creative Tim & UPDIVISION
-    </title>
+    <title>Tracer Study</title>
+    <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('assets') }}/img/logo.png">
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -35,10 +33,10 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- Bootstrap Icons --> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets') }}/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-    <!-- Custom CSS to override template styles -->
-    <link href="{{ asset('assets') }}/css/custom.css" rel="stylesheet" />
 </head>
 <body class="{{ $bodyClass }}">
 

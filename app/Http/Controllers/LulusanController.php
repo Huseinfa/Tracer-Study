@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 
 class LulusanController extends Controller
@@ -35,11 +36,12 @@ class LulusanController extends Controller
             'id_program_studi' => 'required|exists:t_program_studi,id_program_studi',
             'nim' => 'required|unique:t_lulusan,nim',
             'nama_lulusan' => 'required|string|max:255',
-            'email_lulusan' => 'required|email_lulusan|unique:t_lulusan,email_lulusan',
+            'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan',
             'no_hp_lulusan' => 'required|string|max:20',
             'tanggal_lulus' => 'required|date',
-            'foto_profil' => 'nullable|image|max:2048',
         ]);
+
+        $validated['sudah_mengisi'] = 0;
 
         // Handle upload foto
         if ($request->hasFile('foto_profil')) {
@@ -68,7 +70,7 @@ class LulusanController extends Controller
             'id_program_studi' => 'required|exists:t_program_studi,id_program_studi',
             'nim' => 'required|unique:t_lulusan,nim,' . $id . ',id_lulusan',
             'nama_lulusan' => 'required|string|max:255',
-            'email_lulusan' => 'required|email_lulusan|unique:t_lulusan,email_lulusan,' . $id . ',id_lulusan',
+            'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan,' . $id . ',id_lulusan',
             'no_hp_lulusan' => 'required|string|max:20',
             'tanggal_lulus' => 'required|date',
             'foto_profil' => 'nullable|image|max:2048',
@@ -119,20 +121,30 @@ class LulusanController extends Controller
                 'email_lulusan' => $row[4],
             ], [
                 'nim' => 'required|unique:t_lulusan,nim',
-                'email_lulusan' => 'required|email_lulusan|unique:t_lulusan,email_lulusan',
+                'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan',
             ]);
 
             if ($validator->fails()) {
-                continue; // lewati data duplikat / error
+                continue;
             }
 
+            $namaProdi = $row[3];
+            $prodi = \App\Models\ProdiModel::where('nama_prodi', $namaProdi)->first();
+
+            if (!$prodi) {
+                continue; // skip jika prodi tidak ditemukan
+            }
+
+            $tanggalLulus = \Carbon\Carbon::parse($row[6])->format('Y-m-d');
+
             LulusanModel::create([
-                'id_program_studi' => 1, // Sesuaikan jika tidak hardcoded
+                'id_program_studi' => $prodi->id_program_studi,
                 'nim' => $row[1],
                 'nama_lulusan' => $row[2],
                 'email_lulusan' => $row[4],
                 'no_hp_lulusan' => $row[5],
-                'tanggal_lulus' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[6])->format('Y-m-d'),
+                'tanggal_lulus' => $tanggalLulus,
+                'sudah_mengisi' => 0,
             ]);
         }
 

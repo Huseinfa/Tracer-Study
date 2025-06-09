@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Document</title>
+        <title>Tracer Study</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('assets') }}/img/logo.png">
         <!-- Fonts and icons -->
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
         <!-- Nucleo Icons -->
@@ -21,6 +23,8 @@
         <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"/>
     </head>
     <body class="container-fluid px-2 px-md-4">
         <div class="page-header min-height-300 border-radius-xl mt-4"

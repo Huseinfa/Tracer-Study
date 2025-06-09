@@ -14,7 +14,7 @@
                             <h5 class="modal-title font-weight-normal" id="searchModalLabel">Konfirmasi Data Anda</h5>
                         </div>
                         <div class="modal-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive mb-3">
                                 <table class="table table-bordered align-items-center mb-0">
                                     <tbody>
                                         <tr>
@@ -40,10 +40,15 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="input-group input-group-outline">
+                                <label class="form-label">Update Email</label>
+                                <input type="text" name="email_lulusan" class="form-control">
+                            </div>
+                            <small>* abaikan jika anda tidak ingin merubah email</small>
                         </div>
                         <div class="modal-footer">
-                            <a href="{{ url('tracer-study/') }}" class="btn bg-gradient-secondary">Bukan data saya</a>
-                            <button type="submit" class="btn bg-gradient-info">Konfirmasi</button>
+                            <a href="{{ url('tracer-study/kembali/') }}" class="btn bg-gradient-secondary mb-0">Kembali</a>
+                            <button type="submit" class="btn bg-gradient-info mb-0">Konfirmasi</button>
                         </div>
                     </form>
                 </div>

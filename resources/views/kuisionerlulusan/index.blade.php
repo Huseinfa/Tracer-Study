@@ -20,56 +20,64 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-info">Cari</button>
+                            <button type="submit" class="btn bg-gradient-info m-0">Cari</button>
                         </div>
                     </form>
+                    <div class="modal-body p-2">
+                        <h6>Hasil Pencarian:</h6>
+                        <table id="tabelLulusan" class="table table-bordered mb-0 w-100">
+                            <thead>
+                                <tr>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 @endsection
 
 @push('js')
-    <script>        
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
         $(document).ready(function() {
             $('#searchModal').modal('show');
 
+            var table = $('#tabelLulusan').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+                ajax: {
+                    url: "{{ url('tracer-study/cari') }}",
+                    type: "POST",
+                    data: function(d) {
+                        d._token = '{{ csrf_token() }}';
+                        d.teks = $('input[name="teks"]').val();
+                    }
+                },
+                columns: [
+                    { data: 'nim', name: 'nim', className: 'text-center' },
+                    { data: 'nama_lulusan', name: 'nama_lulusan', className: 'text-center' },
+                    { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' }
+                ]
+            });
+
             $('#searchForm').on('submit', function(e) {
                 e.preventDefault();
+                table.ajax.reload();
+            });
 
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: 'POST',
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil!',
-                                text: response.message,
-                                confirmButtonText: 'Tutup',
-                                customClass: {
-                                    confirmButton: 'bg-gradient-secondary'
-                                }
-                            }).then((result) => {
-                                if (result.isConfirmed || result.isDismissed) {
-                                    window.location.href = response.redirect_url;
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi kesalahan!',
-                                text: response.message,
-                                confirmButtonText: 'Tutup',
-                                customClass: {
-                                    confirmButton: 'bg-gradient-secondary'
-                                }
-                            });
-                        }
-                    }
-                })
-            })
+            // Delegasi event untuk tombol pilih
+            $('#tabelLulusan').on('click', '.pilih-lulusan', function() {
+                let id = $(this).data('id');
+                window.location.href = '/tracer-study/konfirmasi/' + id;
+            });
         });
     </script>
 @endpush
