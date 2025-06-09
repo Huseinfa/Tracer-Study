@@ -11,15 +11,36 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
+use Yajra\DataTables\Facades\DataTables;
 
 class LulusanController extends Controller
 {
     // Tampilkan semua lulusan
     public function index()
     {
-    $lulusan = LulusanModel::with('prodi')->get();
-    return view('lulusan.index', compact('lulusan'));
+        $prodi = ProdiModel::select('id_program_studi', 'nama_prodi')->get();
+
+        return view('lulusan.index', compact('prodi'));
+    }
+
+    public function list(Request $request)
+    {
+        $lulusan = LulusanModel::with('prodi')->select('id_lulusan', 'id_program_studi', 'nim', 'nama_lulusan', 'email_lulusan', 'no_hp_lulusan', 'tanggal_lulus', 'sudah_mengisi');
+
+        $id_program_studi = $request->input('filter_prodi');
+        if (!empty($id_program_studi)) {
+            $lulusan->where('id_program_studi', $id_program_studi);
+        }
+
+        return DataTables::of($lulusan)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     // Form tambah lulusan

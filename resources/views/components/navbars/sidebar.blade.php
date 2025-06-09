@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Data Diri</h6>
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Kelola Data</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'admin' ? ' active bg-gradient-info' : '' }}" href="{{ route('admin.index') }}">
