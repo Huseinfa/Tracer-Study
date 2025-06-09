@@ -96,6 +96,28 @@ class KuisionerLulusanController extends Controller
 
             if (!$request->filled('email_lulusan')) {
                     $request->request->remove('email_lulusan');
+                    $kodeLulusan = $this->kodeUnikLulusan();
+        
+                $updateKode = KodeLulusanModel::where('email', $lulusan->email_lulusan)->first();
+        
+                if ($updateKode) {
+                    $updateKode->update([
+                        'kode_lulusan' => $kodeLulusan,
+                    ]);
+                } else {
+                    KodeLulusanModel::create([
+                        'email' => $lulusan->email_lulusan,
+                        'kode_lulusan' => $kodeLulusan,
+                    ]);
+                }
+        
+                Mail::to($lulusan->email_lulusan)->send(new SendOtpMail($kodeLulusan, $lulusan->nama_lulusan));
+        
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Kode OTP telah dikirim, silahkan cek email anda (' . $lulusan->email_lulusan . ').',
+                    'redirect_url' => route('tracer-study.otp', ['id' => $id])
+                ]);
             } else {
                 $lulusan->update([
                     'email_lulusan' => $request->input('email_lulusan'),
