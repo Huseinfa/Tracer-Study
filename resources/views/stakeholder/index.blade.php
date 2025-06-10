@@ -1,77 +1,101 @@
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-    <x-navbars.sidebar activePage="stakeholder"></x-navbars.sidebar>
+    @push('css')
+        <style>
+            /* Search box */
+            .dataTables_wrapper .dataTables_filter input {
+                border-radius: 8px;
+                border: 2px solid #e0e0e0;
+                padding: 6px 12px;
+                color: #344767;
+                background: #f8fafc;
+                transition: border 0.2s;
+                outline: none;
+            }
+            .dataTables_wrapper .dataTables_filter input:focus {
+                border: 2px solid #17c1e8;
+                background: #fff;
+            }
+        </style>
+    @endpush
+    <x-navbars.sidebar activePage="stakeholder" />
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-        <x-navbars.navs.auth titlePage="Stakeholder Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Manajemen Stakeholder" />
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3">Stakeholder Management</h6>
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 w-25">
+                            <div class="bg-gradient-info shadow-info border-radius-lg p-3">
+                                <h6 class="text-white text-center mb-0">Daftar Stakeholder</h6>
                             </div>
                         </div>
-                        <div class="me-3 my-3 text-end">
-                            <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('stakeholder.export') }}">
-                                <i class="material-icons text-sm">file_download</i> Export
-                            </a>
-                        </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                        <div class="card-body p-3 mt-3">
+                            <div id="filter">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12 d-flex justify-content-end">
+                                            {{-- <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export.form') }}">
+                                                <i class="material-icons text-sm">file_download</i> Export
+                                            </a> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive p-3">
+                                <table class="table table-bordered align-items-center mb-0" id="table-stakeholder">
                                     <thead>
-                                        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">ID</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Nama Atasan</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Instansi</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Jabatan</th>
-                                            <th class="text-uppercase text-secondary text-sm fw-semibold ps-2">Email</th>
-                                            <th class="text-center text-uppercase text-secondary text-sm fw-semibold">Aksi</th></tr>
-
-
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama Stakeholder</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jabatan</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama Lulusan</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Email</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($stakeholders as $stakeholder)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <p class="mb-0 text-sm">{{ $stakeholder->id_stakeholder }}</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $stakeholder->nama_atasan }}</h6>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p class="text-xs text-secondary mb-0">{{ $stakeholder->instansi }}</p>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <span class="text-secondary text-xs font-weight-bold">{{ $stakeholder->jabatan }}</span>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <p class="text-xs text-secondary mb-0">{{ $stakeholder->email }}</p>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <a rel="tooltip" class="btn btn-info btn-link" href="{{ route('stakeholder.show', $stakeholder->id_stakeholder) }}" data-original-title="" title="View">
-                                                        <i class="material-icons">visibility</i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <x-footers.auth></x-footers.auth>
+            <x-footers.auth />
         </div>
+    </main>
+    @push('js')
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <script>
+            var tableStakeholder;
+            $(document).ready(function() {
+                tableStakeholder = $('#table-stakeholder').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ url('/stakeholder/list') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                    },
+                    columns: [
+                        { data: 'DT_RowIndex', className: 'text-center', width: '5%', orderable: false, searchable: false},
+                        { data: 'nama_atasan', className: 'text-center', width: '20%', orderable: false, searchable: true },
+                        { data: 'jabatan_atasan', className: 'text-center', width: '20%', orderable: false, searchable: false },
+                        { data: 'lulusan.nama_lulusan', className: 'text-center', width: '20%', orderable: false, searchable: true },
+                        { data: 'email_atasan', className: 'text-center', width: '20%', orderable: false, searchable: true },
+                        { data: 'status', className: 'text-center', width: '15%', orderable: false, searchable: false },
+                    ],
+                    language: {
+                        paginate: {
+                            previous: '<i class="bi bi-chevron-left"></i>',
+                            next: '<i class="bi bi-chevron-right"></i>'
+                        }
+                    }
+                });
+            });
+        </script>
+    @endpush
 </x-layout>

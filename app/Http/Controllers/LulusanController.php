@@ -34,12 +34,20 @@ class LulusanController extends Controller
 
         return DataTables::of($lulusan)
             ->addIndexColumn()
+            ->addColumn('status', function ($row) {
+                if ($row->sudah_mengisi == 1) {
+                    return '<span class="badge bg-success">Sudah Mengisi</span>';
+                } else {
+                    return '<span class="badge bg-warning">Belum Mengisi</span>';
+                }
+            })
             ->addColumn('action', function ($row) {
-                $btn = '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn = '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/show').'\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/edit').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/destroy').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['status', 'action'])
             ->make(true);
     }
 

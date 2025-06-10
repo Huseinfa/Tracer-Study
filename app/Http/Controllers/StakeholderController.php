@@ -6,13 +6,32 @@ use App\Models\StakeholderModel;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Yajra\DataTables\Facades\DataTables;
 
 class StakeholderController extends Controller
 {
     public function index()
     {
-        $stakeholders = StakeholderModel::all();
-        return view('stakeholder.index', compact('stakeholders'))->with('activePage', 'stakeholder');
+        return view('stakeholder.index');
+    }
+
+    public function list(Request $request)
+    {
+        $stakeholder = StakeholderModel::with('lulusan')->select('id_stakeholder', 'nama_atasan', 'jabatan_atasan', 'email_atasan', 'id_lulusan', 'kode_atasan', 'sudah_mengisi');
+
+        return DataTables::of($stakeholder)
+        ->addIndexColumn()
+        ->addColumn('status', function ($row) {
+            if ($row->sudah_mengisi == 1 && $row->kode_atasan != null) {
+                return '<span class="badge bg-success">Sudah Mengisi</span>';
+            } elseif ($row->sudah_mengisi == 0 && $row->kode_atasan != null) {
+                return '<span class="badge bg-warning">Belum Mengisi</span>';
+            } else {
+                return '<span class="badge bg-danger">Tidak Bersedia Mengisi</span>';
+            }
+        })
+        ->rawColumns(['status'])
+        ->make(true);
     }
 
     public function show($id_stakeholder)
