@@ -8,24 +8,23 @@ use Illuminate\Support\Facades\DB;
 
 class MasaTungguController extends Controller
 {
-    public function lulusan(Request $request)
-{
-    $search = $request->input('search');
-    
-    $query = LulusanModel::with(['kuisionerlulusan', 'prodi']);
-    
-    // Apply search filter if search parameter exists
-    if ($search) {
-        $query->where('nama_lulusan', 'like', '%' . $search . '%');
-    }
-    
-    $lulusan = $query->paginate(10);
-    
-    return view('masatunggu.lulusan', compact('lulusan'));
-}
-
-    public function rataRata(Request $request)
+    public function index(Request $request)
     {
+        // Determine which tab is active
+        $tab = $request->input('tab', 'lulusan');
+        
+        // Get data for lulusan tab
+        $search = $request->input('search');
+        $query = LulusanModel::with(['kuisionerlulusan', 'prodi']);
+        
+        // Apply search filter for lulusan if search parameter exists
+        if ($search) {
+            $query->where('nama_lulusan', 'like', '%' . $search . '%');
+        }
+        
+        $lulusan = $query->paginate(10);
+        
+        // Get data for rata-rata tab
         // Get the selected year from the request, default to null (no filter)
         $selectedYear = $request->input('year');
 
@@ -37,7 +36,7 @@ class MasaTungguController extends Controller
             ->toArray();
 
         // Build the query for aggregated data
-        $query = LulusanModel::select(
+        $rataRataQuery = LulusanModel::select(
             DB::raw('YEAR(tanggal_lulus) as tahun_lulus'),
             DB::raw('COUNT(*) as jumlah_lulusan'),
             DB::raw('SUM(CASE WHEN kuisionerlulusan.id_kuisioner_lulusan IS NOT NULL THEN 1 ELSE 0 END) as jumlah_terlacak'),
@@ -48,18 +47,29 @@ class MasaTungguController extends Controller
 
         // Apply the year filter if selected
         if ($selectedYear) {
-            $query->whereYear('tanggal_lulus', $selectedYear);
+            $rataRataQuery->whereYear('tanggal_lulus', $selectedYear);
         }
 
-        $data = $query->get();
+        $data = $rataRataQuery->get();
 
-        // Calculate totals
+        // Calculate totals for rata-rata
         $totals = [
             'jumlah_lulusan' => $data->sum('jumlah_lulusan'),
             'jumlah_terlacak' => $data->sum('jumlah_terlacak'),
             'rata_rata_tunggu' => $data->avg('rata_rata_tunggu'),
         ];
 
-        return view('masatunggu.ratarata', compact('data', 'totals', 'years', 'selectedYear'));
+        return view('masatunggu.index', compact('lulusan', 'data', 'totals', 'years', 'selectedYear', 'tab'));
+    }
+
+    // Keep these methods for backward compatibility
+    public function lulusan(Request $request)
+    {
+        return redirect()->route('masa-tunggu', ['tab' => 'lulusan', 'search' => $request->input('search')]);
+    }
+
+    public function rataRata(Request $request)
+    {
+        return redirect()->route('masa-tunggu', ['tab' => 'ratarata', 'year' => $request->input('year')]);
     }
 }
