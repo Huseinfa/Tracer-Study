@@ -3,15 +3,42 @@ namespace App\Http\Controllers;
 
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory; 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $admins = UserModel::all();
-        return view('admin.index', compact('admins'))->with('activePage', 'admin');
+        return view('admin.index');
+    }
+
+    public function list(Request $request)
+    {
+        $admin = UserModel::select('id_user', 'username', 'nama_user');
+
+        return DataTables::of($admin)
+            ->addIndexColumn()
+
+            // Tambahkan ini untuk memastikan kolom tersedia
+            ->addColumn('username', function ($row) {
+                return $row->username;
+            })
+            ->addColumn('nama_user', function ($row) {
+                return $row->nama_user;
+            })
+
+            ->addColumn('action', function ($row) {
+                $btn = '<button onclick="modalAction(\''.url('/admin/' . $row->id_user . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/admin/' . $row->id_user . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/admin/' . $row->id_user . '/edit_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button>';
+                return $btn;
+            })
+
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function create()
@@ -31,6 +58,12 @@ class AdminController extends Controller
 
         UserModel::create($validated);
 
+        // Jika request datang dari AJAX, kirim JSON
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Admin berhasil ditambahkan.']);
+        }
+
+        // Jika bukan AJAX, lakukan redirect biasa
         return redirect()->route('admin.index')->with('success', 'Admin berhasil ditambahkan.');
     }
 

@@ -27,7 +27,7 @@ Route::get('/', function () {
 
 Route::get('/', [WelcomeController::class, 'index']);
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
@@ -35,8 +35,11 @@ Route::prefix('admin')->group(function () {
     Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 	Route::get('/export', [AdminController::class, 'export'])->name('admin.export');
+	Route::post('/admin/list', [AdminController::class, 'list']);
 	Route::resource('admin', AdminController::class);
 });
+// Letakkan di luar Route::prefix('admin') ...
+Route::post('/admin/list', [AdminController::class, 'list'])->name('admin.list');
 
 Route::prefix('lulusan')->middleware(['auth'])->group(function () {
     Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
