@@ -53,7 +53,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Hasil Survey</h6>
             </li>
             <li class="nav-item">
-                {{-- <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active bg-gradient-info' : '' }}" href="{{ route('rtl') }}"> --}}
+                <a class="nav-link text-white {{ $activePage == 'masa-tunggu' ? ' active bg-gradient-info' : '' }}" href="{{ route('masa-tunggu.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10 bi bi-hourglass-split"></i>
                     </div>
