@@ -19,14 +19,14 @@
     @endpush
     <x-navbars.sidebar activePage="admin" />
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-        <x-navbars.navs.auth titlePage="Manajemen Lulusan" />
+        <x-navbars.navs.auth titlePage="Manajemen Admin" />
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 w-50">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 w-25">
                             <div class="bg-gradient-info shadow-info border-radius-lg p-3">
-                                <h6 class="text-white mb-0">Daftar Admin</h6>
+                                <h6 class="text-white text-center mb-0">Daftar Admin</h6>
                             </div>
                         </div>
                         <div class="card-body p-3 mt-3">
@@ -36,7 +36,7 @@
                                         <div class="col-md-12 d-flex justify-content-between">
                                             <div class="col d-flex justify-content-end">
                                                 <button onclick="modalAction('{{ route('lulusan.create') }}')" class="btn bg-gradient-dark mb-0">
-                                                    <i class="material-icons text-sm">add</i> Add New Lulusan
+                                                    <i class="material-icons text-sm">add</i> Tambah Admin
                                                 </button>
                                             </div>
                                         </div>
