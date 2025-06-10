@@ -24,9 +24,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 w-50">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 w-25">
                             <div class="bg-gradient-info shadow-info border-radius-lg p-3">
-                                <h6 class="text-white mb-0">Daftar Lulusan</h6>
+                                <h6 class="text-white text-center mb-0">Daftar Lulusan</h6>
                             </div>
                         </div>
                         <div class="card-body p-3 mt-3">
@@ -45,15 +45,15 @@
                                             </div>
                                             <div class="col d-flex justify-content-end">
                                                 <button onclick="modalAction('{{ route('lulusan.create') }}')" class="btn bg-gradient-dark mb-0">
-                                                    <i class="material-icons text-sm">add</i> Add New Lulusan
+                                                    <i class="material-icons text-sm">add</i> Tambah Lulusan
                                                 </button>
                                                 {{-- <a class="btn bg-gradient-dark mb-0" href="{{ route('lulusan.create') }}"></a> --}}
-                                                <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export.form') }}">
+                                                {{-- <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export.form') }}">
                                                     <i class="material-icons text-sm">file_download</i> Export
                                                 </a>
                                                 <a class="btn bg-gradient-primary mb-0" href="{{ route('lulusan.import.form') }}">
                                                     <i class="material-icons text-sm">file_upload</i> Import
-                                                </a>
+                                                </a> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -66,8 +66,8 @@
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">NIM</th>
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Program Studi</th>
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Lulus</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Status</th>
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Aksi</th>
                                         </tr>
                                     </thead>
@@ -114,9 +114,9 @@
                     columns: [
                         { data: 'DT_RowIndex', className: 'text-center', width: '5%', orderable: false, searchable: false},
                         { data: 'nim', className: 'text-center', width: '15%', orderable: true, searchable: true },
-                        { data: 'nama_lulusan', className: 'text-center', width: '20%', orderable: true, searchable: true },
-                        { data: 'prodi.nama_prodi', className: 'text-center', width: '20%', orderable: false, searchable: false },
+                        { data: 'nama_lulusan', className: 'text-center', width: '25%', orderable: true, searchable: true },
                         { data: 'tanggal_lulus', className: 'text-center', width: '15%', orderable: true, searchable: true },
+                        { data: 'status', className: 'text-center', width: '20%', orderable: false, searchable: false },
                         { data: 'action', className: 'text-center p-0', width: '20%', orderable: false, searchable: false }
                     ],
                     language: {
