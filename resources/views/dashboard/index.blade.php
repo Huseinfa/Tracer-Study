@@ -9,12 +9,12 @@
                         <div class="card-body p-0">
                             <form action="{{ url('dashboard') }}" method="GET" class="d-flex flex-row justify-content-end">
                                 <div class="input-group input-group-outline m-2" style="width: 150px;">
-                                    <label for="prodi" class="form-label">Program studi</label>
+                                    <label for="prodi" class="form-label">Program Studi</label>
                                     <select name="prodi" id="prodi" class="form-control p-0">
-                                        <option value="1" {{ (request('prodi') ?? '1') == '1' ? 'selected' : '' }}>D4 TI</option>
-                                        <option value="2" {{ (request('prodi') ?? '1') == '2' ? 'selected' : '' }}>D4 SIB</option>
-                                        <option value="3" {{ (request('prodi') ?? '1') == '3' ? 'selected' : '' }}>D2 PPLS</option>
-                                        <option value="4" {{ (request('prodi') ?? '1') == '4' ? 'selected' : '' }}>S2 MRTI</option>
+                                        <option value="1" {{ request('prodi', '1') == '1' ? 'selected' : '' }}>D4 TI</option>
+                                        <option value="2" {{ request('prodi') == '2' ? 'selected' : '' }}>D4 SIB</option>
+                                        <option value="3" {{ request('prodi') == '3' ? 'selected' : '' }}>D2 PPLS</option>
+                                        <option value="4" {{ request('prodi') == '4' ? 'selected' : '' }}>S2 MRTI</option>
                                     </select>
                                 </div>
                                 <div class="input-group input-group-outline m-2" style="width: 150px">
@@ -25,7 +25,10 @@
                                     <label for="end_year" class="form-label">Tahun Akhir</label>
                                     <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year - 1) }}">
                                 </div>
-                                <button type="submit" class="btn btn-info m-2 px-3" style="width: 100px">Filter</button>
+                                <button type="submit" class="btn btn-info m-2" style="width: 100px">Filter</button>
+                                @if(request('prodi') || request('start_year') || request('end_year'))
+                                    <a href="{{ url('dashboard') }}" class="btn btn-secondary m-2" style="width: 100px">Reset</a>
+                                @endif
                             </form>
                         </div>
                     </div>
