@@ -64,11 +64,12 @@ Route::middleware('auth')->group(function () {
 		Route::post('/show', [StakeholderController::class, 'show'])->name('stakeholder.show');
 		Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
 	});
-	// Route::group(['prefix' => 'masa-tunggu'], function () {
-	// 	Route::get('/lulusan', [MasaTungguController::class, 'lulusan'])->name('masa-tunggu.lulusan');
-	// 	Route::get('/rata-rata', [MasaTungguController::class, 'rataRata'])->name('masa-tunggu.rata-rata');
-	// });
-	// Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
+	Route::group(['prefix' => 'masa-tunggu'], function () {
+		Route::get('/', [MasaTungguController::class, 'index'])->name('masa-tunggu.index');
+		Route::post('/list-perLulusan', [MasaTungguController::class, 'perLulusan'])->name('masa-tunggu.list-perLulusan');
+		Route::post('/list-perTahun', [MasaTungguController::class, 'perTahun'])->name('masa-tunggu.list-perTahun');
+	});
+	Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
 });
 
 // Route::prefix('lulusan')->middleware(['auth'])->group(function () {
