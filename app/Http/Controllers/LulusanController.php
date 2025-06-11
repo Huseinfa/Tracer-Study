@@ -7,8 +7,6 @@ use App\Models\ProdiModel;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
@@ -42,95 +40,138 @@ class LulusanController extends Controller
                 }
             })
             ->addColumn('action', function ($row) {
-                $btn = '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/show').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/edit').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/destroy').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn = '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/show').'\')" class="btn btn-info btn-sm mb-0">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/edit').'\')" class="btn btn-warning btn-sm mb-0">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/lulusan/' . $row->id_lulusan . '/delete').'\')" class="btn btn-danger btn-sm mb-0">Hapus</button> ';
                 return $btn;
             })
             ->rawColumns(['status', 'action'])
             ->make(true);
     }
 
-    // Form tambah lulusan
     public function create()
     {
-        $prodi = ProdiModel::all();
+        $prodi = ProdiModel::select('id_program_studi', 'nama_prodi')->get();
         return view('lulusan.create', compact('prodi'));
     }
-
-    // Simpan data lulusan baru
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'id_program_studi' => 'required|exists:t_program_studi,id_program_studi',
             'nim' => 'required|unique:t_lulusan,nim',
-            'nama_lulusan' => 'required|string|max:255',
-            'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan',
+            'nama_lulusan' => 'required|string|max:30',
+            'email_lulusan' => 'required|email',
             'no_hp_lulusan' => 'required|string|max:20',
             'tanggal_lulus' => 'required|date',
-        ]);
+        ];
 
-        $validated['sudah_mengisi'] = 0;
-
-        // Handle upload foto
-        if ($request->hasFile('foto_profil')) {
-            $validated['foto_profil'] = $request->file('foto_profil')->store('foto_profil', 'public');
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi Gagal, silakan periksa kembali inputan Anda.',
+                'msgField' => $validator->errors(),
+            ]);
         }
 
-        LulusanModel::create($validated);
+        LulusanModel::create([
+            'id_program_studi' => $request->input('id_program_studi'),
+            'nim' => $request->input('nim'),
+            'nama_lulusan' => $request->input('nama_lulusan'),
+            'email_lulusan' => $request->input('email_lulusan'),
+            'no_hp_lulusan' => $request->input('no_hp_lulusan'),
+            'tanggal_lulus' => Carbon::parse($request->input('tanggal_lulus'))->format('Y-m-d'),
+            'sudah_mengisi' => 0, // default belum mengisi
+        ]);
 
-        return redirect()->route('lulusan.index')->with('success', 'Data lulusan berhasil ditambahkan.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Data lulusan berhasil ditambahkan'
+        ]);
     }
 
     // Form edit lulusan
     public function edit($id)
     {
-        $lulusan = LulusanModel::findOrFail($id);
-        $prodi = ProdiModel::all();
+        $lulusan = LulusanModel::find($id);
+        $prodi = ProdiModel::where('id_program_studi', '!=', $lulusan->id_program_studi)
+            ->select('id_program_studi', 'nama_prodi')
+            ->get();
         return view('lulusan.edit', compact('lulusan', 'prodi'));
     }
 
     // Simpan perubahan data lulusan
     public function update(Request $request, $id)
     {
-        $lulusan = LulusanModel::findOrFail($id);
-
-        $validated = $request->validate([
+        $rules = [
             'id_program_studi' => 'required|exists:t_program_studi,id_program_studi',
             'nim' => 'required|unique:t_lulusan,nim,' . $id . ',id_lulusan',
-            'nama_lulusan' => 'required|string|max:255',
-            'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan,' . $id . ',id_lulusan',
+            'nama_lulusan' => 'required|string|max:30',
+            'email_lulusan' => 'required|email',
             'no_hp_lulusan' => 'required|string|max:20',
             'tanggal_lulus' => 'required|date',
-            'foto_profil' => 'nullable|image|max:2048',
-        ]);
+        ];
 
-        if ($request->hasFile('foto_profil')) {
-            $validated['foto_profil'] = $request->file('foto_profil')->store('foto_profil', 'public');
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi Gagal, silakan periksa kembali inputan Anda.',
+                'msgField' => $validator->errors(),
+            ]);
         }
 
-        $lulusan->update($validated);
+        $lulusan = LulusanModel::find($id);
+        if (!$lulusan) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data lulusan tidak ditemukan.'
+            ]);
+        }
 
-        return redirect()->route('lulusan.index')->with('success', 'Data lulusan berhasil diperbarui.');
+        $lulusan->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data lulusan berhasil diperbarui'
+        ]);
+
     }
 
     public function show($id)
     {
-        $lulusan = LulusanModel::with('prodi')->findOrFail($id);
+        $lulusan = LulusanModel::with('prodi')->find($id);
         return view('lulusan.show', compact('lulusan'));
     }
 
-    // Hapus lulusan
+    public function confirmDelete($id)
+    {
+        $lulusan = LulusanModel::with('prodi')->find($id);
+        return view('lulusan.delete', compact('lulusan'));
+    }
     public function destroy($id)
     {
-        $lulusan = LulusanModel::findOrFail($id);
-        $lulusan->delete();
+        $lulusan = LulusanModel::find($id);
+        if (!$lulusan) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data lulusan tidak ditemukan.'
+            ]);
+        }
 
-        return redirect()->route('lulusan.index')->with('success', 'Data lulusan berhasil dihapus.');
+        $lulusan->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data lulusan berhasil dihapus.'
+        ]);
     }
 
     // Form import lulusan
-    public function import(Request $request)
+    public function import()
+    {
+        return view('lulusan.import');
+    }
+    public function storeImport(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv'
@@ -158,7 +199,7 @@ class LulusanController extends Controller
             }
 
             $namaProdi = $row[3];
-            $prodi = \App\Models\ProdiModel::where('nama_prodi', $namaProdi)->first();
+            $prodi = ProdiModel::where('nama_prodi', $namaProdi)->first();
 
             if (!$prodi) {
                 continue; // skip jika prodi tidak ditemukan

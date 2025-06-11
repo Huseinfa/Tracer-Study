@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\KuisionerLulusanController;
 use App\Http\Controllers\StakeholderController;
@@ -13,14 +10,6 @@ use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
 use App\Http\Controllers\RekapLulusanController;
-use App\Models\KuisionerStakeholderModel;
-use App\Models\StakeholderModel;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-
 
 
 
@@ -45,21 +34,23 @@ Route::middleware('auth')->group(function () {
 		Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
 		Route::post('/store', [AdminController::class, 'store']);
 		Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
-		Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
+		Route::put('/{id}', [AdminController::class, 'update']);
 		Route::get('/{id}/delete', [AdminController::class, 'confirmDelete'])->name('admin.confirm-delete');
 		Route::delete('/{id}/destroy', [AdminController::class, 'destroy']);
 	});
 	Route::group(['prefix' => 'lulusan'], function () {
 		Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
-		Route::post('/list', [LulusanController::class, 'list'])->name('lulusan.list');
+		Route::post('/list', [LulusanController::class, 'list']);
+		Route::get('/{id}/show', [LulusanController::class, 'show'])->name('lulusan.show');
 		Route::get('/create', [LulusanController::class, 'create'])->name('lulusan.create');
-		Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
+		Route::post('/store', [LulusanController::class, 'store']);
 		Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
-		Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
-		Route::post('/{id}/delete', [LulusanController::class, 'destroy'])->name('lulusan.delete');
+		Route::put('/{id}', [LulusanController::class, 'update']);
+		Route::get('/{id}/delete', [LulusanController::class, 'confirmDelete'])->name('lulusan.confirmDelete');
+		Route::delete('/{id}/destroy', [LulusanController::class, 'destroy']);
 		Route::get('/export', [LulusanController::class, 'export'])->name('lulusan.export');
 		Route::get('/import', [LulusanController::class, 'import'])->name('lulusan.import');
-		Route::get('/store-import', [LulusanController::class, 'storeImport'])->name('lulusan.store-import');
+		Route::post('/store-import', [LulusanController::class, 'storeImport']);
 
 	});
 	Route::group(['prefix' => 'stakeholder'], function () {
