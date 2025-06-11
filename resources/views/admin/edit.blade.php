@@ -1,10 +1,10 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="{{ url('admin/' . $admin->id_user) }}" method="post" id="formUbah">
+        <form action="{{ url('/admin/' . $admin->id_user) }}" method="post" id="formUbah">
             @csrf
             @method('PUT')
             <div class="modal-header">
-                <h5 class="modal-title font-weight-normal">Masukkan Perubahan Data Admin</h5>
+                <h5 class="modal-title font-weight-normal">Edit Data Admin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
@@ -21,7 +21,7 @@
                 <div class="input-group input-group-static input-group-md pt-3">
                     <label>Password</label>
                     <input type="password" id="password" name="password" class="form-control">
-                    <small class="form-text text-muted">Abaikan jika tidak ingin mengubah password</small>
+                    <small class="form-text text-muted">* Abaikan jika tidak ingin mengubah password</small>
                 </div>
                 <span id="error-password" class="error-text form-text text-danger"></span>
             </div>
@@ -40,7 +40,7 @@
             $('.error-text').text('');
             
             $.ajax({
-                url: '{{ url('admin/' . $admin->id_user) }}',
+                url: '{{ url('/admin/' . $admin->id_user) }}',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

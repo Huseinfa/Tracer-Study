@@ -57,7 +57,7 @@ class AdminController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Admin baru berhasil ditambahkan'
+            'message' => 'Data admin berhasil ditambahkan'
         ]);
     }
 

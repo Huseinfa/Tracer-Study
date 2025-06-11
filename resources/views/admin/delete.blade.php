@@ -1,15 +1,15 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="{{ url('admin/' . $admin->id_user . '/destroy') }}" method="post" id="formUbah">
+        <form action="{{ url('/admin/' . $admin->id_user . '/destroy') }}" method="post" id="formHapus">
             @csrf
             @method('DELETE')
             <div class="modal-header">
-                <h5 class="modal-title font-weight-normal">Masukkan Perubahan Data Admin</h5>
+                <h5 class="modal-title font-weight-normal">Hapus Data Admin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
                 <div class="alert alert-warning" role="alert">
-                    <h5><i class="bi bi-exclamation-triangle"></i><strong>Perhatian!</strong></h5>
+                    <h5><i class="bi bi-exclamation-triangle"></i><strong> Perhatian!</strong></h5>
                     Apakah Anda yakin ingin menghapus data admin ini? Tindakan ini tidak dapat dibatalkan.
                 </div>
                 <div class="table-responsive mb-3">
@@ -36,13 +36,13 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#formUbah').on('submit', function(e) {
+        $('#formHapus').on('submit', function(e) {
             e.preventDefault();
             
             $('.error-text').text('');
             
             $.ajax({
-                url: '{{ url('admin/' . $admin->id_user . '/destroy') }}',
+                url: '{{ url('/admin/' . $admin->id_user . '/destroy') }}',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

@@ -1,9 +1,9 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="{{ url('admin/store') }}" method="post" id="formTambah">
+        <form action="{{ url('/admin/store') }}" method="post" id="formTambah">
             @csrf
             <div class="modal-header">
-                <h5 class="modal-title font-weight-normal">Masukkan Data Admin Baru</h5>
+                <h5 class="modal-title font-weight-normal">Tambah Data Admin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
@@ -38,7 +38,7 @@
             $('.error-text').text('');
             
             $.ajax({
-                url: '{{ url("admin/store") }}',
+                url: '{{ url("/admin/store") }}',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
