@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Validator;
 
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
 Route::post('sign-in', [SessionsController::class, 'store'])->middleware('guest');
 Route::post('verify', [SessionsController::class, 'show'])->middleware('guest');
@@ -37,17 +36,18 @@ Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
-Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::middleware('auth')->group(function () {
+	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::group(['prefix' => 'admin'], function () {
 		Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-		Route::post('/list', [AdminController::class, 'list'])->name('admin.list');
+		Route::post('/list', [AdminController::class, 'list']);
 		Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
-		Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
+		Route::post('/store', [AdminController::class, 'store']);
 		Route::get('/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 		Route::put('/{id}', [AdminController::class, 'update'])->name('admin.update');
-		Route::delete('/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+		Route::get('/{id}/delete', [AdminController::class, 'confirmDelete'])->name('admin.confirm-delete');
+		Route::delete('/{id}/destroy', [AdminController::class, 'destroy']);
 	});
 	Route::group(['prefix' => 'lulusan'], function () {
 		Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
@@ -56,7 +56,11 @@ Route::middleware('auth')->group(function () {
 		Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
 		Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
 		Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
-		Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
+		Route::post('/{id}/delete', [LulusanController::class, 'destroy'])->name('lulusan.delete');
+		Route::get('/export', [LulusanController::class, 'export'])->name('lulusan.export');
+		Route::get('/import', [LulusanController::class, 'import'])->name('lulusan.import');
+		Route::get('/store-import', [LulusanController::class, 'storeImport'])->name('lulusan.store-import');
+
 	});
 	Route::group(['prefix' => 'stakeholder'], function () {
 		Route::get('/', [StakeholderController::class, 'index'])->name('stakeholder.index');
@@ -70,29 +74,8 @@ Route::middleware('auth')->group(function () {
 		Route::post('/list-perTahun', [MasaTungguController::class, 'perTahun'])->name('masa-tunggu.list-perTahun');
 	});
 	Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
+	Route::post('sign-out', [SessionsController::class, 'destroy'])->name('logout');
 });
-
-// Route::prefix('lulusan')->middleware(['auth'])->group(function () {
-//     Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
-//     Route::post('/list', [LulusanController::class, 'list'])->name('lulusan.list');
-//     Route::get('/create', [LulusanController::class, 'create'])->name('lulusan.create');
-//     Route::post('/store', [LulusanController::class, 'store'])->name('lulusan.store');
-//     Route::get('/{id}/edit', [LulusanController::class, 'edit'])->name('lulusan.edit');
-//     Route::put('/{id}', [LulusanController::class, 'update'])->name('lulusan.update');
-//     Route::delete('/{id}', [LulusanController::class, 'destroy'])->name('lulusan.destroy');
-
-//     // Route Import/Export
-//     Route::get('lulusan/export', [LulusanController::class, 'export'])->name('lulusan.export.form');
-//     Route::get('lulusan/import', function () {
-//         return view('lulusan.import');
-//     })->name('lulusan.import.form');
-
-//     // Tambahkan untuk proses POST import:
-//     Route::post('lulusan/import', [LulusanController::class, 'import'])->name('lulusan.import');
-
-//     Route::resource('lulusan', LulusanController::class);
-// });
-
 
 
 // 
