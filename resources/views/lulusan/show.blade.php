@@ -1,32 +1,43 @@
-<x-layout bodyClass="g-sidenav-show bg-gray-200">
-    <x-navbars.sidebar activePage="lulusan"></x-navbars.sidebar>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-        <x-navbars.navs.auth titlePage="Lulusan Details"></x-navbars.navs.auth>
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3">Lulusan Details</h6>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6">
-                                    <p><strong>ID Program Studi:</strong> {{ $lulusan->id_program_studi }}</p>
-                                    <p><strong>NIM:</strong> {{ $lulusan->nim }}</p>
-                                    <p><strong>Nama Lulusan:</strong> {{ $lulusan->nama_lulusan }}</p>
-                                    <p><strong>Email:</strong> {{ $lulusan->email_lulusan }}</p>
-                                    <p><strong>Nomor HP:</strong> {{ $lulusan->no_hp_lulusan }}</p>
-                                    <p><strong>Tahun Lulus:</strong> {{ $lulusan->tanggal_lulus }}</p>
-                                </div>
-                            </div>
-                            <a href="{{ route('lulusan.index') }}" class="btn btn-default">Back to List</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <x-footers.auth></x-footers.auth>
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title font-weight-normal">Detail Lulusan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-</x-layout>
+        <div class="modal-body p-4">
+            <div class="table-responsive">
+                <table class="table table-bordered align-items-center mb-0">
+                    <tbody>
+                        <tr>
+                            <th>Program Studi</th>
+                            <td>{{ $lulusan->prodi->nama_prodi }}</td>
+                        </tr>
+                        <tr>
+                            <th>NIM</th>
+                            <td>{{ $lulusan->nim }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama</th>
+                            <td>{{ $lulusan->nama_lulusan }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ $lulusan->email_lulusan }}</td>
+                        </tr>
+                        <tr>
+                            <th>No. Hp</th>
+                            <td>{{ $lulusan->no_hp_lulusan }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Lulus</th>
+                            <td>{{ $lulusan->tanggal_lulus }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Tutup</button>
+        </div>
+    </div>
+</div>

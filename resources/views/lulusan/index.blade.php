@@ -30,10 +30,10 @@
                             </div>
                         </div>
                         <div class="card-body p-3 mt-3">
-                            <div id="filter">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12 d-flex justify-content-between">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12 d-flex justify-content-between">
+                                        <div id="filter">
                                             <div class="input-group input-group-outline" style="width: 300px">
                                                 <label class="form-label">Filter</label>
                                                 <select name="filter_prodi" class="form-control filter_prodi">
@@ -43,36 +43,35 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col d-flex justify-content-end">
-                                                <button onclick="modalAction('{{ route('lulusan.create') }}')" class="btn bg-gradient-dark mb-0">
-                                                    <i class="material-icons text-sm">add</i> Tambah Lulusan
-                                                </button>
-                                                {{-- <a class="btn bg-gradient-dark mb-0" href="{{ route('lulusan.create') }}"></a> --}}
-                                                {{-- <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export.form') }}">
-                                                    <i class="material-icons text-sm">file_download</i> Export
-                                                </a>
-                                                <a class="btn bg-gradient-primary mb-0" href="{{ route('lulusan.import.form') }}">
-                                                    <i class="material-icons text-sm">file_upload</i> Import
-                                                </a> --}}
-                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button onclick="modalAction('{{ url('/lulusan/create') }}')" class="btn bg-gradient-dark mb-0">
+                                                <i class="material-icons text-sm">add</i> Tambah Lulusan
+                                            </button>
+                                            <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export') }}">
+                                                <i class="material-icons text-sm">file_download</i> Export
+                                            </a>
+                                            <button onclick="modalAction('{{ url('/lulusan/import') }}')" class="btn bg-gradient-primary mb-0">
+                                                <i class="material-icons text-sm">file_upload</i> Import
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="table-responsive p-3">
-                                <table class="table table-bordered align-items-center mb-0" id="table-lulusan">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">NIM</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Lulus</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Status</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                <div class="table-responsive py-3">
+                                    <table class="table table-bordered align-items-center mb-0 w-100" id="table-lulusan">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">NIM</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Lulus</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Status</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,6 +80,7 @@
             <x-footers.auth />
         </div>
     </main>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"></div>
     @push('js')
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -93,6 +93,13 @@
                     $(".input-group").addClass('is-filled');
                 }
             });
+        </script>
+        <script>
+            function modalAction(url = '') {
+                $('#myModal').load(url, function() {
+                    $('#myModal').modal('show');
+                });
+            }
         </script>
         <script>
             var tableLulusan;
