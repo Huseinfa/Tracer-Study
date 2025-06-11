@@ -44,9 +44,7 @@
                                     <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year - 1) }}">
                                 </div>
                                 <button type="submit" class="btn btn-info m-2" style="width: 100px">Filter</button>
-                                @if(request('prodi') || request('start_year') || request('end_year'))
-                                    <a href="{{ url('masa-tunggu') }}" class="btn btn-outline-secondary m-2" style="width: 100px">Reset</a>
-                                @endif
+                                <a href="{{ url('masa-tunggu') }}" class="btn btn-secondary m-2" style="width: 100px">Reset</a>
                             </form>
                         </div>
                     </div>
@@ -61,7 +59,7 @@
                             </div>
                         </div>
                         <div class="card-body p-3 mt-3">
-                            <div class="my-sm-auto mt-3">
+                            <div class="container-fluid">
                                 <div class="nav-wrapper position-relative end-0">
                                     <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                         <li class="nav-item">
@@ -80,49 +78,49 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
-                            <!-- Tab Content -->
-                            <div class="tab-content" id="myTabContent">
-                                <!-- Per Lulusan Tab -->
-                                <div class="tab-pane fade show active" id="perlulusan-tab" role="tabpanel">
-                                    <div class="table-responsive p-3 pt-4">
-                                        <table class="table table-bordered align-items-center mb-0 w-100" id="table-perLulusan">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">NIM</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Lulus</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Pertama Bekerja</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Masa Tunggu (Bulan)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
+                                <!-- Tab Content -->
+                                <div class="tab-content" id="myTabContent">
+                                    <!-- Per Lulusan Tab -->
+                                    <div class="tab-pane fade show active" id="perlulusan-tab" role="tabpanel">
+                                        <div class="table-responsive pt-4">
+                                            <table class="table table-bordered align-items-center mb-0 w-100" id="table-perLulusan">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">NIM</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Lulus</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tanggal Pertama Bekerja</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Masa Tunggu (Bulan)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Per Tahun Tab -->
-                                <div class="tab-pane fade" id="pertahun-tab" role="tabpanel">
-                                    <div class="table-responsive p-3 pt-4">
-                                        <table class="table table-bordered align-items-center mb-0 w-100" id="table-perTahun">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tahun Lulus</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jumlah Lulusan</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jumlah Lulusan yang Terlacak</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Rata-rata Waktu Tunggu (Bulan)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jumlah</th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder"></th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder"></th>
-                                                    <th class="text-center text-uppercase text-dark text-xs font-weight-bolder"></th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                    <!-- Per Tahun Tab -->
+                                    <div class="tab-pane fade" id="pertahun-tab" role="tabpanel">
+                                        <div class="table-responsive pt-4">
+                                            <table class="table table-bordered align-items-center mb-0 w-100" id="table-perTahun">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Tahun Lulus</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jumlah Lulusan</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jumlah Lulusan yang Terlacak</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Rata-rata Waktu Tunggu (Bulan)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jumlah</th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder"></th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder"></th>
+                                                        <th class="text-center text-uppercase text-dark text-xs font-weight-bolder"></th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

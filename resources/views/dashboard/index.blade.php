@@ -26,9 +26,7 @@
                                     <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year - 1) }}">
                                 </div>
                                 <button type="submit" class="btn btn-info m-2" style="width: 100px">Filter</button>
-                                @if(request('prodi') || request('start_year') || request('end_year'))
-                                    <a href="{{ url('dashboard') }}" class="btn btn-secondary m-2" style="width: 100px">Reset</a>
-                                @endif
+                                <a href="{{ url('dashboard') }}" class="btn btn-secondary m-2" style="width: 100px">Reset</a>
                             </form>
                         </div>
                     </div>
@@ -224,7 +222,7 @@
                             <div class="row pb-2">
                                 <h6 class="mb-0">Penilaian Kepuasan Pengguna Lulusan</h6>
                             </div>
-                            <div class="row mx-auto w-50">
+                            <div class="row mx-auto w-75">
                                 <select class="btn btn-outline-info my-2 text-center" id="chartSelector" aria-label="Pilih chart">
                                     @foreach ($evaluationData as $field => $data)
                                         <option value="{{ $field }}">{{ $data['title'] }}</option>
@@ -233,23 +231,29 @@
                             </div>
                         </div>
                         <div class="card-body p-3 pt-1 pb-0">
-                            <div class="row">
-                                @foreach ($evaluationData as $field => $data)
-                                    <div class="chart d-none" id="{{ $field }}-container" style="height: 200px;">
-                                        <canvas id="{{ $field }}Chart" class="chart-canvas" height="200"></canvas>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="row mt-3 justify-content-center">
-                                @foreach($evaluationLabels as $i => $label)
-                                    <div class="col-auto">
-                                        <span class="badge badge-md badge-dot d-block text-start">
-                                            <i class="bi bi-circle-fill" style="color: {{ ['#E74C3C', '#F39C12', '#F1C40F', '#2ECC71', '#3498DB'][$i] ?? '#BDC3C7' }};"></i>
-                                            <span class="text-dark text-xs">{{ $label }}</span>
-                                        </span>
-                                    </div>
-                                @endforeach
-                            </div>
+                            @if(count($evaluationData) > 0 && collect($evaluationData)->sum('total') > 0)
+                                <div class="row">
+                                    @foreach ($evaluationData as $field => $data)
+                                        <div class="chart d-none" id="{{ $field }}-container" style="height: 200px;">
+                                            <canvas id="{{ $field }}Chart" class="chart-canvas" height="200"></canvas>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="row mt-3 justify-content-center">
+                                    @foreach($evaluationLabels as $i => $label)
+                                        <div class="col-auto">
+                                            <span class="badge badge-md badge-dot d-block text-start">
+                                                <i class="bi bi-circle-fill" style="color: {{ ['#E74C3C', '#F39C12', '#F1C40F', '#2ECC71', '#3498DB'][$i] ?? '#BDC3C7' }};"></i>
+                                                <span class="text-dark text-xs">{{ $label }}</span>
+                                            </span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-center">
+                                    <p class="text-secondary">Tidak ada data penilaian kepuasan yang tersedia.</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

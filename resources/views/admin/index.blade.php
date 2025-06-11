@@ -30,31 +30,25 @@
                             </div>
                         </div>
                         <div class="card-body p-3 mt-3">
-                            <div id="filter">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12 d-flex justify-content-between">
-                                            <div class="col d-flex justify-content-end">
-                                                <button onclick="modalAction('{{ route('lulusan.create') }}')" class="btn bg-gradient-dark mb-0">
-                                                    <i class="material-icons text-sm">add</i> Tambah Admin
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="container-fluid">
+                                <div class="d-flex justify-content-end">
+                                    <button onclick="modalAction('{{ url('/admin/create') }}')" class="btn bg-gradient-dark mb-0">
+                                        <i class="material-icons text-sm">add</i> Tambah Admin
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="table-responsive p-3">
-                                <table class="table table-bordered align-items-center mb-0" id="table-user">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Username</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                <div class="table-responsive py-3">
+                                    <table class="table table-bordered align-items-center mb-0 w-100" id="table-user">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Username</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,13 +57,21 @@
             <x-footers.auth />
         </div>
     </main>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"></div>
     @push('js')
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <script>
-            var tableLulusan;
+            function modalAction(url = '') {
+                $('#myModal').load(url, function() {
+                    $('#myModal').modal('show');
+                });
+            }
+        </script>
+        <script>
+            var tableUser;
             $(document).ready(function() {
-                tableLulusan = $('#table-user').DataTable({
+                tableUser = $('#table-user').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {

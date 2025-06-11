@@ -30,31 +30,27 @@
                             </div>
                         </div>
                         <div class="card-body p-3 mt-3">
-                            <div id="filter">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12 d-flex justify-content-end">
-                                            {{-- <a class="btn bg-gradient-success mb-0 mx-2" href="{{ route('lulusan.export.form') }}">
-                                                <i class="material-icons text-sm">file_download</i> Export
-                                            </a> --}}
-                                        </div>
-                                    </div>
+                            <div class="container-fluid">
+                                <div class="d-flex justify-content-end">
+                                    <a class="btn bg-gradient-success mb-0" href="{{ route('stakeholder.export') }}">
+                                        <i class="material-icons text-sm">file_download</i> Export
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="table-responsive p-3">
-                                <table class="table table-bordered align-items-center mb-0" id="table-stakeholder">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama Stakeholder</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jabatan</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama Lulusan</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Email</th>
-                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                <div class="table-responsive py-3">
+                                    <table class="table table-bordered align-items-center mb-0 w-100" id="table-stakeholder">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">No</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama Stakeholder</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Jabatan</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Nama Lulusan</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Email</th>
+                                                <th class="text-center text-uppercase text-dark text-xs font-weight-bolder">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
