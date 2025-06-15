@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
-use App\Http\Controllers\RekapLulusanController;
+use App\Http\Controllers\LaporanController;
 
 
 
@@ -28,6 +28,7 @@ Route::get('/reset-password/{token}', function ($token) {
 
 Route::middleware('auth')->group(function () {
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 	Route::group(['prefix' => 'admin'], function () {
 		Route::get('/', [AdminController::class, 'index'])->name('admin.index');
 		Route::post('/list', [AdminController::class, 'list']);
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('/{id}/delete', [AdminController::class, 'confirmDelete'])->name('admin.confirm-delete');
 		Route::delete('/{id}/destroy', [AdminController::class, 'destroy']);
 	});
+
 	Route::group(['prefix' => 'lulusan'], function () {
 		Route::get('/', [LulusanController::class, 'index'])->name('lulusan.index');
 		Route::post('/list', [LulusanController::class, 'list']);
@@ -51,20 +53,30 @@ Route::middleware('auth')->group(function () {
 		Route::get('/export', [LulusanController::class, 'export'])->name('lulusan.export');
 		Route::get('/import', [LulusanController::class, 'import'])->name('lulusan.import');
 		Route::post('/store-import', [LulusanController::class, 'storeImport']);
-
 	});
+
 	Route::group(['prefix' => 'stakeholder'], function () {
 		Route::get('/', [StakeholderController::class, 'index'])->name('stakeholder.index');
 		Route::post('/list', [StakeholderController::class, 'list'])->name('stakeholder.list');
 		Route::post('/show', [StakeholderController::class, 'show'])->name('stakeholder.show');
 		Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
 	});
+
 	Route::group(['prefix' => 'masa-tunggu'], function () {
 		Route::get('/', [MasaTungguController::class, 'index'])->name('masa-tunggu.index');
 		Route::post('/list-perLulusan', [MasaTungguController::class, 'perLulusan'])->name('masa-tunggu.list-perLulusan');
 		Route::post('/list-perTahun', [MasaTungguController::class, 'perTahun'])->name('masa-tunggu.list-perTahun');
 	});
-	Route::get('/rekap-lulusan', [RekapLulusanController::class, 'index'])->name('rekap.index');
+
+	Route::group(['prefix' => 'laporan'], function () {
+		Route::get('/', [LaporanController::class, 'index'])->name('laporan.index');
+		Route::post('/list-tracer', [LaporanController::class, 'tracerStudy'])->name('laporan.tracerStudy');
+		Route::post('/list-survey', [LaporanController::class, 'kepuasanStakeholder'])->name('laporan.surveyStakeholder');
+		Route::post('/list-lulusan', [LaporanController::class, 'lulusanBelumMengisi'])->name('laporan.lulusanBelumMengisi');
+		Route::post('/list-stakeholder', [LaporanController::class, 'stakeholderBelumMengisi'])->name('laporan.stakeholderBelumMengisi');
+		Route::get('/unduh-laporan', [LaporanController::class, 'exportLaporan'])->name('laporan.exportLaporan');
+	});
+
 	Route::post('sign-out', [SessionsController::class, 'destroy'])->name('logout');
 });
 
