@@ -44,7 +44,7 @@
                 <span id="error-tanggal_lulus" class="error-text form-text text-danger"></span>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Batal</button>
+                <button type="button" data-bs-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Batal</button>
                 <button type="submit" class="btn bg-gradient-info mx-2 my-0">Simpan</button>
             </div>
         </form>
