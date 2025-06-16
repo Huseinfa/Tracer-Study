@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Tutup</button>
+            <button type="button" data-bs-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Tutup</button>
         </div>
     </div>
 </div>

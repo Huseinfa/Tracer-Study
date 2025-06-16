@@ -10,8 +10,7 @@ use App\Http\Controllers\KuisionerStakeholderController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\MasaTungguController;
 use App\Http\Controllers\LaporanController;
-
-
+use App\Http\Controllers\ProfesiController;
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
@@ -54,12 +53,23 @@ Route::middleware('auth')->group(function () {
 		Route::get('/import', [LulusanController::class, 'import'])->name('lulusan.import');
 		Route::post('/store-import', [LulusanController::class, 'storeImport']);
 	});
-
+	
 	Route::group(['prefix' => 'stakeholder'], function () {
 		Route::get('/', [StakeholderController::class, 'index'])->name('stakeholder.index');
 		Route::post('/list', [StakeholderController::class, 'list'])->name('stakeholder.list');
 		Route::post('/show', [StakeholderController::class, 'show'])->name('stakeholder.show');
 		Route::get('/export', [StakeholderController::class, 'export'])->name('stakeholder.export');
+	});
+	
+	Route::group(['prefix' => 'profesi'], function () {
+		Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
+		Route::post('/list', [ProfesiController::class, 'list']);
+		Route::get('/create', [ProfesiController::class, 'create'])->name('profesi.create');
+		Route::post('/store', [ProfesiController::class, 'store']);
+		Route::get('/{id}/edit', [ProfesiController::class, 'edit'])->name('profesi.edit');
+		Route::put('/{id}', [ProfesiController::class, 'update']);
+		Route::get('/{id}/delete', [ProfesiController::class, 'confirmDelete'])->name('profesi.confirm-delete');
+		Route::delete('/{id}/destroy', [ProfesiController::class, 'destroy']);
 	});
 
 	Route::group(['prefix' => 'masa-tunggu'], function () {

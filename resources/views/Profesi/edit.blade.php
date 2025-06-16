@@ -1,47 +1,28 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="{{ url('/lulusan/store') }}" method="post" id="formTambah">
+        <form action="{{ url('/profesi/' . $profesi->id_profesi) }}" method="post" id="formUbah">
             @csrf
+            @method('PUT')
             <div class="modal-header">
-                <h5 class="modal-title font-weight-normal">Tambah Data Lulusan</h5>
+                <h5 class="modal-title font-weight-normal">Edit Data Profesi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
                 <div class="input-group input-group-static input-group-md">
-                    <label>Program Studi</label>
-                    <select name="id_program_studi" id="id_program_studi" class="form-control" required>
-                        <option value="">- Pilih Program Studi -</option>
-                        @foreach($prodi as $p)
-                            <option value="{{ $p->id_program_studi }}">{{ $p->nama_prodi }}</option>
+                    <label>Kategori Profesi</label>
+                    <select name="id_kategori_profesi" id="id_kategori_profesi" class="form-control" required>
+                        <option value="{{ $profesi->kategoriProfesi->id_kategori_profesi }}">{{ $profesi->kategoriProfesi->nama_kategori }}</option>
+                        @foreach($kategori as $k)
+                            <option value="{{ $k->id_kategori_profesi }}">{{ $k->nama_kategori }}</option>
                         @endforeach
                     </select>
                 </div>
-                <span id="error-id_program_studi" class="error-text form-text text-danger mt-0"></span>
+                <span id="error-id_kategori_profesi" class="error-text form-text text-danger mt-0"></span>
                 <div class="input-group input-group-static input-group-md pt-3">
-                    <label>NIM</label>
-                    <input type="text" id="nim" name="nim" class="form-control" required>
+                    <label>Nama Profesi</label>
+                    <input type="text" id="nama_profesi" name="nama_profesi" class="form-control" value="{{ $profesi->nama_profesi }}" required>
                 </div>
-                <span id="error-nim" class="error-text form-text text-danger"></span>
-                <div class="input-group input-group-static input-group-md pt-3">
-                    <label>Nama</label>
-                    <input type="text" id="nama_lulusan" name="nama_lulusan" class="form-control" required>
-                </div>
-                <span id="error-nama_lulusan" class="error-text form-text text-danger"></span>
-                <div class="input-group input-group-static input-group-md pt-3">
-                    <label>Email</label>
-                    <input type="email" id="email_lulusan" name="email_lulusan" class="form-control" required>
-                </div>
-                <span id="error-email_lulusan" class="error-text form-text text-danger mt-0"></span>
-                <div class="input-group input-group-static input-group-md pt-3">
-                    <label>Nomor Hp</label>
-                    <input type="tel" id="no_hp_lulusan" name="no_hp_lulusan" class="form-control" required>
-                </div>
-                <span id="error-no_hp_lulusan" class="error-text form-text text-danger"></span>
-                <div class="input-group input-group-static input-group-md pt-3">
-                    <label>Tanggal Lulus</label>
-                    <input type="date" id="tanggal_lulus" name="tanggal_lulus" class="form-control" required>
-                </div>
-                <span id="error-tanggal_lulus" class="error-text form-text text-danger"></span>
+                <span id="error-nama_profesi" class="error-text form-text text-danger"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" data-bs-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Batal</button>
@@ -52,13 +33,13 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#formTambah').on('submit', function(e) {
+        $('#formUbah').on('submit', function(e) {
             e.preventDefault();
             
             $('.error-text').text('');
             
             $.ajax({
-                url: '{{ url("/lulusan/store") }}',
+                url: '{{ url('/profesi/' . $profesi->id_profesi) }}',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
@@ -77,7 +58,7 @@
                             text: response.message,
                             timer: 2000
                         }).then(() => {
-                            tableLulusan.ajax.reload();
+                            tableProfesi.ajax.reload();
                         });
                     } else {
                         if(response.msgField) {
