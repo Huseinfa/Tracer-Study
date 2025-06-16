@@ -1,34 +1,48 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="{{ url('/lulusan/store-import') }}" method="post" id="formImport">
+        <form action="{{ url('/profesi/' . $profesi->id_profesi . '/destroy') }}" method="post" id="formHapus">
             @csrf
+            @method('DELETE')
             <div class="modal-header">
-                <h5 class="modal-title font-weight-normal">Import Data Lulusan</h5>
+                <h5 class="modal-title font-weight-normal">Hapus Data Profesi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <div>
-                    <label>Masukkan File (.xls,.xlsx,.csv) </label>
-                    <input type="file" id="file" name="file" required>
+                <div class="alert alert-warning" role="alert">
+                    <h5><i class="bi bi-exclamation-triangle"></i><strong> Perhatian!</strong></h5>
+                    Apakah Anda yakin ingin menghapus data profesi ini? Tindakan ini tidak dapat dibatalkan.
                 </div>
-                <span id="error-file" class="error-text form-text text-danger"></span>
+                <div class="table-responsive mb-3">
+                    <table class="table table-bordered align-items-center mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Kategori Profesi</th>
+                                <td>{{ $profesi->kategoriProfesi->nama_kategori }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nama Profesi</th>
+                                <td>{{ $profesi->nama_profesi }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-bs-dismiss="modal" class="btn bg-gradient-secondary mx-2 my-0">Batal</button>
-                <button type="submit" class="btn bg-gradient-info mx-2 my-0">Simpan</button>
+                <button type="submit" class="btn bg-gradient-info mx-2 my-0">Hapus</button>
             </div>
         </form>
     </div>
 </div>
 <script>
     $(document).ready(function() {
-        $('#formImport').on('submit', function(e) {
+        $('#formHapus').on('submit', function(e) {
             e.preventDefault();
             
             $('.error-text').text('');
             
             $.ajax({
-                url: '{{ url("/lulusan/store-import") }}',
+                url: '{{ url('/profesi/' . $profesi->id_profesi . '/destroy') }}',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
@@ -36,7 +50,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 beforeSend: function() {
-                    $('button[type="submit"]').prop('disabled', true).text('Menyimpan...');
+                    $('button[type="submit"]').prop('disabled', true).text('Memproses...');
                 },
                 success: function(response) {                    
                     if(response.status) {
@@ -45,16 +59,10 @@
                             icon: 'success',
                             title: 'Berhasil!',
                             text: response.message,
-                            timer: 2000
                         }).then(() => {
-                            tableLulusan.ajax.reload();
+                            tableProfesi.ajax.reload();
                         });
                     } else {
-                        if(response.msgField) {
-                            $.each(response.msgField, function(field, messages) {
-                                $('#error-' + field).text(messages[0]);
-                            });
-                        }
                         Swal.fire({
                             icon: 'error',
                             title: 'Terjadi Kesalahan!',
