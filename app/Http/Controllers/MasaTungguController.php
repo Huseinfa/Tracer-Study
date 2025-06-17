@@ -6,12 +6,42 @@ use App\Models\KuisionerLulusanModel;
 use App\Models\LulusanModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class MasaTungguController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'prodi' => 'nullable|in:1,2,3,4',
+            'start_year' => 'nullable|integer|min:2000|max:' . now()->year,
+            'end_year' => 'nullable|integer|min:2000|max:' . now()->year,
+        ], [
+            'start_year.min' => 'Tahun awal tidak boleh kurang dari tahun 2000.',
+            'start_year.max' => 'Tahun awal tidak boleh lebih dari tahun ' . now()->year . '.',
+            'end_year.min' => 'Tahun akhir tidak boleh kurang dari tahun 2000.',
+            'end_year.max' => 'Tahun akhir tidak boleh lebih dari tahun ' . now()->year . '.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('masa-tunggu.index')
+                ->with('validation_errors', $validator->errors()->all())
+                ->with('error_type', 'validation')
+                ->withInput();
+        }
+
+        $prodi = $request->input('prodi', '1'); // Default ke 1 (D4 TI) sebagai ID numerik
+        $start_year = $request->input('start_year', now()->year - 3); // 2022
+        $end_year = $request->input('end_year', now()->year ); // 2025
+
+        if ($end_year < $start_year) {
+            return redirect()->route('masa-tunggu.index')
+                ->with('validation_errors', ['Tahun akhir tidak boleh lebih kecil dari tahun awal'])
+                ->with('error_type', 'validation')
+                ->withInput();
+        }
+
         return view('masatunggu.index');
     }
 
@@ -19,14 +49,8 @@ class MasaTungguController extends Controller
     {
         // Get filter inputs with defaults
         $prodi = $request->input('prodi', '1'); // Default to D4 TI
-        $start_year = $request->input('start_year', now()->year - 4);
-        $end_year = $request->input('end_year', now()->year - 1);
-
-        // Validate year range
-        if ($start_year > $end_year || $start_year > now()->year || $end_year > now()->year) {
-            $start_year = now()->year - 4;
-            $end_year = now()->year - 1;
-        }
+        $start_year = $request->input('start_year', now()->year - 3);
+        $end_year = $request->input('end_year', now()->year );
 
         $query = KuisionerLulusanModel::with('lulusan')
             ->whereHas('lulusan', function ($q) use ($prodi, $start_year, $end_year) {
@@ -52,14 +76,8 @@ class MasaTungguController extends Controller
     {
         // Get filter inputs with defaults
         $prodi = $request->input('prodi', '1'); // Default to D4 TI
-        $start_year = $request->input('start_year', now()->year - 4);
-        $end_year = $request->input('end_year', now()->year - 1);
-
-        // Validate year range
-        if ($start_year > $end_year || $start_year > now()->year || $end_year > now()->year) {
-            $start_year = now()->year - 4;
-            $end_year = now()->year - 1;
-        }
+        $start_year = $request->input('start_year', now()->year - 3);
+        $end_year = $request->input('end_year', now()->year );
 
         $query = DB::table('t_kuisioner_lulusan as kl')
             ->join('t_lulusan as l', 'kl.id_lulusan', '=', 'l.id_lulusan')

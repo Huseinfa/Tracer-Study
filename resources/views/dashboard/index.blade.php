@@ -1,4 +1,22 @@
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
+    @push('css')
+        <style>
+            /* Search box */
+            .dataTables_wrapper .dataTables_filter input {
+                border-radius: 8px;
+                border: 2px solid #e0e0e0;
+                padding: 6px 12px;
+                color: #344767;
+                background: #f8fafc;
+                transition: border 0.2s;
+                outline: none;
+            }
+            .dataTables_wrapper .dataTables_filter input:focus {
+                border: 2px solid #17c1e8;
+                background: #fff;
+            }
+        </style>
+    @endpush
     <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
@@ -19,11 +37,11 @@
                                 </div>
                                 <div class="input-group input-group-outline m-2" style="width: 150px">
                                     <label for="start_year" class="form-label">Tahun Awal</label>
-                                    <input type="number" name="start_year" id="start_year" class="form-control p-0" value="{{ request('start_year', now()->year - 4) }}">
+                                    <input type="number" name="start_year" id="start_year" class="form-control p-0" value="{{ request('start_year', now()->year - 3) }}">
                                 </div>
                                 <div class="input-group input-group-outline m-2" style="width: 150px">
                                     <label for="end_year" class="form-label">Tahun Akhir</label>
-                                    <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year - 1) }}">
+                                    <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year ) }}">
                                 </div>
                                 <button type="submit" class="btn btn-info m-2" style="width: 100px">Filter</button>
                                 <a href="{{ url('dashboard') }}" class="btn btn-secondary m-2" style="width: 100px">Reset</a>
@@ -285,188 +303,85 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kerjasama tim</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Keahlian di bidang TI</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">3</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kemampuan berbahasa asing (Inggris)</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">4</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kemampuan berkomunikasi</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">5</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Pengembangan diri</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">6</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Kepemimpinan</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">7</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-start font-weight-normal text-secondary mb-0">Etos Kerja</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">Jumlah</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
+                                        @if(isset($kepuasanTableData) && count($kepuasanTableData['data']) > 0)
+                                            @foreach($kepuasanTableData['data'] as $index => $item)
+                                            <tr>
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-normal text-secondary mb-0">{{ $index + 1 }}</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-start font-weight-normal text-secondary mb-0">{{ $item['label'] }}</p>
+                                                </td>
+                                                <!-- Sangat Baik (5) -->
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-normal text-secondary mb-0">
+                                                        {{ $item['percentages'][4] }}%
+                                                    </p>
+                                                </td>
+                                                <!-- Baik (4) -->
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-normal text-secondary mb-0">
+                                                        {{ $item['percentages'][3] }}%
+                                                    </p>
+                                                </td>
+                                                <!-- Cukup (3) -->
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-normal text-secondary mb-0">
+                                                        {{ $item['percentages'][2] }}%
+                                                    </p>
+                                                </td>
+                                                <!-- Kurang (2) -->
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-normal text-secondary mb-0">
+                                                        {{ $item['percentages'][1] }}%
+                                                    </p>
+                                                </td>
+                                                <!-- Sangat Kurang (1) -->
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-normal text-secondary mb-0">
+                                                        {{ $item['percentages'][0] }}%
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            <!-- Row Total/Jumlah -->
+                                            <tr style="background-color: #e9ecef; font-weight: bold;">
+                                                <td colspan="2" class="text-center">
+                                                    <p class="text-sm font-weight-bolder text-dark mb-0">Jumlah</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-bolder text-dark mb-0">
+                                                        {{ $kepuasanTableData['totals']['percentages'][4] }}%
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-bolder text-dark mb-0">
+                                                        {{ $kepuasanTableData['totals']['percentages'][3] }}%
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-bolder text-dark mb-0">
+                                                        {{ $kepuasanTableData['totals']['percentages'][2] }}%
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-bolder text-dark mb-0">
+                                                        {{ $kepuasanTableData['totals']['percentages'][1] }}%
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-center font-weight-bolder text-dark mb-0">
+                                                        {{ $kepuasanTableData['totals']['percentages'][0] }}%
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="7" class="text-center">
+                                                    <p class="text-secondary">Tidak ada data penilaian kepuasan yang tersedia.</p>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -481,11 +396,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header pb-0">
-                            <h6>Tabel Sebaran Lingkup Tempat Kerja dan Kesesuaian Profesi dengan Infokom</h6>
+                            <h6>Tabel Sebaran Lingkup Tempat Kerja</h6>
                         </div>
                         <div class="card-body p-0 pb-2">
                             <div class="table-responsive p-3">
-                                <table class="table table-bordered align-items-center mb-0">
+                                <table class="table table-bordered align-items-center mb-0" id="lingkup-tempat-kerja-table">
                                     <thead>
                                         <tr>
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2" rowspan="2">Tahun Lulus</th>
@@ -501,138 +416,19 @@
                                             <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2">Wirausaha</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody></tbody>
+                                    <tfoot>
                                         <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2021</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2">Jumlah</th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
+                                            <th class="text-center text-uppercase text-dark text-xs font-weight-bolder p-2"></th>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2022</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2023</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">2024</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="text-sm text-center font-weight-normal text-secondary mb-0">Jumlah</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm text-end font-weight-normal text-secondary mb-0">1</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -654,6 +450,35 @@
                 } else {
                     $(".input-group").addClass('is-filled');
                 }
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                @if (session('validation_errors'))
+                    var errors = @json(session('validation_errors'));
+                    var errorMessage = '';
+                    
+                    if (errors.length === 1) {
+                        errorMessage = errors[0];
+                    } else {
+                        errorMessage = '<ul style="text-align: left; margin: 0; padding-left: 20px;">';
+                        errors.forEach(function(error) {
+                            errorMessage += '<li>' + error + '</li>';
+                        });
+                        errorMessage += '</ul>';
+                    }
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validasi Gagal!',
+                        html: errorMessage,
+                        confirmButtonText: 'Tutup',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        },
+                        buttonsStyling: false
+                    });
+                @endif
             });
         </script>
 
@@ -812,5 +637,76 @@
             @endforeach
         </script>
         {{-- pie chart end --}}
+
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var currentProdi = "{{ request('prodi', '1') }}";
+                var currentStartYear = "{{ request('start_year', now()->year - 4) }}";
+                var currentEndYear = "{{ request('end_year', now()->year - 1) }}";
+                
+                var tableSkala = $('#lingkup-tempat-kerja-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ url('/dashboard/skala-instansi') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-Token': '{{ csrf_token() }}'
+                        },
+                        data: function(d) {
+                            d.prodi = currentProdi;
+                            d.start_year = currentStartYear;
+                            d.end_year = currentEndYear;
+                        },
+                    },
+                    columns: [
+                        { data: 'tahun_lulus', name: 'tahun_lulus', className: 'text-center' },
+                        { data: 'jumlah_lulusan', name: 'jumlah_lulusan', className: 'text-center' },
+                        { data: 'lulusan_terlacak', name: 'lulusan_terlacak', className: 'text-center' },
+                        { data: 'bidang_infokom', name: 'bidang_infokom', className: 'text-center' },
+                        { data: 'bidang_non_infokom', name: 'bidang_non_infokom', className: 'text-center' },
+                        { data: 'internasional', name: 'internasional', className: 'text-center' },
+                        { data: 'nasional', name: 'nasional', className: 'text-center' },
+                        { data: 'wirausaha', name: 'wirausaha', className: 'text-center' }
+                    ],
+                    language: {
+                        paginate: {
+                            previous: '<i class="bi bi-chevron-left"></i>',
+                            next: '<i class="bi bi-chevron-right"></i>'
+                        },
+                    },
+                    footerCallback: function (row, data, start, end, display) {
+                        var api = this.api();
+                        
+                        var intVal = function (i) {
+                            return typeof i === 'string' ?
+                                parseInt(i.replace(/[\$,]/g, '')) || 0 :
+                                typeof i === 'number' ? i : 0;
+                        };
+                        
+                        var jumlahLulusan = api.column(1).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        var jumlahTerlacak = api.column(2).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        var infokom = api.column(3).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        var nonInfokom = api.column(4).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        var internasional = api.column(5).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        var nasional = api.column(6).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        var wirausaha = api.column(7).data().reduce((a, b) => intVal(a) + intVal(b), 0);
+                        
+                        // Update footer
+                        $(api.column(0).footer()).html('<strong>Jumlah</strong>');
+                        $(api.column(1).footer()).html('<strong>' + jumlahLulusan + '</strong>');
+                        $(api.column(2).footer()).html('<strong>' + jumlahTerlacak + '</strong>');
+                        $(api.column(3).footer()).html('<strong>' + infokom + '</strong>');
+                        $(api.column(4).footer()).html('<strong>' + nonInfokom + '</strong>');
+                        $(api.column(5).footer()).html('<strong>' + internasional + '</strong>');
+                        $(api.column(6).footer()).html('<strong>' + nasional + '</strong>');
+                        $(api.column(7).footer()).html('<strong>' + wirausaha + '</strong>');
+                    }
+                });
+            });
+        </script>
     @endpush
 </x-layout>
