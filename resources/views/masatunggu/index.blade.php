@@ -37,11 +37,11 @@
                                 </div>
                                 <div class="input-group input-group-outline m-2" style="width: 150px">
                                     <label for="start_year" class="form-label">Tahun Awal</label>
-                                    <input type="number" name="start_year" id="start_year" class="form-control p-0" value="{{ request('start_year', now()->year - 4) }}">
+                                    <input type="number" name="start_year" id="start_year" class="form-control p-0" value="{{ request('start_year', now()->year - 3) }}">
                                 </div>
                                 <div class="input-group input-group-outline m-2" style="width: 150px">
                                     <label for="end_year" class="form-label">Tahun Akhir</label>
-                                    <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year - 1) }}">
+                                    <input type="number" name="end_year" id="end_year" class="form-control p-0" value="{{ request('end_year', now()->year ) }}">
                                 </div>
                                 <button type="submit" class="btn btn-info m-2" style="width: 100px">Filter</button>
                                 <a href="{{ url('masa-tunggu') }}" class="btn btn-secondary m-2" style="width: 100px">Reset</a>
@@ -145,9 +145,41 @@
             });
         </script>
         <script>
-            var tabelPerLulusan;
             $(document).ready(function() {
-                tabelPerLulusan = $('#table-perLulusan').DataTable({
+                @if (session('validation_errors'))
+                    var errors = @json(session('validation_errors'));
+                    var errorMessage = '';
+                    
+                    if (errors.length === 1) {
+                        errorMessage = errors[0];
+                    } else {
+                        errorMessage = '<ul style="text-align: left; margin: 0; padding-left: 20px;">';
+                        errors.forEach(function(error) {
+                            errorMessage += '<li>' + error + '</li>';
+                        });
+                        errorMessage += '</ul>';
+                    }
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validasi Gagal!',
+                        html: errorMessage,
+                        confirmButtonText: 'Tutup',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        },
+                        buttonsStyling: false
+                    });
+                @endif
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                var currentProdi = "{{ request('prodi', '1') }}";
+                var currentStartYear = "{{ request('start_year', now()->year - 4) }}";
+                var currentEndYear = "{{ request('end_year', now()->year - 1) }}";
+
+                var tabelPerLulusan = $('#table-perLulusan').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -158,9 +190,9 @@
                             'X-CSRF-Token': '{{ csrf_token() }}'
                         },
                         data: function(d) {
-                            d.prodi = $('#prodi').val();
-                            d.start_year = $('#start_year').val();
-                            d.end_year = $('#end_year').val();
+                            d.prodi = currentProdi;
+                            d.start_year = currentStartYear;
+                            d.end_year = currentEndYear;
                         }
                     },
                     columns: [
@@ -178,16 +210,8 @@
                         }
                     }
                 });
-                $('form[action="{{ url('masa-tunggu') }}"]').on('submit', function(e) {
-                    tabelPerLulusan.ajax.reload();
-                    tablePerTahun.ajax.reload();
-                });
-            });
-        </script>
-        <script>
-            var tablePerTahun;
-            $(document).ready(function() {
-                tablePerTahun = $('#table-perTahun').DataTable({
+
+                var tablePerTahun = $('#table-perTahun').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -198,9 +222,9 @@
                             'X-CSRF-Token': '{{ csrf_token() }}'
                         },
                         data: function(d) {
-                            d.prodi = $('#prodi').val();
-                            d.start_year = $('#start_year').val();
-                            d.end_year = $('#end_year').val();
+                            d.prodi = currentProdi;
+                            d.start_year = currentStartYear;
+                            d.end_year = currentEndYear;
                         }
                     },
                     columns: [

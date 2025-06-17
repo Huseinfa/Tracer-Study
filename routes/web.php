@@ -27,6 +27,7 @@ Route::get('/reset-password/{token}', function ($token) {
 
 Route::middleware('auth')->group(function () {
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+	Route::post('/dashboard/skala-instansi', [DashboardController::class, 'skalaInstansi'])->name('dashboard.skalaInstansi');
 
 	Route::group(['prefix' => 'admin'], function () {
 		Route::get('/', [AdminController::class, 'index'])->name('admin.index');
