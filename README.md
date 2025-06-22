@@ -36,6 +36,7 @@ Frontend
 Bootstrap 5, JavaScript, Vite
 UI and asset build
 Bootstrap
+Creative-tim template (https://www.creative-tim.com/)
 
 
 Server
@@ -53,7 +54,7 @@ Composer
 🎯 Getting Started
 Prerequisites
 
-🖥️ PHP 8.2+
+🖥️ PHP 8.1
 📦 Composer
 🌐 Node.js (for assets)
 🗄️ MySQL (via phpMyAdmin)
