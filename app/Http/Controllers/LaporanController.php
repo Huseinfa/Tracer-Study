@@ -75,6 +75,15 @@ class LaporanController extends Controller
 
         return DataTables::of($belumMengisi)
             ->addIndexColumn()
+            ->addColumn('nama_lulusan', function ($row) {
+                return $row->lulusan->nama_lulusan ?? '-';
+            })
+            ->addColumn('nama_prodi', function ($row) {
+                return $row->lulusan->prodi->nama_prodi ?? '-';
+            })
+            ->addColumn('tanggal_lulus', function ($row) {
+                return $row->lulusan->tanggal_lulus;
+            })
             ->make(true);
     }
     public function exportLaporan()

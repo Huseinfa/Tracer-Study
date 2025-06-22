@@ -1,6 +1,6 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="{{ url('/lulusan/store-import') }}" method="post" id="formImport">
+        <form action="{{ url('/lulusan/store-import') }}" method="post" id="formImport" enctype="multipart/form-data">
             @csrf
             <div class="modal-header">
                 <h5 class="modal-title font-weight-normal">Import Data Lulusan</h5>
@@ -20,52 +20,62 @@
         </form>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#formImport').on('submit', function(e) {
-            e.preventDefault();
-            
-            $('.error-text').text('');
-            
-            $.ajax({
-                url: '{{ url("/lulusan/store-import") }}',
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                beforeSend: function() {
-                    $('button[type="submit"]').prop('disabled', true).text('Menyimpan...');
-                },
-                success: function(response) {                    
-                    if(response.status) {
-                        $('#myModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil!',
-                            text: response.message,
-                            timer: 2000
-                        }).then(() => {
-                            tableLulusan.ajax.reload();
-                        });
-                    } else {
-                        if(response.msgField) {
-                            $.each(response.msgField, function(field, messages) {
-                                $('#error-' + field).text(messages[0]);
-                            });
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Terjadi Kesalahan!',
-                            text: response.message
+    <script>
+$(document).ready(function() {
+    $('#formImport').on('submit', function(e) {
+        e.preventDefault();
+        
+        $('.error-text').text('');
+        
+        var file = $('#file')[0].files[0];
+        if (!file) {
+            $('#error-file').text('Please select a file.');
+            return;
+        }
+        
+        var formData = new FormData(this);
+        
+        $.ajax({
+            url: '{{ url("/lulusan/store-import") }}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function() {
+                $('button[type="submit"]').prop('disabled', true).text('Menyimpan...');
+            },
+            success: function(response) {
+                if (response.status) {
+                    $('#myModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.message,
+                        timer: 2000
+                    }).then(() => {
+                        tableLulusan.ajax.reload();
+                    });
+                } else {
+                    if (response.msgField) {
+                        $.each(response.msgField, function(field, messages) {
+                            $('#error-' + field).text(messages[0]);
                         });
                     }
-                },
-                complete: function() {
-                    $('button[type="submit"]').prop('disabled', false).text('Simpan');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan!',
+                        text: response.message
+                    });
                 }
-            });
+            },
+            complete: function() {
+                $('button[type="submit"]').prop('disabled', false).text('Simpan');
+            }
         });
     });
+});
 </script>

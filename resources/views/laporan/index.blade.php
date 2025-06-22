@@ -288,31 +288,31 @@
                     }
                 });
                 $('#table-stakeholder').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ route('laporan.stakeholderBelumMengisi') }}",
-                        type: 'POST',
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-Token': '{{ csrf_token() }}'
-                        },
-                    },
-                    columns: [
-                        { data: 'DT_RowIndex', className: 'text-center', orderable: false, searchable: false },
-                        { data: 'nama_atasan', className: 'text-center', orderable: true, searchable: true },
-                        { data: 'jabatan_atasan', className: 'text-center', orderable: true, searchable: true },
-                        { data: 'email_atasan', className: 'text-center', orderable: true, searchable: true },
-                        { data: 'lulusan.nama_lulusan', className: 'text-center', orderable: true, searchable: true },
-                        { data: 'lulusan.prodi.nama_prodi', className: 'text-center', orderable: true, searchable: true },
-                        { data: 'lulusan.tanggal_lulus', className: 'text-center', orderable: true, searchable: true }
-                    ],
-                    language: {
-                        paginate: {
-                            previous: '<i class="bi bi-chevron-left"></i>',
-                            next: '<i class="bi bi-chevron-right"></i>'
-                        }
-                    }
+                                    processing: true,
+                                    serverSide: true,
+                                    ajax: {
+                                        url: "{{ route('laporan.stakeholderBelumMengisi') }}",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        headers: {
+                                            'X-CSRF-Token': '{{ csrf_token() }}'
+                                        },
+                                    },
+                                    columns: [
+                                        { data: 'DT_RowIndex', className: 'text-center', orderable: false, searchable: false },
+                                        { data: 'nama_atasan', className: 'text-center', orderable: true, searchable: true },
+                                        { data: 'jabatan_atasan', className: 'text-center', orderable: true, searchable: true },
+                                        { data: 'email_atasan', className: 'text-center', orderable: true, searchable: true },
+                                        { data: 'nama_lulusan', className: 'text-center', orderable: true, searchable: true },
+                                        { data: 'nama_prodi', className: 'text-center', orderable: true, searchable: true },
+                                        { data: 'tanggal_lulus', className: 'text-center', orderable: true, searchable: true }
+                                    ],
+                                    language: {
+                                        paginate: {
+                                            previous: '<i class="bi bi-chevron-left"></i>',
+                                            next: '<i class="bi bi-chevron-right"></i>'
+                                        }
+                                    }
                 });
             });
         </script>

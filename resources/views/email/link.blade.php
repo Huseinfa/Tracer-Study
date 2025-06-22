@@ -61,7 +61,7 @@
                 Link survey kepuasan pengguna lulusan anda sebagai berikut:
             </div>
             <div class="button">
-                <a href="http://tracer-study.test/survey-kepuasan/{{ $otp }}">Klik untuk melanjutkan</a>
+                <a href="http://127.0.0.1:8000/survey-kepuasan/{{ $otp }}">Klik untuk melanjutkan</a>
             </div>
             <div class="footer">
                 Jika anda tidak berkaitan dengan survey ini, harap abaikan email ini.<br>

@@ -10,6 +10,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class LulusanController extends Controller
 {
@@ -171,42 +173,65 @@ class LulusanController extends Controller
     {
         return view('lulusan.import');
     }
-    public function storeImport(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv'
+
+        public function storeImport(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,xls,csv'
+    ]);
+
+    $path = $request->file('file')->store('temp');
+    $filePath = storage_path('app/' . $path);
+    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
+    $sheet = $spreadsheet->getActiveSheet();
+    $rows = $sheet->toArray();
+
+    unset($rows[0]); // Remove header row
+
+    $importedCount = 0;
+    $skippedCount = 0;
+
+    foreach ($rows as $index => $row) {
+        Log::info('Processing row ' . ($index + 1), $row);
+
+        $validator = Validator::make([
+            'nim' => $row[1],
+            'email_lulusan' => $row[4],
+        ], [
+            'nim' => 'required|unique:t_lulusan,nim',
+            'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan',
         ]);
 
-        $path = $request->file('file')->store('temp');
-        $filePath = storage_path('app/' . $path);
-        $spreadsheet = IOFactory::load($filePath);
-        $sheet = $spreadsheet->getActiveSheet();
-        $rows = $sheet->toArray();
-
-        unset($rows[0]); // hilangkan header
-
-        foreach ($rows as $row) {
-            $validator = Validator::make([
-                'nim' => $row[1],
-                'email_lulusan' => $row[4],
-            ], [
-                'nim' => 'required|unique:t_lulusan,nim',
-                'email_lulusan' => 'required|email|unique:t_lulusan,email_lulusan',
+        if ($validator->fails()) {
+            Log::warning('Validation failed for row ' . ($index + 1), [
+                'row' => $row,
+                'errors' => $validator->errors()->all()
             ]);
+            $skippedCount++;
+            continue;
+        }
 
-            if ($validator->fails()) {
-                continue;
-            }
+        $namaProdi = trim($row[3]); // Trim to avoid space issues
+        $prodi = ProdiModel::where('nama_prodi', $namaProdi)->first();
 
-            $namaProdi = $row[3];
-            $prodi = ProdiModel::where('nama_prodi', $namaProdi)->first();
+        if (!$prodi) {
+            Log::warning('Program Studi not found for row ' . ($index + 1), ['nama_prodi' => $namaProdi]);
+            $skippedCount++;
+            continue;
+        }
 
-            if (!$prodi) {
-                continue; // skip jika prodi tidak ditemukan
-            }
-
+        try {
             $tanggalLulus = \Carbon\Carbon::parse($row[6])->format('Y-m-d');
+        } catch (\Exception $e) {
+            Log::error('Date parsing failed for row ' . ($index + 1), [
+                'date' => $row[6],
+                'error' => $e->getMessage()
+            ]);
+            $skippedCount++;
+            continue;
+        }
 
+        try {
             LulusanModel::create([
                 'id_program_studi' => $prodi->id_program_studi,
                 'nim' => $row[1],
@@ -216,10 +241,24 @@ class LulusanController extends Controller
                 'tanggal_lulus' => $tanggalLulus,
                 'sudah_mengisi' => 0,
             ]);
+            $importedCount++;
+            Log::info('Successfully inserted row ' . ($index + 1));
+        } catch (\Exception $e) {
+            Log::error('Insertion failed for row ' . ($index + 1), [
+                'row' => $row,
+                'error' => $e->getMessage()
+            ]);
+            $skippedCount++;
         }
-
-        return redirect()->route('lulusan.index')->with('success', 'Data berhasil diimport.');
     }
+
+    File::delete($filePath);
+
+    return response()->json([
+        'status' => true,
+        'message' => "Data processed. {$importedCount} records imported, {$skippedCount} skipped."
+    ]);
+}
 
     // Form export lulusan
     public function export(Request $request)
