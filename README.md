@@ -129,7 +129,9 @@ Push (git push origin feature/your-feature).
 Open a pull request.
 
 Follow Laravel’s coding standards and add clear comments.
+
 📜 License
 Licensed under the MIT License.
+
 📬 Contact
 Got questions? Open a GitHub issue or use the discussion tab.
