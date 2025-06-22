@@ -111,7 +111,7 @@ Visit http://localhost:8000.
 
 
 📸 Screenshot
-Placeholder: Add a screenshot of your dashboard to assets/screenshot.png and update the path.
+![Tracer Study Dashboard](public/assets/screenshot.png).
 🖱️ Usage
 
 🌐 Open http://localhost:8000 (or Laragon URL).
